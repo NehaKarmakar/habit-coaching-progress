@@ -1,0 +1,87 @@
+
+/* ==========================================================================
+   1. GLOBAL RESET & BOX SIZING
+   ========================================================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ==========================================================================
+   2. DESIGN TOKENS / GLOBAL CSS VARIABLES
+   ========================================================================== */
+:root {
+  --primary-color: #0070f3;
+  --text-color: #212529;
+  --bg-color: #ffffff;
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
+    Arial, sans-serif;
+}
+
+/* Dark mode token overrides (Optional) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text-color: #f8f9fa;
+    --bg-color: #121212;
+  }
+}
+
+/* ==========================================================================
+   3. BASE HTML ELEMENT STYLES
+   ========================================================================== */
+html,
+body {
+  height: 100%;
+  font-family: var(--font-sans);
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Smooth transitions for global theme changes */
+body {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ==========================================================================
+   4. THE REACT APP ROOT CONTAINER
+   ========================================================================== */
+#root {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ==========================================================================
+   5. COMMON TYPOGRAPHY & RESET DEFAULTS
+   ========================================================================== */
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+img, 
+picture, 
+video, 
+canvas, 
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input, 
+button, 
+textarea, 
+select {
+  font: inherit;
+}
+
