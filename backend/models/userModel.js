@@ -19,7 +19,10 @@ const userSchema = new Schema( {
 
     resetTokenExpiry: {
         type: Date
-    }
+    },
+    profileImage: {
+    type: String
+}
 }, {timestamps:true});
 
 const User= model("User" , userSchema)

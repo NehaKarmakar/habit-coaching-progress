@@ -1,9 +1,13 @@
+import { genrateHabitAdvice }from "../utilis/gemini.js"
 import Group from "../models/groupModel.js"
 import User from "../models/userModel.js"
 import Habits from "../models/habitModel.js"
 import HabitProgress from "../models/habitProgressModel.js"
 import Habit from "../models/habitModel.js"
 import GroupEnrollment from "../models/groupEnrollmentModel.js"
+import Quote from "../models/quoteModel.js"
+import axios from "axios"
+
 
 import dayjs from "dayjs"
 export const coachDashboard = async (req, res) => {
@@ -43,6 +47,20 @@ export const coachDashboard = async (req, res) => {
         }
     })
 
+    const existingQuote= await Quote.findOne()
+    let quote;
+
+    if(existingQuote){
+        quote= existingQuote
+    }
+    else{
+
+    const response= await axios.get( "https://dummyjson.com/quotes/random")
+    const data= response.data
+    console.log(data)
+    const newQuote= new Quote( { content: data.quote, author: data.author})
+    quote= await newQuote.save()
+    }
     return res.status(200).json( {
           success: true,
           message: "Coach Dashboard" ,
@@ -51,7 +69,9 @@ export const coachDashboard = async (req, res) => {
           totalHabits: totalHabits,
           totalDailyProgress: totalDailyProgress,
           totalWeeklyProgress: totalWeeklyProgress,
-          totalMonthlyProgress: totalMonthlyProgress
+          totalMonthlyProgress: totalMonthlyProgress,
+          motivationalQuote: quote
+         
          })
     }
     catch(err){
@@ -61,7 +81,7 @@ export const coachDashboard = async (req, res) => {
 }
 
 export const memberDashboard= async (req, res) => {
-    const {member} = req.body
+    const member = req.userId
     try{
         // joined groups
 
@@ -168,6 +188,34 @@ export const memberDashboard= async (req, res) => {
 
             previousDate = currentDate;
         }
+
+        const existingQuote= await Quote.findOne()
+        let quote;
+        if(existingQuote){
+            quote= existingQuote
+        }
+        else{
+            const response= await axios.get("https://dummyjson.com/quotes/random")
+            const data= response.data
+            console.log(data)
+            const newQuote= new Quote( {content: data.quote, author: data.author })
+            quote= await newQuote.save()
+            }
+
+        const prompt=  `You are a habit coach.
+
+The member has:
+- Daily completed habits: ${totalDailyProgress}
+- Weekly completed habits: ${totalWeeklyProgress}
+- Monthly completed habits: ${totalMonthlyProgress}
+- Current streak: ${currentStreak} days
+- Longest streak: ${longestStreak} days
+
+Give a short, encouraging habit-coaching message.
+Keep it under 50 words.`
+
+        const aiAdvice= await  genrateHabitAdvice(prompt)
+         console.log(aiAdvice)
         
         return res.status(200).json( {
             success: true, 
@@ -178,8 +226,10 @@ export const memberDashboard= async (req, res) => {
             totalWeeklyProgress: totalWeeklyProgress,
             totalMonthlyProgress:totalMonthlyProgress,
             memberCurrentStreak: currentStreak,
-            memberLongestStreak: longestStreak
-           
+            memberLongestStreak: longestStreak,
+            motivationalQuote: quote,
+            advice: aiAdvice
+
             })
 
     }
