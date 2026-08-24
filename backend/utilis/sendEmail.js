@@ -21,6 +21,11 @@ const sendEmail= async (to, subject, text) => {
 
      })
      console.log("email sent", info.messageId)
+     console.log("To:", to)
+     console.log("Accepted:", info.accepted)
+     console.log("Rejected:", info.rejected)
+
+     return info
 }
 
 export default sendEmail

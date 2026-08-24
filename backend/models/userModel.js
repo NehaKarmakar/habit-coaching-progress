@@ -8,6 +8,9 @@ const userSchema = new Schema( {
         type: Number,
         default: 0
     },
+    phone:{
+        type: String
+    },
     role: {
         type: String,
         enum: ["coach","member"],
@@ -19,10 +22,8 @@ const userSchema = new Schema( {
 
     resetTokenExpiry: {
         type: Date
-    },
-    profileImage: {
-    type: String
-}
+    }
+    
 }, {timestamps:true});
 
 const User= model("User" , userSchema)

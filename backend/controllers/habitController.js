@@ -2,6 +2,7 @@ import Habit from "../models/habitModel.js";
 import Group from "../models/groupModel.js";
 import User from "../models/userModel.js";
 import GroupEnrollment from "../models/groupEnrollmentModel.js";
+import uploadFile from "../utilis/cloudinary.js";
 
 export const addHabit = async (req, res) => {
     const {title, description,frequency,difficulty,group} = req.body
@@ -146,6 +147,32 @@ export const getGroupHabitById = async (req, res) => {
         console.log(err.message)
         return res.status(500).json( {success: false, message: err.message})
     }
+ }
+
+ export const uploadHabitResource= async (req, res) => {
+     const habitId= req.params.id
+     try{
+        const habit= await Habit.findOne( {_id: habitId})
+        if(!habit){
+            return res.status(404).json( {success: false, message: "Habit not found"})
+        }
+
+        if(!req.file){
+            return res.status(400).json( {success: false , message: "Please upload file"})
+        }
+
+        const result= await uploadFile(req.file.buffer)
+        habit.resourceName= req.file.originalname
+        habit.resourceUrl= result.secure_url
+        console.log(result)
+        console.log(result.secure_url)
+        await habit.save()
+        return res.status(200).json( {success: true, message: "File uploaded successfully", data: habit})
+     }
+     catch(err){
+        console.log(err.message)
+        return res.status(500).json({success: false, message: err.message})
+     }
  }
 
  export const habitAggregate = async (req, res) => {

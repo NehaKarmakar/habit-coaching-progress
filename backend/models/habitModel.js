@@ -27,7 +27,9 @@ const habitSchema = new Schema( {
         type: Schema.Types.ObjectId,
         ref: "User",
         required: true
-    }
+    },
+    resourceName:String,
+    resourceUrl: String
    
 }, {timestamps: true});
 

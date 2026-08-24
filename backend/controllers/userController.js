@@ -4,6 +4,7 @@ import {validationResult} from "express-validator"
 import bcryptjs from "bcryptjs"
 import jwt from "jsonwebtoken"
 import dotenv from "dotenv"
+//import sendSMS from "../utilis/sendSMS.js";
 
 dotenv.config()
 
@@ -15,9 +16,9 @@ usersCltr.register = async (req, res) => {
     return res.status(400).json( {errors: errors.array()})
  }
 
- const {name, email, password} = req.body
+ const {name, email,phone, password} = req.body
  try{
-    const user = new User( {name: name, email: email, password: password})
+    const user = new User( {name: name, email: email,phone:phone, password: password})
     const salt= await bcryptjs.genSalt()
     const hash= await bcryptjs.hash(password, salt)
     console.log(hash)
@@ -45,9 +46,22 @@ usersCltr.register = async (req, res) => {
          Best regards,
          Habit Coaching Team`
     );
-    
+    console.log("email sent")
+    /*await sendSMS(
+        user.phone,
+    `Hi ${user.name},
+
+Welcome to Habit Coaching!
+
+Your account has been successfully created.
+You have been registered as a ${user.role}.
+
+Best regards,
+Habit Coaching Team`
+    )*/
+  
     return res.status(201).json( {message: "User successfully registered" , 
-        data: {userId: user._id, name: name, email: email, role: user.role}})
+        data: {userId: user._id, name: name, email: email,phone:phone, role: user.role}})
     
  }
  catch(err){
