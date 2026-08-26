@@ -76,13 +76,13 @@ export const getAllHabits= async (req, res) => {
 }
 
 export const getGroupHabits = async (req, res) => {
-    const {group} = req.body
+    const groupId = req.params.id
     try{
-        const existingGroup = await Group.findOne( {_id: group})
-        if(!group){
+        const existingGroup = await Group.findOne( {_id: groupId})
+        if(!existingGroup){
             return res.status(404).json( {success: false, message: "Group not exist"})
         }
-        const habit = await Habit.find({group}).populate("group" , "groupName")
+        const habit = await Habit.find({group:groupId}).populate("group" , "groupName")
         if(!habit){
             return res.status(404).json( {success: false, message: "Habit not found"})
         }

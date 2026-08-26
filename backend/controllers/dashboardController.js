@@ -1,193 +1,307 @@
+import mongoose from "mongoose"
 import { genrateHabitAdvice }from "../utilis/gemini.js"
 import Group from "../models/groupModel.js"
 import User from "../models/userModel.js"
-import Habits from "../models/habitModel.js"
 import HabitProgress from "../models/habitProgressModel.js"
 import Habit from "../models/habitModel.js"
 import GroupEnrollment from "../models/groupEnrollmentModel.js"
 import Quote from "../models/quoteModel.js"
+import { calculateCurrentStreak,calculateLongestStreak } from "../utilis/streak.js"
 import axios from "axios"
-
-
 import dayjs from "dayjs"
+
 export const coachDashboard = async (req, res) => {
    try{
-      const totalGroups = await Group.countDocuments()
-      const totalMembers = await User.countDocuments({role: "member"})
-      const totalHabits = await Habit.countDocuments()
+    const startOfDay= dayjs().startOf("day").toDate()
+    const endOfDay= dayjs().endOf("day").toDate()
 
-      const startOfDay= dayjs().startOf("day").toDate()
-      const endOfDay= dayjs().endOf("day").toDate()
-      
-      const totalDailyProgress = await HabitProgress.countDocuments( {
-        completed: true, 
-        completedDate: {
-            $gte: startOfDay,
-            $lte: endOfDay
-        }
-    })
-
-    const startOfWeek = dayjs().startOf("week").toDate()
+    const startOfWeek= dayjs().startOf("week").toDate()
     const endOfWeek= dayjs().endOf("week").toDate()
-    const totalWeeklyProgress = await HabitProgress.countDocuments( {
-        completed: true,
-        completedDate: {
-            $gte: startOfWeek,
-            $lte: endOfWeek
-        }
-    })
 
     const startOfMonth= dayjs().startOf("month").toDate()
     const endOfMonth= dayjs().endOf("month").toDate()
-    const totalMonthlyProgress= await HabitProgress.countDocuments( {
-        completed: true,
-        completedDate: {
-            $gte: startOfMonth,
-            $lte: endOfMonth
+
+    const groupData= await Group.aggregate( [
+        {$count: "totalGroups"}
+    ])
+
+    const memberData= await User.aggregate( [
+        {
+            $match: {
+                role: "member"
+            }
+        },
+        {$count: "totalMembers"}
+    ])
+
+    const habitData= await Habit.aggregate( [
+        {$count: "totalHabits"}
+    ])
+
+    const progressData= await HabitProgress.aggregate([
+        {
+            $facet:{
+                dailyProgress: [
+                    {
+                        $match: {
+                            completed: true,
+                            completedDate: {
+                                $gte: startOfDay,
+                                $lte:endOfDay
+                            }
+                        }
+                    },
+                    {$count: "totalDailyProgress"}
+                ],
+
+                weeklyProgress: [
+                    {
+                        $match: {
+                            completed: true,
+                            completedDate: {
+                                $gte: startOfWeek,
+                                $lte:endOfWeek
+                            }
+                        }
+                    },
+                    {$count: "totalWeeklyProgress"}
+                ],
+
+                monthlyProgress: [
+                    {
+                        $match: {
+                            completed: true,
+                            completedDate:{
+                                $gte: startOfMonth,
+                                $lte: endOfMonth
+                            }
+                        }
+                    },
+                    {$count: "totalMonthlyProgress"}
+                ],
+                chartData: [
+                    {
+                        $match: {
+                            completed: true,
+                        }
+                    },
+                    {
+                       $group: {
+                        _id: {
+                            $dateToString: {
+                                        format: "%Y-%m-%d",
+                                        date: "$completedDate"
+                                    }
+                        },
+                          completed: {
+                                    $sum: 1
+                                }
+
+                       },
+                       
+                    },
+                    {
+                            $sort: {
+                                _id: 1
+                            }
+                        }
+                ]
+                
+            }
         }
-    })
+    ])
+
+    const totalGroups= groupData[0]?.totalGroups || 0
+    const totalMembers= memberData[0]?.totalMembers || 0
+    const totalHabits= habitData[0]?.totalHabits || 0
+    const totalDailyProgress= progressData[0]?.dailyProgress[0]?.totalDailyProgress || 0
+    const totalWeeklyProgress= progressData[0]?.weeklyProgress[0]?.totalWeeklyProgress || 0
+    const totalMonthlyProgress= progressData[0]?.monthlyProgress[0]?.totalMonthlyProgress || 0
+    const dailyChart= progressData[0]?.chartData || []
 
     const existingQuote= await Quote.findOne()
     let quote;
-
     if(existingQuote){
         quote= existingQuote
     }
     else{
+        const response= await axios.get("https://dummyjson.com/quotes/random")
+        const data= response.data
+        const newQuote= new Quote( {content: data.quote, author: data.author})
+        quote= await newQuote.save()
+    }
 
-    const response= await axios.get( "https://dummyjson.com/quotes/random")
-    const data= response.data
-    console.log(data)
-    const newQuote= new Quote( { content: data.quote, author: data.author})
-    quote= await newQuote.save()
-    }
-    return res.status(200).json( {
-          success: true,
-          message: "Coach Dashboard" ,
-          totalGroups: totalGroups,
-          totalMembers: totalMembers,
-          totalHabits: totalHabits,
-          totalDailyProgress: totalDailyProgress,
-          totalWeeklyProgress: totalWeeklyProgress,
-          totalMonthlyProgress: totalMonthlyProgress,
-          motivationalQuote: quote
-         
-         })
-    }
-    catch(err){
-        console.log(err.message)
-        return res.status(500).json( {success: false, message: err.message})
-    }
+    return res.status(200).json( {success: true, message: "Coach Dashboard",
+        totalGroups: totalGroups,
+        totalMembers: totalMembers,
+        totalHabits: totalHabits,
+        totalDailyProgress:totalDailyProgress,
+        totalWeeklyProgress:totalWeeklyProgress,
+        totalMonthlyProgress:totalMonthlyProgress,
+        dailyChart:dailyChart,
+        motivationalQuote:quote
+    })
+        
+   }
+   catch(err){
+    console.log(err.message)
+    return res.status(500).json( {success: false, message: err.message})
+   }
 }
 
 export const memberDashboard= async (req, res) => {
     const member = req.userId
+    const memberId= new mongoose.Types.ObjectId(member)
     try{
-        // joined groups
-
-        const memberEnrollment = await GroupEnrollment.find( {member})
-        if(!memberEnrollment){
-            return res.status(404).json( {success: false, message: "Member not enrolled"})
-        }
-        const groupId= memberEnrollment.map( item=> item.group)
-        const assignedGroups= await Group.find( {_id: {$in: groupId}})
-
-
-        //assigned habits 
-        const enrollments = await GroupEnrollment.find({member});
-         console.log(enrollments)
-         if(!enrollments){
-            return res.status(404).json( {success: false, message: "Member not enrolled"})
-         }
-        const groupIds = enrollments.map(item => item.group);
-
-        const assignedHabits = await Habit.find({
-        group: { $in: groupIds }
-        });
         
-        
-        const startOfDay = dayjs().startOf("day").toDate()
-        const endOfDay = dayjs().endOf("day").toDate()
-        const totalDailyProgress= await HabitProgress.countDocuments( {
-            member,
-            completed:true,
-            completedDate: {
-                $gte: startOfDay,
-                $lte: endOfDay
-            }
-        })
+        const startOfDay= dayjs().startOf("day").toDate()
+        const endOfDay= dayjs().endOf("day").toDate()
 
         const startOfWeek= dayjs().startOf("week").toDate()
         const endOfWeek= dayjs().endOf("week").toDate()
-        const totalWeeklyProgress= await HabitProgress.countDocuments( {
-            member,
-            completed:true,
-            completedDate: {
-                $gte: startOfWeek,
-                $lte: endOfWeek
-            }
-        })
 
         const startOfMonth= dayjs().startOf("month").toDate()
         const endOfMonth= dayjs().endOf("month").toDate()
-        const totalMonthlyProgress= await HabitProgress.countDocuments( {
-            member,
-            completed: true,
-            completedDate: {
-                $gte: startOfMonth,
-                $lte: endOfMonth
+
+        const enrollmentData= await GroupEnrollment.aggregate( [
+            {
+                $match: {
+                    member: memberId
+                }
+            },
+            {
+                $group: {
+                    _id: null,
+                    groupId: {
+                        $addToSet: "$group"
+                    }
+                }
             }
-        })
+        ])
 
-        const habitProgress = await HabitProgress.find({
-            member,
-            completed: true
-        }).sort({ completedDate: -1 });
+        const groupIds = enrollmentData[0]?.groupId || []
+
+        const assignedGroups = await Group.aggregate( [
+            {
+                $match: {
+                    _id:{
+                        $in: groupIds
+                    }
+                }
+            }
+        ])
+
+        const assignedHabits= await Habit.aggregate([
+            {
+                $match: {
+                    group: {
+                        $in:groupIds
+                    }
+                }
+            }
+        ])
+
+        const progressData= await HabitProgress.aggregate( [
+            {
+                $match: {
+                    member: memberId
+                }
+            },
+            {
+                $facet: {
+                    dailyProgress: [
+                        {
+                            $match: {
+                                completed:true,
+                                completedDate: {
+                                    $gte: startOfDay,
+                                    $lte:endOfDay
+                                }
+                            }
+                           
+                        },
+                         {$count: "totalDailyProgress"}
+                    ],
+
+                    weeklyProgress: [
+                        {
+                            $match: {
+                                completed: true,
+                                completedDate: {
+                                    $gte: startOfWeek,
+                                    $lte: endOfWeek
+                                }
+                            }
+                        },
+                        {$count: "totalWeeklyProgress"}
+                    ],
+
+                    monthlyProgress: [
+                        {
+                            $match: {
+                                completed: true,
+                                completedDate: {
+                                    $gte: startOfMonth,
+                                    $lte: endOfMonth
+                                }
+                            }
+                        },
+                        {$count: "totalMonthlyProgress"}
+                    ],
+                    chartData: [
+                        {
+                            $match: {
+                                completed:true
+                            }
+                        },
+                        {
+                        $group: {
+                                    _id:{
+                                         $dateToString: {
+                                        format: "%Y-%m-%d",
+                                        date: "$completedDate"
+                                    }
+                                },
+                                
+                                completed: {
+                                      $sum: 1
+                                    }
+                            }
+                        },
+
+                       
+                    {
+                       $sort: {
+                                _id: 1
+                            } 
+                    }
+                    ]
+                }
+            }
+        ])
+
+       const totalDailyProgress = progressData[0]?.dailyProgress[0]?.totalDailyProgress || 0
+       const totalWeeklyProgress= progressData[0]?.weeklyProgress[0]?.totalWeeklyProgress || 0
+       const totalMonthlyProgress= progressData[0]?.monthlyProgress[0]?.totalMonthlyProgress || 0
+       const dailyChart= progressData[0]?.chartData ||  []
 
 
-       
-        let currentStreak = 0;
-        let date = dayjs();
-
-        for (let item of habitProgress) {
-
-            const progressDate = dayjs(item.completedDate);
-
-            if (progressDate.isSame(date, "day")) {
-                currentStreak++;
-                date = date.subtract(1, "day");
-            } else {
-                break;
+      const streakData= await HabitProgress.aggregate( [
+        {
+            $match: {
+                member: memberId,
+                completed:true
+            }
+        },
+        {
+            $sort: {
+                completedDate: 1
             }
         }
+      ])
 
-        const allProgress = await HabitProgress.find({
-            member,
-            completed: true
-        }).sort({ completedDate: 1 });
-
-        let longestStreak = 0;
-        let streak = 0;
-        let previousDate = null;
-
-        for (let item of allProgress) {
-
-            const currentDate = dayjs(item.completedDate);
-
-            if (
-                previousDate &&
-                currentDate.diff(previousDate, "day") === 1
-            ) {
-                streak++;
-            } else {
-                streak = 1;
-            }
-             if (streak > longestStreak) {
-                longestStreak = streak;
-            }
-
-            previousDate = currentDate;
-        }
+      const currentStreak= calculateCurrentStreak([...streakData].reverse())
+      const longestStreak= calculateLongestStreak(streakData)
 
         const existingQuote= await Quote.findOne()
         let quote;
@@ -225,6 +339,7 @@ Keep it under 50 words.`
             totalDailyProgress:totalDailyProgress ,
             totalWeeklyProgress: totalWeeklyProgress,
             totalMonthlyProgress:totalMonthlyProgress,
+            dailyChart: dailyChart,
             memberCurrentStreak: currentStreak,
             memberLongestStreak: longestStreak,
             motivationalQuote: quote,

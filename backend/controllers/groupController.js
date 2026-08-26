@@ -98,7 +98,7 @@ export  const searchingSortingPagination = async (req, res) => {
 
     const search= req.query.search || ""
     const page= Number(req.query.page) || 1
-    const limit= Number(req.query.limit )|| 1
+    const limit= Number(req.query.limit )|| 3
     const sort= req.query.sort || "createdAt"
     const order= req.query.order || "desc"
     const orderData= order=== "asc"? 1:-1

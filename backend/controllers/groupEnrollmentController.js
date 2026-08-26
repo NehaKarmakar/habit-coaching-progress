@@ -23,7 +23,7 @@ export const addMember = async (req, res) =>{
         const groupEnrollment = new GroupEnrollment( {group, member})
         const groupEnrollmentRecord= await groupEnrollment.save()
         await groupEnrollmentRecord.populate("group" , "groupName")
-        await groupEnrollmentRecord.populate("member", "name email")
+        await groupEnrollmentRecord.populate("member", "name email phone role")
         await sendEmail(
     existingMember.email,
     "You have been added to a group",
@@ -47,7 +47,7 @@ Habit Coaching Team`
 export const groupMembers = async (req, res) => {
     const groupId= req.params.id
     try{
-     const groupEnrollment = await GroupEnrollment.find( {group:groupId}) .populate("member" ,"name email")
+     const groupEnrollment = await GroupEnrollment.find( {group:groupId}) .populate("member" ,"name email phone role")
      if(!groupEnrollment){
         return res.status(404).json({success: false, message: "Members not found"})
      }
@@ -77,7 +77,7 @@ export const memberGroups = async (req, res) => {
 export const deleteMember = async (req, res) => {
     const memberId = req.params.id
     try{
-      const groupEnrollment = await GroupEnrollment.findOneAndDelete({member: memberId}).populate("group" , "groupName").populate("member" ,"name email")
+      const groupEnrollment = await GroupEnrollment.findOneAndDelete({member: memberId}).populate("group" , "groupName").populate("member" ,"name email phone email")
       if(!groupEnrollment){
         return res.status(404).json( {success: false , message: "Member not found"})
       }

@@ -2,6 +2,7 @@ import HabitProgress from "../models/habitProgressModel.js";
 import User from "../models/userModel.js";
 import Habit from "../models/habitModel.js";
 import dayjs from "dayjs";
+import { calculateCurrentStreak , calculateLongestStreak} from "../utilis/streak.js"
 
 export const markHabitComplete = async (req, res) => {
     const {habit} = req.body
@@ -125,19 +126,7 @@ export const currentStreak = async (req, res) => {
        if(!habitProgress) {
         return res.status(404).json( {success: false, message: "Habit progress not found"})
        }
-       let streak = 0
-       let date= dayjs()
-
-       for( let item of habitProgress){
-        const habitProgressDate = dayjs(item.completedDate)
-        if(habitProgressDate .isSame(date, "day")){
-            streak++
-            date= date.subtract(1, "day")
-        }
-        else{
-            break
-        }
-       }
+       const streak = calculateCurrentStreak(habitProgress)
        return res.status(200).json( {success: true, message: " Current streak calculated " ,data:habitProgress, streak:streak})
        
     }
@@ -152,27 +141,12 @@ export const longestStreak = async (req, res) => {
         const habitProgress = await HabitProgress.find( {
             member,
             completed: true
-        }).sort( {completedDate: -1}).populate("member" , "name email")
+        }).sort( {completedDate: 1}).populate("member" , "name email")
         if(!habitProgress){
             return res.status(404).json( {success: false, message: "Habit Progress not found" })
         }
-
-        let streak= 0
-        let longest=0
-        let previousDate= null
-        for(let item of habitProgress){
-            const currentDate = dayjs(item.completedDate)
-            if(previousDate && currentDate.diff(previousDate , "day") ===1){
-                streak++
-            }
-            else{
-                streak=1
-            }
-            if(streak>longest){
-                longest=streak
-            }
-            previousDate=currentDate
-        }
+         const streak = calculateLongestStreak(habitProgress)
+        
         return res.status(200).json( {success: true, message: "Longest streak calculated" , data: habitProgress, streak: streak})
     }
     catch(err){
