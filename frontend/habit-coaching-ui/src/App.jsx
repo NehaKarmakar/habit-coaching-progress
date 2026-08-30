@@ -4,10 +4,28 @@ import Login from "./components/Login.jsx";
 import MemberDashboard from "./components/MemberDashboard.jsx";
 import CoachDashboard from "./components/CoachDashboard.jsx";
 import Profile from "./components/Profile.jsx";
+
+import GroupEnrollment from "./components/coach/GroupEnrollment.jsx";
+import Groups from "./components/coach/Groups.jsx";
+import Habits from "./components/coach/Habits.jsx";
+import MemberProgress from "./components/coach/MemberProgress.jsx";
+import MembersLeaderboard from "./components/coach/MembersLeaderboard.jsx";
+import GroupMembers from "./components/coach/GroupMembers.jsx";
+import Members from "./components/coach/members.jsx";
+
+import MyGroups from "./components/member/MyGroups.jsx";
+import MyHabits from "./components/member/MyHabits.jsx";
+import MyProgress from "./components/member/MyProgress.jsx";
+
+
 import { useContext } from "react";
 import AuthContext from "./contexts/AuthContext.jsx";
 import PrivateRoute from "./components/PrivateRoute.jsx";
 import {Link, Routes, Route} from "react-router-dom"
+import GroupHabits from "./components/coach/GroupHabits.jsx";
+import ProgressSummary from "./components/coach/progressSummary.jsx";
+import MemberGroups from "./components/coach/memberGroup.jsx";
+import UpdateProfile from "./components/updateProfile.jsx";
 function App() {
   const {dispatch, user, isLoggedIn, handleLogout} = useContext(AuthContext)
     return (
@@ -70,9 +88,92 @@ function App() {
                   <Profile/>
                 </PrivateRoute>
                 } />
+                <Route path= "/coach/groups" element= {
+                    <PrivateRoute>
+                        <Groups/>
+                    </PrivateRoute>
+                }/>
+                <Route path= "/coach/groups/Enrollment" element= {
+                    <PrivateRoute>
+                        <GroupEnrollment/>
+                    </PrivateRoute>
+                }/>
+                <Route path= "/coach/members" element= {
+                    <PrivateRoute>
+                        <Members/>
+                    </PrivateRoute>
+
+                }/>
+                <Route path= "/coach/habits" element= {
+                    <PrivateRoute>
+                        <Habits/>
+                    </PrivateRoute>
+                }/>
+                <Route path= "/coach/progress" element= {
+                    <PrivateRoute>
+                        <MemberProgress/>
+                    </PrivateRoute>
+                }/>
+                <Route path= "/leaderboard" element= {
+                    <PrivateRoute>
+                        <MembersLeaderboard/>
+                    </PrivateRoute>
+                }/>
+                <Route path= "/member/groups" element= {
+                    <PrivateRoute>
+                        <MyGroups/>
+                    </PrivateRoute>
+                }/>
+                <Route path= "/member/habits" element= {
+                    <PrivateRoute>
+                        <MyHabits/>
+                    </PrivateRoute>
+                }/>
+                <Route path= "/member/progress" element= {
+                    <PrivateRoute>
+                        <MyProgress/>
+                    </PrivateRoute>
+                }/>
+                
+                <Route path="/coach/habits/:id" element= {
+                    <PrivateRoute>
+                        <GroupHabits/>
+                    </PrivateRoute>
+                } />
+                <Route path="/coach/groups/Enrollment/:id" element= {
+                    <PrivateRoute>
+                        <GroupMembers/>
+                    </PrivateRoute>
+                } />
+
+                <Route path="/coach/groups/enrollments/add/:id" element= {
+                    <PrivateRoute>
+                        <GroupEnrollment/>
+                    </PrivateRoute>
+                } />
+                <Route
+    path="/coach/member/progress/summary/:id"
+    
+    element={
+        <PrivateRoute>
+             <ProgressSummary />
+        </PrivateRoute>
+   }/>
+                <Route path="/coach/member/groups/:id" element= {
+                    <PrivateRoute>
+                        <MemberGroups/>
+                    </PrivateRoute>
+                } />
+                <Route path="/profile/update/:id" element= {
+                    <PrivateRoute>
+                        <UpdateProfile/>
+                    </PrivateRoute>
+                } />
+
             </Routes>
         </div>
     );
 }
+
 
 export default App;

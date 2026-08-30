@@ -1,15 +1,29 @@
-import {useState} from "react"
+import {useState,useContext, useEffect} from "react"
 import {useNavigate} from "react-router-dom"
-import axios from "axios"
-export default function Register() {
+import axios from "../config/axios"
+import AuthContext from "../contexts/AuthContext"
+export default function UpdateProfile() {
+    const { user, dispatch } = useContext(AuthContext); 
     const [form, setForm] = useState( {
         name:"",
         email:"",
         phone:"",
-        password:"",
+        
         serverError:"",
         checkError:{}
     })
+    useEffect(() => {
+    if (user) {
+      setForm({
+        name: user.name || "",
+        email: user.email || "",
+        phone: user.phone || "",
+       
+        serverError: "",
+        checkError: {}
+      });
+    }
+  }, [user]);
     
     const navigate= useNavigate()
     const handleChange= (e) => {
@@ -19,12 +33,23 @@ export default function Register() {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
+       
+        
+        // Only include the password if the user actually typed a new one
+        
         try{
-            const response= await axios.post("http://localhost:5555/api/auth/register",form)
+            const response= await axios.put("/api/auth/update",form, {headers: {Authorization:localStorage.getItem("token")}})
             console.log(response.data.data)
-            alert(response.data.message)
-            navigate("/login")
- 
+           
+          const updatedUser = response.data.data || response.data;
+             dispatch({ type: "UPDATE_PROFILE", payload: updatedUser });
+            if (user?.role === "coach") {
+        navigate("/coach/dashboard");
+      } else {
+        navigate("/member/dashboard");
+      }
+        
+    
 
         }
         catch(err){
@@ -38,7 +63,8 @@ export default function Register() {
 
             const response= await axios.get(`http://localhost:5555/api/auth/check-field?field=${name}&value=${value}`)
            console.log(response.data)
-           setForm({...form, checkError:{} })
+           
+         
 
         }
         catch(err){
@@ -49,7 +75,11 @@ export default function Register() {
 
     return(
         <div>
-            <h2>Register</h2>
+            <h2>Update Profile</h2>
+            {
+                form.serverError && <p> {form.serverError}</p>
+                
+            }
             <form onSubmit= {handleSubmit}>
               
                <label>Username: 
@@ -65,10 +95,8 @@ export default function Register() {
                 <label> Phone:
                     <input type= "text" name= "phone" value= {form.phone} onChange= {handleChange}/>
                 </label>
-              <label>Password:
-                <input type= "password" name= "password" value= {form.password} onChange= {handleChange}/><br/><br/>
-                </label>
-                <input type= "submit" value= "register"/>
+              
+                <input type= "submit" value= "update"/>
             </form>
         </div>
     )

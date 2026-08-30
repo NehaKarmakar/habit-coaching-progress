@@ -1,0 +1,53 @@
+import {useState, useEffect} from "react"
+import { useParams } from "react-router-dom"
+import axios from "../../config/axios"
+
+import CoachSidebar from "../CoachSidebar"
+export default function MemberGroups (){
+    const [memberGroups, setMemberGroups] = useState( {
+        data: [],
+        serverError: ""
+    })
+
+    const {id}   = useParams()
+    useEffect( () =>{
+        (
+            async function fetchGroupMembers() {
+                try{
+                    const response= await axios.get(`/api/enrollments/member/${id}`, {headers: {Authorization: localStorage.getItem("token")}})
+                    console.log(response.data)
+                    setMemberGroups({...memberGroups, data: response.data.data})
+
+                }
+                catch(err){
+                    console.log(err.response.data.message)
+                    setMemberGroups( {...memberGroups, serverError: err.response.data.message})
+                }
+            }
+
+        )()
+    },[])
+
+     return(
+        <div>
+              <CoachSidebar/>
+            <h2>Members Group</h2>
+            {memberGroups.serverError && <p> {memberGroups.serverError}</p>}
+
+
+            {
+                memberGroups.data.map( (ele) =>{
+                    return (
+                        <div>
+                            <h3>{ele.group.groupName}</h3>
+                            <p>Description: {ele.group.description}</p>
+                        </div>
+                    )
+                } )
+            }
+            
+            
+          
+        </div>
+    )
+}

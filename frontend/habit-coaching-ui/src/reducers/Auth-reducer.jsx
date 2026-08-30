@@ -6,6 +6,12 @@ const reducer= (state, action) => {
         case "LOGOUT": {
             return {...state, isLoggedIn: false, user: null}
         }
+       
+      case "UPDATE_PROFILE":
+       return {
+        ...state,
+        user: action.payload
+       }
         default: {
             throw new Error("Invalid action type")
         }
