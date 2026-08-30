@@ -3,26 +3,26 @@ import Group from "../models/groupModel.js";
 import User from "../models/userModel.js";
 import GroupEnrollment from "../models/groupEnrollmentModel.js";
 import uploadFile from "../utilis/cloudinary.js";
-
+import sendEmail from "../utilis/sendEmail.js";
 export const addHabit = async (req, res) => {
-    const {title, description,frequency,difficulty,group} = req.body
+    const {title, description,frequency,difficulty,groupName} = req.body
     try{
-        const existingGroup = await Group.findOne( {createdBy: req.userId,_id: group})
+        const existingGroup = await Group.findOne( {createdBy: req.userId,groupName:groupName})
         if(!existingGroup){
             return res.status(404).json( {success: false, message: "Group not found"})
         }
-        const existingHabit = await Habit.findOne( {title , group})
+        const existingHabit = await Habit.findOne( {title , group: existingGroup._id})
         if(existingHabit){
             return res.status(400).json( {success: false, message: "Habit already exists"})
         }
 
-        const habit = new Habit( {title , description, frequency, difficulty, group , createdBy: req.userId})
+        const habit = new Habit( {title , description, frequency, difficulty, group: existingGroup._id , createdBy: req.userId})
         const habitRecord = await habit.save()
         await habitRecord.populate("group" , "groupName")
         await habitRecord.populate("createdBy" , "name email role")
         
         const enrollments = await GroupEnrollment.find({
-    group: group
+    group: existingGroup._id
 });
 
 for (const enrollment of enrollments) {
@@ -114,14 +114,18 @@ export const getGroupHabitById = async (req, res) => {
 
  export const updateGroupHabitById = async (req, res) => {
     const habitId = req.params.id
-    const {title, description,frequency,difficulty,group} = req.body
+    const {title, description,frequency,difficulty,groupName} = req.body
     try{
+        const existingGroup = await Group.findOne( {createdBy: req.userId,groupName:groupName})
+        if(!existingGroup){
+            return res.status(404).json( {success: false, message: "Group not found"})
+        }
       const existingHabit = await Habit.findOne({createdBy: req.userId,_id:habitId})
       if(!existingHabit){
         return res.status(404).json( {success: false, message: "Habit not found"})
       }
       const habit = await Habit.findOneAndUpdate( {createdBy: req.userId,_id: habitId} ,
-        {title , description, frequency, difficulty, group , createdBy: req.userId},
+        {title , description, frequency, difficulty, group:existingGroup._id , createdBy: req.userId},
         {returnDocument: "after", runValidators: true}).populate("group", "groupName")
        return  res.status(200).json( {success: true, message: "Group Habit successfully got updated" , data: habit})
 
@@ -213,7 +217,7 @@ export const getGroupHabitById = async (req, res) => {
               from: "groups",
               localField: "group",
               foreignField: "_id",
-              as: "Group details"
+              as: "GroupDetails"
             }
         })
 
@@ -236,3 +240,100 @@ export const getGroupHabitById = async (req, res) => {
         return res.status(500).json( {success: false, message: err.message})
     }
  }
+
+ 
+    export const assignedHabitsAggregate = async (req, res) => {
+    try {
+        const page = Number(req.query.page) || 1
+        const limit = Number(req.query.limit) || 5
+        const search = req.query.search || ""
+        const sort = req.query.sort || "createdAt"
+        const order = req.query.order || "desc"
+        const orderData = order === "asc" ? 1 : -1
+
+        // Find groups belonging to logged-in member
+        const enrollments = await GroupEnrollment.find({
+            member: req.userId
+        }).select("group")
+
+        const groupIds = enrollments.map(
+            enrollment => enrollment.group
+        )
+
+        const pipeline = []
+
+        // Only habits from member's groups
+        pipeline.push({
+            $match: {
+                group: {
+                    $in: groupIds
+                }
+            }
+        })
+
+        // Search
+        if (search) {
+            pipeline.push({
+                $match: {
+                    title: {
+                        $regex: search,
+                        $options: "i"
+                    }
+                }
+            })
+        }
+
+        // Sort
+        pipeline.push({
+            $sort: {
+                [sort]: orderData
+            }
+        })
+
+        // Pagination
+        pipeline.push(
+            {
+                $skip: (page - 1) * limit
+            },
+            {
+                $limit: limit
+            }
+        )
+
+        const habits = await Habit.aggregate(pipeline)
+
+        // Count only this member's assigned habits
+        const filter = {
+    group: {
+        $in: groupIds
+    }
+}
+
+if (search) {
+    filter.title = {
+        $regex: search,
+        $options: "i"
+    }
+}
+const totalHabits = await Habit.countDocuments(filter)
+
+        const totalPages = Math.ceil(totalHabits / limit)
+
+        return res.status(200).json({
+            success: true,
+            message: "Assigned Habits Aggregate",
+            data: habits,
+            totalHabits: totalHabits,
+            currentPage: page,
+            totalPages: totalPages
+        })
+    }
+    catch (err) {
+        console.log(err.message)
+
+        return res.status(500).json({
+            success: false,
+            message: err.message
+        })
+    }
+}

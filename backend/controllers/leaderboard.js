@@ -24,9 +24,9 @@ export const leaderboardAggregate = async (req, res) => {
     try{
        
         const page= Number(req.query.page) || 1
-        const limit= Number(req.query.limit) || 1
+        const limit= Number(req.query.limit) || 5
         const search= req.query.search || ""
-        const sort= req.query.sort || "createdAt"
+        const sort= req.query.sort || "completedHabit"
         const order= req.query.order || "desc"
         const orderData= order==="asc" ? 1:-1
 
@@ -48,20 +48,62 @@ export const leaderboardAggregate = async (req, res) => {
                 }
             })
           }
-
-          pipeline.push( {
+        pipeline.push({
+            $lookup: {
+                from: "habitprogresses",
+                localField: "_id",
+                foreignField: "member",
+                as: "completedHabits"
+            }
+        })
+         pipeline.push({
+            $addFields: {
+                completedHabit: {
+                    $size: {
+                        $filter: {
+                            input: "$completedHabits",
+                            as: "habit",
+                            cond: {
+                                $eq: ["$$habit.completed", true]
+                            }
+                        }
+                    }
+                }
+            }
+        })
+        pipeline.push({ 
+    $setWindowFields: { 
+        sortBy: { 
+            completedHabit: -1 
+        }, 
+        output: { 
+            rank: { 
+                $rank: {} 
+            } 
+        } 
+    } 
+})
+          
+            pipeline.push( {
             $sort: {
                 [sort]:orderData
             }
           })
-
           pipeline.push( 
             {$skip: (page-1) *limit},
             {$limit: limit}
           )
-
-          const leaderBoard = await User.aggregate(pipeline)
-
+           
+           pipeline.push({
+            $project: {
+                name: 1,
+                email: 1,
+                completedHabit: 1,
+                rank:1
+            }
+        })
+          let leaderBoard = await User.aggregate(pipeline)
+          
           const totalLeaderboard= search? await User.countDocuments({
             role: "member",
             name: {

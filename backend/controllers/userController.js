@@ -113,6 +113,27 @@ usersCltr.profile= async (req, res) => {
     }
 }
 
+usersCltr.editProfile= async (req, res) => {
+   
+    const {name, email,phone} = req.body
+    try{
+        const updateFields = { name, email, phone };
+
+       
+        const user= await User.findOneAndUpdate( {_id: req.userId},updateFields,{returnDocument:"after", runValidators:true})
+        if(!user){
+            return res.status(404).json( {success: false, message: "User not found"})
+        }
+        return res.status(200).json( {success: true, message: "User data successfully got updated", data:user})
+
+
+    }
+    catch(err){
+        console.log(err.message)
+        return res.status(500).json( {success:false, message: err.message})
+    }
+}
+
 usersCltr.listOfUsers = async (req, res) => {
     try{
     const user= await User.find()

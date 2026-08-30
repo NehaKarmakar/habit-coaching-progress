@@ -10,7 +10,7 @@ import habitRoutes from "./routes/habitRoutes.js"
 import habitProgressRoutes from "./routes/habitProgressRoutes.js"
 import dashboardRoutes from "./routes/dashboardRoutes.js"
 import leaderboardRoutes from "./routes/leaderboardRoutes.js"
-
+import memberRoutes from "./routes/memberRoute.js"
 dotenv.config()
 
 const app= express()
@@ -30,6 +30,7 @@ app.use("/api", habitRoutes)
 app.use("/api", habitProgressRoutes)
 app.use("/api",dashboardRoutes)
 app.use("/api", leaderboardRoutes)
+app.use("/api", memberRoutes)
 
 
 app.listen(process.env.PORT, () => {

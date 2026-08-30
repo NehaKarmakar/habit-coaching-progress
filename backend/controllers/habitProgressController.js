@@ -2,12 +2,13 @@ import HabitProgress from "../models/habitProgressModel.js";
 import User from "../models/userModel.js";
 import Habit from "../models/habitModel.js";
 import dayjs from "dayjs";
+import mongoose from "mongoose";
 import { calculateCurrentStreak , calculateLongestStreak} from "../utilis/streak.js"
 
 export const markHabitComplete = async (req, res) => {
     const {habit} = req.body
     try{
-     const existingHabit = await Habit.findOne({_id: habit})
+     const existingHabit = await Habit.findOne({_id:habit})
      if(!existingHabit){
         return res.status(404).json( {success: false, message: "Habit not found"})
      }
@@ -16,18 +17,32 @@ export const markHabitComplete = async (req, res) => {
      const alreadyMarkHabitComplete= await HabitProgress.findOne( {
         habit,
         member: req.userId, 
-        completed: true,
+       
         completedDate:{
             $gte: startOfDay,
             $lte: endOfDay
         }})
-        console.log("habit",habit)
+      
         if(alreadyMarkHabitComplete){
-            return res.status(400).json( {success: false, message: "Habit already mark "})
-        }
+            if(alreadyMarkHabitComplete.completed){
+                //off
+                alreadyMarkHabitComplete.completed=false
+                alreadyMarkHabitComplete.completedDate = null
+            
+                }
+                else{
+                    //on
+                    alreadyMarkHabitComplete.completed=true
+                    alreadyMarkHabitComplete.completedDate=dayjs().toDate()
+                }
 
+                 const updateProgress= await alreadyMarkHabitComplete.save()
+                return res.status(200).json( {success: true, message: "Successfully toggled", data:updateProgress})
+
+        }
+       
         const habitProgress= new HabitProgress( 
-            {habit,
+            {habit: existingHabit._id,
             member: req.userId,
             completed: true,
             completedDate: dayjs().toDate()
@@ -42,123 +57,90 @@ export const markHabitComplete = async (req, res) => {
     }
 }
 
-export const memberDailyProgress = async (req, res) => {
-    const {member} = req.body
-    try{
-        const startOfDay = dayjs().startOf("day").toDate()
-        const endOfDay = dayjs().endOf("day").toDate()
-        const habitProgress = await HabitProgress.find({
-         member,
-         completed:true,
-         completedDate: {
-            $gte: startOfDay,
-            $lte: endOfDay
-        }}).populate("member" ,"name email").populate("habit" ,"title")
-     if(!habitProgress){
-        return res.status(404).json( {success: false, message: "Daily habit progress not found"})
-     }
-     return res.status(200).json( {success: true, message: " Daily habit progress found", data: habitProgress})
-    }
-    catch(err){
-        console.log(err.message)
-        return res.status(500).json({success: false, message: err.message})
-    }
-}
+export const membersProgress= async (req, res) => {
+    const inComingId= req.params.id || req.userId
+    console.log("params:", req.params)
+    console.log("userId:", req.userId)
+    console.log("memberId:", inComingId)
+     if (!mongoose.Types.ObjectId.isValid(inComingId)) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid member ID"
+            })
+        }
 
-export const memberWeeklyProgress = async (req, res) => {
-    const {member} = req.body
     try{
-        const startOfWeek = dayjs().startOf("week").toDate()
-        const endOfWeek = dayjs().endOf("week").toDate()
-        const habitProgress= await HabitProgress.find( {
-            member,
-            completed:true,
-            completedDate:{
+        const memberId = new mongoose.Types.ObjectId(inComingId)
+        
+        
+        const startOfDay= dayjs().startOf("day").toDate()
+        const endOfDay= dayjs().endOf("day").toDate()
+
+        const startOfWeek= dayjs().startOf("week").toDate()
+        const endOfWeek= dayjs().endOf("week").toDate()
+
+        const startOfMonth= dayjs().startOf("month").toDate()
+        const endOfMonth= dayjs().endOf("month").toDate()
+
+        const dailyProgress= await HabitProgress.find( {
+            member: memberId,
+            completed: true,
+            completedDate: {
+                $gte: startOfDay,
+                $lte: endOfDay
+            }
+        }).populate("habit", "title")
+        console.log("Daily Progress", dailyProgress)
+
+        const weeklyProgress= await HabitProgress.find( {
+            member: memberId,
+            completed: true,
+            completedDate: {
                 $gte: startOfWeek,
                 $lte: endOfWeek
             }
-        }).populate("member" ,"name email").populate("habit","title")
+        }).populate("habit", "title")
+        console.log("weeklyProgress", weeklyProgress)
 
-        if(!habitProgress) {
-             return res.status(404).json( {success: false , message: "Weekly habit Progress not found"})
-        }
+        const monthlyProgress= await HabitProgress.find( {
+            member: memberId,
+            completed:true,
+            completedDate: {
+                $gte: startOfMonth,
+                $lte:endOfMonth
+            }
 
-        return res.status(200).json( {success: true, message: "Weekly habit progress found" , data: habitProgress})
+        }).populate("habit","title")
+         console.log("monthlyProgress", monthlyProgress)
 
-    }
-    catch(err){
-       console.log(err.message)
-       return res.status(500).json( {success: false, message: err.message})
-    }
-}
+        const currentStreak= await HabitProgress.find( {
+            member: memberId,
+            completed:true
+        }).sort({completedDate:-1}).populate("member" ,"name email")
+         const current_streak = calculateCurrentStreak(currentStreak)
+          console.log("currentStreak", current_streak)
 
-export const memberMonthlyProgress = async (req, res) => {
-    const {member} = req.body
-    try{
-        const startOfMonth = dayjs().startOf("month").toDate()
-        const endOfMonth= dayjs().endOf("month").toDate()
-      const habitProgress= await HabitProgress.find( {
-        member,
-        completed:true,
-        completedDate:{
-            $gte: startOfMonth,
-            $lte: endOfMonth
-        }
-      }).populate("member", "name email").populate("habit", "title")
-      if(!habitProgress){
-        return res.status(404).json( {success: false, message: "Monthly habit progress not found"})
-      }
-      return res.status(200).json( {success: true, message: "Monthly habit progress found", data: habitProgress})
-    }
-    catch(err){
-        console.log(err.message)
-        return res.status(500).json( {success: false, message: err.message})
-    }
-}
+         const longestStreak= await HabitProgress.find( {
+            member: memberId,
+            completed:true
+         }).sort( {completedDate: 1})
+          const longest_streak = calculateLongestStreak(longestStreak)
+          console.log("longestStreak", longest_streak)
+          
 
-export const currentStreak = async (req, res) => {
-    const {member} = req.body
-    try{
-       const habitProgress = await HabitProgress.find( {
-        member,
-        completed:true
-       }).sort( {completedDate: -1}).populate("member" , "name email")
-       if(!habitProgress) {
-        return res.status(404).json( {success: false, message: "Habit progress not found"})
-       }
-       const streak = calculateCurrentStreak(habitProgress)
-       return res.status(200).json( {success: true, message: " Current streak calculated " ,data:habitProgress, streak:streak})
-       
+          return res.status(200).json( {success: true, message: "Members Progress" , dailyProgress:dailyProgress, weeklyProgress: weeklyProgress, monthlyProgress: monthlyProgress, current_streak:current_streak, longest_streak:longest_streak})
+
     }
     catch(err){
         console.log(err.message)
-        return res.status(500).json({success: false, message: err.message})
-    }
-}
-export const longestStreak = async (req, res) => {
-    const {member} = req.body
-    try{
-        const habitProgress = await HabitProgress.find( {
-            member,
-            completed: true
-        }).sort( {completedDate: 1}).populate("member" , "name email")
-        if(!habitProgress){
-            return res.status(404).json( {success: false, message: "Habit Progress not found" })
-        }
-         const streak = calculateLongestStreak(habitProgress)
-        
-        return res.status(200).json( {success: true, message: "Longest streak calculated" , data: habitProgress, streak: streak})
-    }
-    catch(err){
-        console.log(err.message)
-        return res.status(500).json( {success: false, mesaage: err.message})
+        return res.status(500).json( {success: false, message:err.message})
     }
 }
 
 export const habitProgressAggregate = async (req, res) => {
     try{
        const page= Number(req.query.page) || 1
-       const limit= Number(req.query.limit) || 1
+       const limit= Number(req.query.limit) || 5
        const search= req.query.search || ""
        const sort= req.query.sort || "createdAt"
        const order= req.query.order || "desc"
