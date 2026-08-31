@@ -3,17 +3,19 @@ import {useState, useEffect,useContext} from "react"
 import axios from "../config/axios"
 import AuthContext from "../contexts/AuthContext"
 import MemberSidebar from "./memberSidebar"
+import LoadingContext from "../contexts/loadingContext"
 export default  function MemberDashboard() {
     const {user} = useContext(AuthContext)
     const [memberDashboard, setMemberDashboard] = useState({
         data: {},
         serverError: ""
     })
-
+    const {setLoading} = useContext(LoadingContext)
     useEffect( () => {
         (
             async function fetchDashboard() {
                 console.log("component loaded")
+                setLoading(true)
                 try{
                   const response= await axios.get("/api/dashboard/member", { headers : {Authorization: localStorage.getItem("token")}})
                   console.log(response.data)
@@ -21,6 +23,9 @@ export default  function MemberDashboard() {
                 }
                 catch(err){
                     console.log(err.response.message)
+                }
+                finally{
+                    setLoading(false)
                 }
             }
 

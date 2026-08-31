@@ -1,7 +1,8 @@
-import {useState, useEffect} from "react"
+import {useState, useEffect,useContext} from "react"
 import axios from "../../config/axios"
 import MemberSidebar from "../memberSidebar"
 import { Link } from "react-router-dom"
+import LoadingContext from "../../contexts/loadingContext"
 export default function MyGroups(){
     const [myGroups, setMyGroups] = useState( {
         data:[],
@@ -13,9 +14,11 @@ export default function MyGroups(){
         
     })
     const [serverError, setServerError] = useState("")
+    const {setLoading} = useContext(LoadingContext)
     useEffect( () => {
         (
             async function fetchMyGroups(){
+                setLoading(true)
                try{
                 const response= await axios.get("/api/memberGroupsAggregate", {
                     params: {
@@ -36,6 +39,9 @@ export default function MyGroups(){
                 console.log(err.response?.data?.message)
                 setServerError(err.response?.data?.message)
 
+               }
+               finally{
+                setLoading(false)
                }
             }
         )()

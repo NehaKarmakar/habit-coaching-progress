@@ -3,6 +3,7 @@ import {useState, useEffect,useContext} from "react"
 import AuthContext from "../contexts/AuthContext"
 import axios from "../config/axios"
 import CoachSidebar from "./CoachSidebar"
+import LoadingContext from "../contexts/loadingContext"
 export default function CoachDashboard () {
 
     const {user} = useContext(AuthContext)
@@ -10,18 +11,22 @@ export default function CoachDashboard () {
         data: {},
         serverError:""
     })
-
+    const {setLoading} = useContext(LoadingContext)
     useEffect( () => {
         (
             async function fetchDashboard(){
+                setLoading(true)
                 try{
                     const response= await axios.get("/api/dashboard/coach", {headers: {Authorization: localStorage.getItem("token")}})
                     console.log(response.data)
                     setCoachDashboard( {...coachDashboard, data: response.data})
                 }
                 catch(err){
-                    console.log(err.response.message)
-                    setCoachDashboard( {...coachDashboard, serverError: err.response.message})
+                    console.log(err.response?.data?.message)
+                    setCoachDashboard( {...coachDashboard, serverError: err.response?.data?.message})
+                }
+                finally{
+                    setLoading(false)
                 }
             }
 

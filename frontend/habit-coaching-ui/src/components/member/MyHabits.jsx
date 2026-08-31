@@ -1,6 +1,7 @@
-import {useState, useEffect} from "react"
+import {useState, useEffect,useContext} from "react"
 import axios from "../../config/axios"
 import MemberSidebar from "../memberSidebar"
+import LoadingContext from "../../contexts/loadingContext"
 export default function MyHabits() {
     const [myHabits, setMyHabits] = useState( {
         data: [],
@@ -15,10 +16,12 @@ export default function MyHabits() {
     const [progress, setProgress] = useState( 
         JSON.parse(localStorage.getItem("progress")) || {}
     )
+    const {setLoading} = useContext(LoadingContext)
     useEffect( () => {
 
         (
             async function  habits() {
+                setLoading(true)
                 try{
                     const response= await axios.get("/api/assignedHabitsAggregate", {
                         params: {
@@ -40,6 +43,9 @@ export default function MyHabits() {
                     console.log(err.response?.data?.message)
                     setServerError(err.response?.data?.message)
                 }
+                finally{
+                    setLoading(false)
+                }
             }
 
         )()
@@ -58,6 +64,7 @@ export default function MyHabits() {
     }
 
     const markComplete= async(habitId) => {
+        setLoading(true)
             try{
                 const response= await axios.post("/api/progress" , {habit: habitId} , {headers: {Authorization:localStorage.getItem("token")}})
                 console.log(response.data)
@@ -77,6 +84,9 @@ export default function MyHabits() {
             catch(err){
                 console.log(err.response?.data?.message)
                 setServerError(err.response?.data?.message)
+            }
+            finally{
+                setLoading(false)
             }
     }
     return(

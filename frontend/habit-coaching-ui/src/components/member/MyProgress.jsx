@@ -3,7 +3,7 @@ import axios from "../../config/axios"
 import MemberSidebar from "../memberSidebar"
 import AuthContext from "../../contexts/AuthContext"
 import CoachSidebar from "../CoachSidebar"
-
+import LoadingContext from "../../contexts/loadingContext"
 export default function MyProgress() {
     const [progress, setProgress] = useState( {
         dailyProgress:[],
@@ -14,10 +14,11 @@ export default function MyProgress() {
         serverError: ""
     })
     const {user} = useContext(AuthContext)
-
+    const {setLoading} = useContext(LoadingContext)
     useEffect( () => {
         (
            async function fetchProgress() {
+            setLoading(true)
             try{
                 const response= await axios.get("/api/membersProgress", {headers: {Authorization: localStorage.getItem("token")}})
                 console.log(response.data)
@@ -33,6 +34,9 @@ export default function MyProgress() {
             catch(err){
                 console.log(err.response.data)
                 setProgress( {...progress, serverError: err.response.data.message})
+            }
+            finally{
+                setLoading(false)
             }
            }
         )()

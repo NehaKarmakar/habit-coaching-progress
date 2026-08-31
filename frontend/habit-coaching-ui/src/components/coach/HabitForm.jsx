@@ -1,7 +1,7 @@
 import {useState, useEffect, useContext} from "react"
 import axios from "../../config/axios"
 import HabitContext from "../../contexts/HabitContex"
-import { assignedEditId } from "../../slices/groupSlice"
+import LoadingContext from "../../contexts/loadingContext"
 export default function HabitForm () {
     const [form, setForm] = useState( {
         title:"",
@@ -11,17 +11,63 @@ export default function HabitForm () {
         groupName: "",
        
     })
-  
+  const {setLoading} = useContext(LoadingContext)
     const [serverError, setServerError] = useState("")
     const [resource, setResource] = useState(null)
    const {data,addHabit, editId, assignedEditId,editHabit} = useContext(HabitContext)
     const handleChange =(e) => {
         const {name, value} = e.target
         setForm( {...form, [name] : value})
+        setServerError("")
+    }
+
+    const formValidations = () => {
+        if(!form.title.trim()){
+            setServerError("Title is required")
+            return false
+        }
+        if (form.title.trim().length < 3) {
+             setServerError("Title must be at least 3 characters")
+             return false
+        }
+        if(!form.description.trim()) {
+            setServerError("Description is required")
+            return false
+        }
+        if (form.description.trim().length < 3) {
+            setServerError("Description must be at least 3 characters")
+            return false
+        }
+        if(!form.frequency.trim()){
+            setServerError("Frequency is required")
+            return false
+        }
+        else if(!["Daily", "Weekly", "Monthly"].includes(form.frequency)){
+            setServerError("Frequency must be Daily, Weekly or  Monthly ")
+            return false
+        }
+        if(!form.difficulty.trim()) {
+            setServerError("Difficulty is required")
+            return false
+        }
+        else if(!["Easy","Medium","Hard"].includes(form.difficulty)){
+            setServerError("Difficulty must be Easy, Medium or Hard")
+            return false
+        }
+        if(!form.groupName.trim()){
+            setServerError("Group Name is required")
+            return false
+        }
+        return true
     }
     const handleSubmit=async (e) => {
         e.preventDefault()
+        if(!formValidations()){
+            return
+        }
+        
         if(!editId){
+            setLoading(true)
         try{
             const response= await axios.post("/api/habits", form, {headers: {Authorization: localStorage.getItem("token")}})
             console.log(response.data)
@@ -51,8 +97,12 @@ export default function HabitForm () {
             console.log(err.response.data.message)
            setServerError(err.response.data.message)
         }
+        finally{
+            setLoading(false)
+        }
     }
     else{
+        setLoading(true)
         try{
             const response= await axios.put(`/api/habits/${editId}`, form, {headers: { Authorization: localStorage.getItem("token")}})
             console.log(response.data)
@@ -81,6 +131,9 @@ export default function HabitForm () {
         catch(err) {
             console.log(err.response?.data?.message)
             setServerError(err.response?.data?.message)
+        }
+        finally{
+            setLoading(false)
         }
     }
     }

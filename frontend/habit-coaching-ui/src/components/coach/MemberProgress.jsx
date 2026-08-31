@@ -1,6 +1,7 @@
-import {useState,useEffect} from "react"
+import {useState,useEffect,useContext} from "react"
 import axios from "../../config/axios"
 import CoachSidebar from "../CoachSidebar"
+import LoadingContext from "../../contexts/loadingContext"
 export default function MemberProgress() {
     const [progress, setProgress] = useState( {
         data: [],
@@ -12,10 +13,12 @@ export default function MemberProgress() {
 
     })
     const [serverError, setServerError] = useState("")
+    const {setLoading} = useContext(LoadingContext)
 
     useEffect( () => {
         (
         async function fetchHabitProgress(){
+            setLoading(true)
             try{
                 const response= await axios.get("/api/progress/aggregate" ,{
                     params: {
@@ -37,6 +40,9 @@ export default function MemberProgress() {
             catch(err){
                 console.log("error",err.response?.data?.message)
                 setServerError(err.response?.data?.message)
+            }
+            finally{
+                setLoading(false)
             }
         }
         )()

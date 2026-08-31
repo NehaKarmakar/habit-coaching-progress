@@ -1,7 +1,8 @@
-import {useState, useEffect} from "react"
+import {useState, useEffect,useContext} from "react"
 import axios from "../../config/axios"
 import CoachSidebar from "../CoachSidebar"
 import { useNavigate ,Link} from "react-router-dom"
+import LoadingContext from "../../contexts/loadingContext"
 export default function Members () {
     const [members, setMembers] = useState( {
         data: [],
@@ -13,10 +14,12 @@ export default function Members () {
 
     })
     const [serverError, setServerError] = useState("")
+    const {setLoading} = useContext(LoadingContext)
     const navigate= useNavigate()
     useEffect( () => {
         (
                async function fetchMembers() {
+                setLoading(true)
                 try{
                     const response= await axios.get("/api/members", {
                         params: {
@@ -38,6 +41,9 @@ export default function Members () {
                     console.log("error",err.response?.data?.message)
                     setServerError(err.response?.data?.message)
 
+                }
+                finally{
+                    setLoading(false)
                 }
                }
         )()

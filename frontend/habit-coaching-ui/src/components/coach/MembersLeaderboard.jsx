@@ -3,7 +3,7 @@ import axios from "../../config/axios"
 import CoachSidebar from "../CoachSidebar"
 import MemberSidebar from "../memberSidebar"
 import AuthContext from "../../contexts/AuthContext"
-
+import LoadingContext from "../../contexts/loadingContext"
 export default function MembersLeaderboard() {
     const [leaderboard, setLeaderboard] = useState( {
         data:[],
@@ -14,10 +14,12 @@ export default function MembersLeaderboard() {
         totalPages:1
     })
     const [serverError , setServerError] = useState("")
+    const {setLoading} = useContext(LoadingContext)
     const {user} = useContext(AuthContext)
     useEffect( () => {
         (
             async function fetchLeaderboard() {
+                setLoading(true)
                 try{
                     const response= await axios.get("/api/leaderboard/leaderboardAggregate" ,{
                         params: {
@@ -36,6 +38,9 @@ export default function MembersLeaderboard() {
                 catch(err){
                     console.log("error",err.response?.data?.message)
                     setServerError(err.response?.data?.message)
+                }
+                finally{
+                    setLoading(false)
                 }
             }
         )()

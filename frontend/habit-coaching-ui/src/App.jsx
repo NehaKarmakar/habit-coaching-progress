@@ -4,6 +4,8 @@ import Login from "./components/Login.jsx";
 import MemberDashboard from "./components/MemberDashboard.jsx";
 import CoachDashboard from "./components/CoachDashboard.jsx";
 import Profile from "./components/Profile.jsx";
+import ForgetPassword from "./components/forgetPassword.jsx";
+import ResetPassword from "./components/ResetPassword.jsx";
 
 import GroupEnrollment from "./components/coach/GroupEnrollment.jsx";
 import Groups from "./components/coach/Groups.jsx";
@@ -63,6 +65,7 @@ function App() {
             <ul>
               <li><Link to= "/login">Login</Link></li>
               <li><Link to= "/register">Register</Link></li>
+             
             </ul>
         </div>
     )
@@ -73,6 +76,8 @@ function App() {
             <Routes>
               <Route path= "/register" element= {<Register/>} />
               <Route path= "/login" element= {<Login/>} />
+              <Route path="/user/forgetPassword" element= {<ForgetPassword/>}/>
+              <Route path="/resetPassword/:token" element= {<ResetPassword/>}/>
               <Route path= "/member/dashboard" element= {
                 <PrivateRoute> <MemberDashboard/>
                 </PrivateRoute>
@@ -169,7 +174,7 @@ function App() {
                         <UpdateProfile/>
                     </PrivateRoute>
                 } />
-
+                
             </Routes>
         </div>
     );

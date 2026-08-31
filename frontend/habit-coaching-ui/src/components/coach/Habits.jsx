@@ -1,8 +1,9 @@
-import {useState, useEffect} from "react"
+import {useState, useEffect,useContext} from "react"
 import axios from "../../config/axios"
 import CoachSidebar from "../CoachSidebar"
 import HabitContext from "../../contexts/HabitContex"
 import HabitForm from "./HabitForm"
+import LoadingContext from "../../contexts/loadingContext"
 
 export default function Habits (){
     const [habits, setHabits] = useState( {
@@ -17,12 +18,13 @@ export default function Habits (){
 
     })
     
-
+  const {setLoading} = useContext(LoadingContext)
     
     useEffect( () => {
 
         (
           async function fetchHabits() {
+            setLoading(true)
             try{
             const response= await axios.get("/api/habits/habitAggregate",{
                 params:{
@@ -39,6 +41,9 @@ export default function Habits (){
             catch(err){
                 console.log(err.response?.data?.message)
                 setHabits( {...habits , serverError: err.response?.data?.message})
+            }
+            finally{
+                setLoading(false)
             }
           }
         )()
@@ -75,6 +80,7 @@ export default function Habits (){
         if(!confirmation){
             return
         }
+        setLoading(true)
         try{
             
             const response= await axios.delete(`/api/habits/${habitId}`, {headers: {Authorization:localStorage.getItem("token")}})
@@ -85,6 +91,9 @@ export default function Habits (){
         catch(err){
             console.log(err.response.data)
             setHabits( {...habits, serverError: err.response.data.message})
+        }
+        finally{
+            setLoading(false)
         }
     }
     return(

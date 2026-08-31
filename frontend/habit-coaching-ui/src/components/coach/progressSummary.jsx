@@ -4,6 +4,7 @@ import MemberSidebar from "../memberSidebar"
 import AuthContext from "../../contexts/AuthContext"
 import CoachSidebar from "../CoachSidebar"
 import { useParams } from "react-router-dom"
+import LoadingContext from "../../contexts/loadingContext"
 export default function ProgressSummary() {
     const [progress, setProgress] = useState( {
         dailyProgress:[],
@@ -14,10 +15,12 @@ export default function ProgressSummary() {
         serverError: ""
     })
     const {user} = useContext(AuthContext)
+    const {setLoading} = useContext(LoadingContext)
   const {id} = useParams()
     useEffect( () => {
         (
            async function fetchProgress() {
+            setLoading(true)
             try{
                 const response= await axios.get(`/api/membersProgress/${id}`, {headers: {Authorization: localStorage.getItem("token")}})
                 console.log(response.data)
@@ -33,6 +36,9 @@ export default function ProgressSummary() {
             catch(err){
                 console.log(err.response.data)
                 setProgress( {...progress, serverError: err.response.data.message})
+            }
+            finally{
+                setLoading(false)
             }
            }
         )()

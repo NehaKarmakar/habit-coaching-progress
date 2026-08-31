@@ -176,6 +176,10 @@ const groupSlice = createSlice( {
             state.loading= false,
             state.serverError= action.payload
         }),
+        builder.addCase(searchSortPagination.pending, (state) => {
+        state.loading = true
+        state.serverError = null
+        })
         builder.addCase(searchSortPagination.fulfilled, (state, action) => {
         state.loading = false
 

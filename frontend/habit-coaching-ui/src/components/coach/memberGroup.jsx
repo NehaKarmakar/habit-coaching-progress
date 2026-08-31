@@ -1,7 +1,7 @@
-import {useState, useEffect} from "react"
+import {useState, useEffect,useContext} from "react"
 import { useParams } from "react-router-dom"
 import axios from "../../config/axios"
-
+import LoadingContext from "../../contexts/loadingContext"
 import CoachSidebar from "../CoachSidebar"
 export default function MemberGroups (){
     const [memberGroups, setMemberGroups] = useState( {
@@ -10,9 +10,11 @@ export default function MemberGroups (){
     })
 
     const {id}   = useParams()
+    const {setLoading} = useContext(LoadingContext)
     useEffect( () =>{
         (
             async function fetchGroupMembers() {
+                setLoading(true)
                 try{
                     const response= await axios.get(`/api/enrollments/member/${id}`, {headers: {Authorization: localStorage.getItem("token")}})
                     console.log(response.data)
@@ -22,6 +24,9 @@ export default function MemberGroups (){
                 catch(err){
                     console.log(err.response.data.message)
                     setMemberGroups( {...memberGroups, serverError: err.response.data.message})
+                }
+                finally{
+                    setLoading(false)
                 }
             }
 
