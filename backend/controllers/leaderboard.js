@@ -38,16 +38,7 @@ export const leaderboardAggregate = async (req, res) => {
             }
          })
 
-          if(search){
-            pipeline.push( {
-                $match: {
-                    name: {
-                        $regex:search,
-                        $options: "i"
-                    }
-                }
-            })
-          }
+         
         pipeline.push({
             $lookup: {
                 from: "habitprogresses",
@@ -83,7 +74,16 @@ export const leaderboardAggregate = async (req, res) => {
         } 
     } 
 })
-          
+           if(search){
+            pipeline.push( {
+                $match: {
+                    name: {
+                        $regex:search,
+                        $options: "i"
+                    }
+                }
+            })
+          }
             pipeline.push( {
             $sort: {
                 [sort]:orderData

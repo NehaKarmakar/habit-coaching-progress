@@ -202,7 +202,7 @@ Best regards,
 Habit Coaching Team`
         )
 
-        return res.status(200).json( {success: true , message: "Password reset link sent to your email"})
+        return res.status(200).json( {success: true , message: "Password reset link sent to your email", data:user})
 
     }
     catch(err){
@@ -248,7 +248,7 @@ If you did not reset your password, please contact the Habit Coaching Team immed
 Best regards,
 Habit Coaching Team`
 );
-        return res.status(200).json({success: true, message: "Password reset successfully"})
+        return res.status(200).json({success: true, message: "Password reset successfully", data:user})
 
 
     }

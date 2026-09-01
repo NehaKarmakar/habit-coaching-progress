@@ -1,7 +1,10 @@
 import {Schema, model} from "mongoose"
 
 const userSchema = new Schema( {
-    name: String,
+    name:{
+        type: String,
+        required:true
+    },
     email: String,
     password: String,
     loginCount: {
@@ -9,7 +12,8 @@ const userSchema = new Schema( {
         default: 0
     },
     phone:{
-        type: String
+        type: String,
+        required:true
     },
     role: {
         type: String,

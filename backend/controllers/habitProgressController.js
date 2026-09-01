@@ -24,16 +24,20 @@ export const markHabitComplete = async (req, res) => {
         }})
       
         if(alreadyMarkHabitComplete){
+             alreadyMarkHabitComplete.completed =
+                !alreadyMarkHabitComplete.completed
+
             if(alreadyMarkHabitComplete.completed){
-                //off
-                alreadyMarkHabitComplete.completed=false
-                alreadyMarkHabitComplete.completedDate = null
+                //on
+                
+                alreadyMarkHabitComplete.completedDate=dayjs().toDate()
+                
             
                 }
                 else{
-                    //on
-                    alreadyMarkHabitComplete.completed=true
-                    alreadyMarkHabitComplete.completedDate=dayjs().toDate()
+                    //off
+                    
+                    alreadyMarkHabitComplete.completedDate=null
                 }
 
                  const updateProgress= await alreadyMarkHabitComplete.save()
@@ -147,6 +151,11 @@ export const habitProgressAggregate = async (req, res) => {
        const orderData= order==="asc" ? 1:-1
 
        const pipeline = [] // total records
+       pipeline.push({
+       $match: {
+        completed: true
+        }
+      })
        pipeline.push( {
             $lookup: {
               from: "users",
@@ -206,6 +215,11 @@ export const habitProgressAggregate = async (req, res) => {
         const habitProgress = await HabitProgress.aggregate(pipeline)
 
         const countPipeline= [] // how many records match
+        countPipeline.push({
+    $match: {
+        completed: true
+    }
+})
         countPipeline.push( {
             $lookup: {
                 from:"users",

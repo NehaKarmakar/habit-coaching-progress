@@ -116,7 +116,14 @@ export  const searchingSortingPagination = async (req, res) => {
         }
     })
    }
-
+  pipeline.push( {
+            $lookup: {
+              from: "users",
+              localField: "createdBy",
+              foreignField: "_id",
+              as: "User details"
+            }
+        })
     pipeline.push( {
         $sort: {
             [sort] : orderData
@@ -128,14 +135,7 @@ export  const searchingSortingPagination = async (req, res) => {
         {$limit: limit}
     )
 
-    pipeline.push( {
-            $lookup: {
-              from: "users",
-              localField: "createdBy",
-              foreignField: "_id",
-              as: "User details"
-            }
-        })
+    
 
     const group = await Group.aggregate(pipeline)
     const totalGroups = search
