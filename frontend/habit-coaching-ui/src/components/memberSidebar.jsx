@@ -3,6 +3,7 @@ export default function MemberSidebar() {
     return(
         <div>
             <aside>
+                <h2> Member Menu</h2>
                 <ul>
                     <li><Link to= "/member/groups">My Groups</Link></li>
                     <li><Link to= "/member/habits">My Habits</Link></li>

@@ -52,6 +52,7 @@ const handleSubmit= (e) => {
     }
     if(editId){
         dispatch(editGroup( {id: editId, formData: form}))
+
         setForm( {
             groupName: "",
             description: ""
@@ -60,6 +61,11 @@ const handleSubmit= (e) => {
     }
     else{
     dispatch(addGroup({formData: form}))
+    setForm( {
+            groupName: "",
+            description: ""
+        })
+        setCheckError("")
     }
    
 }

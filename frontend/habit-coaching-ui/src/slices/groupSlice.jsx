@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../config/axios";
 const initialState= {
-    data: [],
+   
     serverError: "",
     loading: false,
     editId: null,
@@ -11,22 +11,7 @@ const initialState= {
     currentPage:1
 }
 
-export const fetchGroups= createAsyncThunk("group/fetchGroups" , 
-    async(_, thunkAPI) => {
-        try{
 
-            const response= await axios.get("/api/groups" , {headers: {Authorization: localStorage.getItem("token")}})
-            
-            console.log(response.data.data)
-            return response.data.data
-        }
-        catch(err){
-           console.log(err.response.data.message)
-
-          return thunkAPI.rejectWithValue(err.response.data.message);
-        }
-    }
-)
 
 export const addGroup= createAsyncThunk("group/addGroup" , 
     async(args, thunkAPI) => {
@@ -35,6 +20,7 @@ export const addGroup= createAsyncThunk("group/addGroup" ,
                  {headers: {Authorization: localStorage.getItem("token")}})
             console.log(response.data)
             return response.data.data
+           
 
             
 
@@ -114,29 +100,15 @@ const groupSlice = createSlice( {
     
     },
     extraReducers: (builder) => {
-        builder.addCase(fetchGroups.pending , (state,action) => {
-            state.loading= true;
-            state.serverError= null
-        }),
-
-        builder.addCase(fetchGroups.fulfilled , (state,action) => {
-            state.loading= false;
-            state.data= action.payload
-            state.serverError= null
-        }),
-
-        builder.addCase(fetchGroups.rejected, (state,action) => {
-            state.loading= false;
-            state.serverError= action.payload
-        }),
-
         builder.addCase(addGroup.pending, (state,action) => {
             state.loading=true;
             state.serverError=null
         }),
         builder.addCase(addGroup.fulfilled, (state, action) => {
             state.loading= false;
-            state.data.push(action.payload)
+           
+            state.searchData.push(action.payload);
+
             state.serverError= null
         }),
         builder.addCase(addGroup.rejected, (state, action) => {
@@ -151,8 +123,10 @@ const groupSlice = createSlice( {
         }),
         builder.addCase(removeGroup.fulfilled, (state, action) => {
             state.loading=false;
-            const index= state.data.findIndex( ele => ele._id === action.payload)
-            state.data.splice(index,1)
+            const index= state.searchData.findIndex( ele => ele._id === action.payload)
+            if (index !== -1){
+            state.searchData.splice(index, 1)
+            }
             state.serverError= ""
         }),
          builder.addCase(removeGroup.rejected, (state, action) => {
@@ -168,12 +142,14 @@ const groupSlice = createSlice( {
         }),
         builder.addCase(editGroup.fulfilled, (state, action) => {
             state.loading= false;
-          const index= state.data.findIndex(ele => ele._id == action.payload._id)
-            state.data[index] = action.payload
+            const index= state.searchData.findIndex(ele => ele._id == action.payload._id)
+            if (index !== -1){
+            state.searchData[index] = action.payload
+            }
             state.serverError=""
         }),
         builder.addCase(editGroup.rejected , (state, action) => {
-            state.loading= false,
+            state.loading= false
             state.serverError= action.payload
         }),
         builder.addCase(searchSortPagination.pending, (state) => {

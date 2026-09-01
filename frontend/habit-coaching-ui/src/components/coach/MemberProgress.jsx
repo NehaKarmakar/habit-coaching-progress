@@ -87,7 +87,14 @@ export default function MemberProgress() {
                                         <td>{item.memberDetails?.[0]?.phone}</td>
                                         <td>{item.habitDetails?.[0]?.title}</td>
                                         <td>{item.completed ? "Yes" : "No"}</td>
-                                        <td>{new Date(item.completedDate).toLocaleDateString()}</td>
+                                        <td>
+                    {item.completed && item.completedDate
+                        ? new Date(item.completedDate).toLocaleDateString()
+                        : "-"
+                    }
+                </td>
+                                        
+
                                         
                                       </tr>
                                     )

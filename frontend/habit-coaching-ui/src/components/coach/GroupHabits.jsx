@@ -42,19 +42,51 @@ export default function GroupHabits() {
           
             <h2> Group Habits</h2>
             {groupHabits.serverError && <p> {groupHabits.serverError}</p>}
-            {
-                groupHabits.data.map( (habit) => {
-                    return(
-                        <div>
-                        <h3>{habit.title}</h3>
-                        <p> Description: {habit.description}</p>
-                        <p> Frequency: {habit.frequency}</p>
-                        <p> Difficulty: {habit.difficulty}</p>
+           
+            <table>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Frequency</th>
+                        <th>Difficulty</th>
+                        <th>Resource</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        groupHabits.data.map( (habit) => {
+                      return(
+                      <tr key= {habit._id}>
+                        <td>{habit.title}</td>
+                        <td>{habit.description}</td>
+                        <td>{habit.frequency}</td>
+                        <td>{habit.difficulty}</td>
+                        <td>{habit.resource}</td>
+                        <td>
+                {habit.resourceUrl ? (
+                    <a
+                        href={habit.resourceUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                    >
+                        {habit.resourceName || "View Resource"}
+                    </a>
+                ) : (
+                    "No resource"
+                )}
+            </td>
+                      </tr>
                         
-                        </div>
+                        
+                       
                     )
                 })
             }
+
+                    
+                </tbody>
+            </table>
         </div>
     )
 }

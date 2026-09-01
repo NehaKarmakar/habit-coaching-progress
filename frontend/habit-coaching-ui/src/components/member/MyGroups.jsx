@@ -48,12 +48,12 @@ export default function MyGroups(){
     },[myGroups.search, myGroups.page, myGroups.sort, myGroups.order])
     return(
         <div>
-            <h2> My Groups</h2>
+         
             <MemberSidebar/>
             {
                 serverError && <p> {serverError}</p>
                 
-            }
+            } <h2> My Groups</h2>
             <input type="text" name= "search" value= {myGroups.search} onChange= { (e) => { setMyGroups( {...myGroups, search: e.target.value, page:1})}} placeholder="Search by group name"/>
             <select value= {myGroups.sort} onChange= { (e) => { setMyGroups( {...myGroups, sort: e.target.value, page:1})}}>
                 <option value= "">Select</option>

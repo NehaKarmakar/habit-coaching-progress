@@ -1,4 +1,5 @@
 import {useState, useEffect, useContext} from "react"
+import { useNavigate } from "react-router-dom"
 import { useParams } from "react-router-dom"
 import axios from "../../config/axios"
 import CoachSidebar from "../CoachSidebar"
@@ -9,6 +10,7 @@ export default function GroupEnrollment() {
         memberName: "",
         serverError: ""
     })
+    const navigate= useNavigate()
    const {id} = useParams()
    const {setLoading} = useContext(LoadingContext)
     const handleChange= (e) => {
@@ -33,6 +35,9 @@ export default function GroupEnrollment() {
         try{
             const response= await axios.post("/api/enrollments", {group:id, memberName:form.memberName}, {headers: {Authorization: localStorage.getItem("token")}})
             console.log(response.data)
+           alert(response.data.message)
+            navigate("/coach/groups")
+             
             if(response.data.success) {
             setForm( {
                 memberName: "",

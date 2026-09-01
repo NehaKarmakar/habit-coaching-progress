@@ -73,8 +73,7 @@ export default function GroupMembers (){
                     return (
                         <div>
                             <h3>Name:{ele.member.name}</h3>
-                            <p>Enrollment Id: {ele._id}</p>
-                            <p>Id: {ele.member._id}</p>
+                            
                             <p>Email:{ele.member.email}</p>
                             <p>Phone:{ele.member.phone}</p>
                             <p>Role: {ele.member.role}</p>

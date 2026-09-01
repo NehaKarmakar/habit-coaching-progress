@@ -144,13 +144,8 @@ export default function Habits (){
                                         <td>{habit.frequency}</td>
                                         <td>{habit.difficulty}</td>
                                          <td>
-                                            {
-                                                habit.GroupDetails?.map((ele) => {
-                                                    return <span key= {ele._id}>{ele.groupName}</span>
-                                                })
-                                            }
-                                         
-                                         </td>
+             {habit.group?.groupName || habit.GroupDetails?.[0]?.groupName || "No group"}
+                                        </td>
                                          <td>
                 {habit.resourceUrl ? (
                     <a

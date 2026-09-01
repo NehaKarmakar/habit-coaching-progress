@@ -97,7 +97,7 @@ export default function MyHabits() {
                 serverError && <p>{serverError}</p>
                 
             }
-            <input type= "text" value={myHabits.search} onChange= { (e) => {setMyHabits( {...habits, search: e.target.value,page:1})}} placeholder=" Search by title"/>
+            <input type= "text" value={myHabits.search} onChange= { (e) => {setMyHabits( {...myHabits, search: e.target.value,page:1})}} placeholder=" Search by title"/>
             <select value= {myHabits.sort} onChange= { (e) => {setMyHabits( {...myHabits, sort:e.target.value, page:1})}}>
                   <option value= "">Select</option>
                   <option value= "createdAt">Created At</option>

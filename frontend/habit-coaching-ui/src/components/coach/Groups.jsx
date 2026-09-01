@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react"
 import {Link, useNavigate} from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
-import {fetchGroups, removeGroup,assignedEditId , searchSortPagination} from "../../slices/groupSlice"
+import {removeGroup,assignedEditId , searchSortPagination} from "../../slices/groupSlice"
 
 
 import GroupForm from "./GroupForm"
@@ -19,16 +19,12 @@ export default function Groups() {
         currentPage,
         totalPages
     } = useSelector((state) => state.groups)
-    const groups= useSelector( (state) => {
-        return state.groups.data
-    })
+    
     const serverError = useSelector( (state) => {
         return state.groups.serverError
     })
     const navigate= useNavigate()
-    useEffect( () => {
-    dispatch(fetchGroups())
-    },[])
+    
      useEffect(() => {
         dispatch(searchSortPagination({
             search,
@@ -38,9 +34,7 @@ export default function Groups() {
             order
         }))
     }, [search, page, sort, order,dispatch])
-    if(!groups){
-        return <p>Loading...</p>
-    }
+    
 
     const handleChange= (e) => {
         setSearch(e.target.value)
@@ -93,7 +87,7 @@ export default function Groups() {
                     return(
                         <div key= {group._id}>
                             <h3>{group.groupName}</h3>
-                            <p>Id: {group._id}</p>
+                            
                             <p> Description: {group.description}</p>
                             
                             <Link to= {`/coach/habits/${group._id}`}>View Habits</Link>

@@ -78,9 +78,11 @@ export default function HabitForm () {
               const fileResponse= await axios.post(`/api/habits/resource/${habit._id}`,data, {headers: {Authorization: localStorage.getItem("token")}})
               console.log(fileResponse.data)
               addHabit(fileResponse.data.data)
+              alert(response.data.message)
             }
             else{
           addHabit(response.data.data)
+          alert(response.data.message)
             }
            setForm({
             title: "",
@@ -113,9 +115,11 @@ export default function HabitForm () {
                 const fileResponse= await axios.post(`/api/habits/resource/${editId}`,data, {headers: {Authorization: localStorage.getItem("token")}})
                 console.log(fileResponse.data)
                 editHabit(fileResponse.data.data)
+                alert(response.data.message)
             }
             else{
                editHabit(response.data.data)
+               alert(response.data.message)
             }
             
             setForm( {
@@ -126,6 +130,8 @@ export default function HabitForm () {
             groupName: ""
             })
             setServerError("")
+            setResource(null)
+            assignedEditId(null)
 
         }
         catch(err) {
@@ -162,7 +168,18 @@ export default function HabitForm () {
                 editId ? <h2>Edit Habit</h2> : <h2>Add Habit</h2>
             }
             {
-                editId && <button onClick= { () => {assignedEditId(null)}}>Cancel Edit</button>
+                editId && <button onClick= { () => 
+                    {assignedEditId(null)
+                        setForm( {
+                 title: "",
+            description: "",
+            frequency: "",
+            difficulty: "",
+            groupName: ""
+            })
+            setServerError("")
+
+                }}>Cancel Edit</button>
             }
             {serverError && <p> {serverError}</p>}
             <form onSubmit= {handleSubmit}>
