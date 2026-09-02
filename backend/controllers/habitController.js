@@ -217,8 +217,20 @@ export const getGroupHabitById = async (req, res) => {
               from: "groups",
               localField: "group",
               foreignField: "_id",
-              as: "GroupDetails"
+              as: "groupDetails"
             }
+        })
+
+        pipeline.push( {
+            $unwind:"$groupDetails"
+        })
+        pipeline.push( {
+            $set: {
+                group: "$groupDetails"
+            }
+        })
+        pipeline.push( {
+            $unset: "groupDetails"
         })
 
        
