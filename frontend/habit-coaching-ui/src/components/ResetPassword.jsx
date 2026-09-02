@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom"
 import { useNavigate } from "react-router-dom"
 import axios from "../config/axios"
 import LoadingContext from "../contexts/loadingContext"
+import { toast } from "react-toastify"
 export default function ResetPassword() {
     const [password, setPassword] = useState("")
     const [serverError, setServerError]= useState("")
@@ -50,7 +51,7 @@ export default function ResetPassword() {
         try{
             const response= await axios.post(`/api/auth/resetPassword/${token}`,{password:password})
             console.log(response.data)
-            alert(response.data.message)
+            toast("Password reset successfully. You can now log in.")
             navigate("/login")
             setPassword("")
             setServerError("")

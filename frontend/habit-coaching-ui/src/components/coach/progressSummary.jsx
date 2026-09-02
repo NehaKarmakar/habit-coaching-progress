@@ -45,7 +45,7 @@ export default function ProgressSummary() {
     },[])
     return(
         <div>
-            <h2> My Progress</h2>
+            <h2> Member Progress</h2>
           {
             user?.role==="coach" ? <CoachSidebar/> : <MemberSidebar/>
           }
@@ -54,48 +54,92 @@ export default function ProgressSummary() {
                 progress.serverError && <p> {progress.serverError}</p>
             }
            
-            <h3>Daily Habits Completed</h3>
+            <h3>Daily Habits </h3>
             <p>Total: {progress.dailyProgress.length}</p>
-            {
-                progress.dailyProgress.map((ele) => {
-                    return (
-                        <div>
-                        
-                        <p> Habit Title: {ele.habit?.title}</p>
-                        <p> Completed Date: {new Date(ele.completedDate).toLocaleDateString()}</p>
-                        </div>
-                    )
-                    
-                })
-            }
-             <h3>Weekly Habits Completed</h3>
-            <p>Total: {progress.weeklyProgress.length}</p>
-            {
-                progress.weeklyProgress.map( (ele) => {
-                    return(
-                        <div>
-                       
-                        <p> Habit Title: {ele.habit?.title}</p>
-                        <p> Completed Date: {new Date(ele.completedDate).toLocaleDateString()}</p>
-                        </div>
-                    )
-                })
-            }
-                    <h3>Monthly Habits Completed</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Habit Title</th>
+                        <th>Completed Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        progress.dailyProgress.map( (ele) => {
+                            return(
+                                <tr>
+                                    <td>{ele.habit?.title}</td>
+                                    <td>{new Date(ele.completedDate).toLocaleDateString()}</td>
+                                </tr>
+                            )
+                        })
+                    }
+                </tbody>
+            </table>
+            <br/><br/>
+           
+             <h3>Weekly Habits </h3>
+             <p>Total: {progress.weeklyProgress.length}</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Habit Title</th>
+                        <th>Completed Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        progress.weeklyProgress.map( (ele) => {
+                            return(
+                                <tr>
+                                    <td>{ele.habit?.title}</td>
+                                    <td>{new Date(ele.completedDate).toLocaleDateString()}</td>
+                                </tr>
+                            )
+                        })
+                    }
+                </tbody>
+            </table>
+            <br/><br/>
+                    <h3>Monthly Habits </h3>
                     <p>Total: {progress.monthlyProgress.length}</p>
-            {
-                progress.monthlyProgress.map( (ele) => {
-                    return(
-                        <div>
-                            
-                            <p> Habit Title: {ele.habit?.title}</p>
-                            <p> Completed Date: {new Date(ele.completedDate).toLocaleDateString()}</p>
-                            </div>
-                    )
-                })
-            }
-            <h3>Current Streak : {progress.currentStreak}</h3>
-            <h3>Longest Streak: {progress.longestStreak}</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Habit Title</th>
+                        <th>Completed Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        progress.monthlyProgress.map( (ele) => {
+                            return(
+                                <tr>
+                                    <td>{ele.habit?.title}</td>
+                                    <td>{new Date(ele.completedDate).toLocaleDateString()}</td>
+                                </tr>
+                            )
+                        })
+                    }
+                </tbody>
+            </table>
+            <br/><br/>
+               <h3>Streaks</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Current Streak</th>
+                        <th>Longest Streak</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{progress.currentStreak}</td>
+                        <td>{progress.longestStreak}</td>
+                    </tr>
+                </tbody>
+            </table>
+            
         </div>
     )
 }

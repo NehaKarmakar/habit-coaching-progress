@@ -38,21 +38,29 @@ export default function MemberGroups (){
               <CoachSidebar/>
             <h2>Members Group</h2>
             {memberGroups.serverError && <p> {memberGroups.serverError}</p>}
-
-
-            {
-                memberGroups.data.map( (ele) =>{
-                    return (
-                        <div>
-                            <h3>{ele.group.groupName}</h3>
-                            <p>Description: {ele.group.description}</p>
-                        </div>
-                    )
-                } )
-            }
             
-            
-          
+            <table>
+                <thead>
+                    <tr>
+                    <th>Group Name</th>
+                    <th>Description</th>
+                    <th>Joined At</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        memberGroups.data.map( (ele) => {
+                            return(
+                                <tr>
+                                    <td>{ele.group.groupName}</td>
+                                    <td>{ele.group.description}</td>
+                                    <td>{new Date(ele.joinedAt).toLocaleDateString()}</td>
+                                </tr>
+                            )
+                        })
+                    }
+                </tbody>
+            </table>  
         </div>
     )
 }

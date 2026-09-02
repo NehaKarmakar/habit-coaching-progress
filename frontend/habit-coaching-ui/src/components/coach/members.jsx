@@ -98,7 +98,7 @@ export default function Members () {
                                     <td>{member.phone}</td>
                                     <button onClick= {() => {handleProgressSummary(member._id)}}>Progress Summary</button>
                                     <button onClick= {() => {handleViewGroups(member._id)}}>View Groups</button>
-
+                                    
                                    
                                 </tr>
                             )

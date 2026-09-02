@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom"
 import axios from "../../config/axios"
 import CoachSidebar from "../CoachSidebar"
 import LoadingContext from "../../contexts/loadingContext"
-
+import { toast } from "react-toastify"
 export default function GroupEnrollment() {
     const [form, setForm] = useState( {
         memberName: "",
@@ -35,8 +35,8 @@ export default function GroupEnrollment() {
         try{
             const response= await axios.post("/api/enrollments", {group:id, memberName:form.memberName}, {headers: {Authorization: localStorage.getItem("token")}})
             console.log(response.data)
-           alert(response.data.message)
-            navigate("/coach/groups")
+            toast("Enrollment Successfull")
+            
              
             if(response.data.success) {
             setForm( {

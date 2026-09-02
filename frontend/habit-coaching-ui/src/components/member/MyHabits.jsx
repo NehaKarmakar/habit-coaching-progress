@@ -13,8 +13,10 @@ export default function MyHabits() {
     })
    
     const [serverError, setServerError] = useState("")
+    const today= new Date().toLocaleDateString()
+    const savedProgress= JSON.parse(localStorage.getItem("progress")) || {}
     const [progress, setProgress] = useState( 
-        JSON.parse(localStorage.getItem("progress")) || {}
+        savedProgress.date===today? savedProgress.data : {}
     )
     const {setLoading} = useContext(LoadingContext)
     useEffect( () => {
@@ -53,12 +55,7 @@ export default function MyHabits() {
     },[myHabits.search, myHabits.page, myHabits.sort, myHabits.order])
 
     const handleCheck= (habitId) =>{
-        const newProgress= {
-            ...progress,
-            [habitId]: !progress[habitId]
-        }
-        setProgress(newProgress)
-        localStorage.setItem("progress", JSON.stringify(newProgress))
+        
        
         markComplete(habitId)
     }
@@ -69,6 +66,16 @@ export default function MyHabits() {
                 const response= await axios.post("/api/progress" , {habit: habitId} , {headers: {Authorization:localStorage.getItem("token")}})
                 console.log(response.data)
                 const updatedProgress= response.data.data
+                 
+                
+                const newProgress= {
+            ...progress,
+            [habitId]: updatedProgress.completed
+        }
+        setProgress(newProgress)
+        localStorage.setItem("progress", 
+            JSON.stringify({date: new Date().toLocaleDateString(),data:newProgress}))
+       
                  setMyHabits(prev => ({
                               ...prev,
                              data: prev.data.map(habit =>
@@ -138,7 +145,7 @@ export default function MyHabits() {
             </table>
             <button disabled= {myHabits.page===1} onClick= {() => {setMyHabits( {...myHabits, page: myHabits.page-1})}}>Previous</button>
             <span> {myHabits.page} of {myHabits.totalPages}</span>
-            <button disabled= {myHabits.page===myHabits.totalPages} onClick= {() => {setMyHabits( {...myHabits, page: myHabits.page-1})}}>Next</button>
+            <button disabled= {myHabits.page===myHabits.totalPages} onClick= {() => {setMyHabits( {...myHabits, page: myHabits.page+1})}}>Next</button>
         </div>
     )
 }

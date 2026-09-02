@@ -2,10 +2,10 @@ import {useEffect, useState} from "react"
 import {Link, useNavigate} from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
 import {removeGroup,assignedEditId , searchSortPagination} from "../../slices/groupSlice"
-
-
 import GroupForm from "./GroupForm"
 import CoachSidebar from "../CoachSidebar"
+
+
 export default function Groups() {
     const [search, setSearch] = useState("")
     const [page, setPage] = useState(1)
@@ -34,6 +34,8 @@ export default function Groups() {
             order
         }))
     }, [search, page, sort, order,dispatch])
+
+   
     
 
     const handleChange= (e) => {
@@ -56,12 +58,21 @@ export default function Groups() {
 
     }
 
+    const handleViewHabits= (groupId) => {
+        navigate(`/coach/habits/${groupId}`)
+    }
+    const handleViewMembers= (groupId) => {
+        navigate(`/coach/groups/Enrollment/${groupId}`)
+    }
+
     
     return(
         <div>
             <CoachSidebar/>
             <h2>Groups</h2>
-          {serverError && <p>{serverError} </p>}
+          {
+            serverError && <p> {serverError}</p>
+          }
           <input type= "text" name= "search" value= {search} onChange={handleChange} placeholder="search by groupname"/>
            {/*sort*/}
            <select value= {sort} onChange={(e) =>
@@ -80,28 +91,43 @@ export default function Groups() {
             <option value="desc">Descending</option>
             <option value="asc">Ascending</option>
             </select>
+            
 
-         <ul>
-            {
-                searchData.map( (group) => {
-                    return(
-                        <div key= {group._id}>
-                            <h3>{group.groupName}</h3>
-                            
-                            <p> Description: {group.description}</p>
-                            
-                            <Link to= {`/coach/habits/${group._id}`}>View Habits</Link>
-                            <Link to= {`/coach/groups/Enrollment/${group._id}`}>View Members</Link>
-                            <button onClick= { () => {handleEdit(group._id)}}>Edit</button>
-                            <button onClick= {() => {handleDelete(group._id)}}>Delete</button>
-                            <button onClick= {() => {handleAddMember(group._id)}}>Add Member</button>
-                            
-                        </div>
-                    )
-                })
-            }
+         
+            <table>
+                <thead>
+                    <tr>
+                        <th>Group Name</th>
+                        <th>Description</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                        {
+                            searchData.map( (group) => {
+                                return (
+                                   <tr>
+                                    <td>{group.groupName}</td>
+                                    <td>{group.description}</td>
+                                    <td>
+                                        <button onClick= { () => {handleViewHabits(group._id)}}>View Habits</button>
+                                        <button onClick= { () => {handleViewMembers(group._id)}}>View Members</button>
+                                        <button onClick= { () => {handleEdit(group._id)}}>Edit</button>
+                                        <button onClick= {() => {handleDelete(group._id)}}>Delete</button>
+                                        <button onClick= {() => {handleAddMember(group._id)}}>Add Member</button>
 
-         </ul>
+                                    </td>
+                                   </tr>
+
+                                )
+                            })
+                        }
+
+                   
+                </tbody>
+            </table>
+            
          {/*Pagination*/}
          <button
                 disabled={currentPage === 1}

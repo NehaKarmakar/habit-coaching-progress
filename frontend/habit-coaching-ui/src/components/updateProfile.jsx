@@ -3,6 +3,7 @@ import {useNavigate} from "react-router-dom"
 import axios from "../config/axios"
 import AuthContext from "../contexts/AuthContext"
 import LoadingContext from "../contexts/loadingContext"
+import { toast } from "react-toastify"
 export default function UpdateProfile() {
     const { user, dispatch } = useContext(AuthContext); 
     const [form, setForm] = useState( {
@@ -83,6 +84,7 @@ export default function UpdateProfile() {
            
           const updatedUser = response.data.data || response.data;
              dispatch({ type: "UPDATE_PROFILE", payload: updatedUser });
+             toast("Profile updated Successfully")
             if (user?.role === "coach") {
         navigate("/coach/dashboard");
       } else {

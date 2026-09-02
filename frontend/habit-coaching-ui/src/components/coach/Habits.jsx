@@ -4,6 +4,7 @@ import CoachSidebar from "../CoachSidebar"
 import HabitContext from "../../contexts/HabitContex"
 import HabitForm from "./HabitForm"
 import LoadingContext from "../../contexts/loadingContext"
+import { toast } from "react-toastify"
 
 export default function Habits (){
     const [habits, setHabits] = useState( {
@@ -62,17 +63,16 @@ export default function Habits (){
     const assignedEditId =(id) => {
         setHabits( {...habits, editId: id})
     }
-    const editHabit= (habit) => {
-     const result= habits.data.map( (ele) => {
-        if(ele._id===habit._id){
-            return {...habit}
-        }
-        else{
-            return{...ele}
-        }
-     })
-     setHabits( {...habits, data: result})
-    }
+    const editHabit = (habit) => {
+    setHabits(prev => ({
+        ...prev,
+        data: prev.data.map(ele =>
+            ele._id === habit._id ? habit : ele
+        )
+    }))
+}
+    
+   
     
     const handleDelete = async (habitId) => {
         console.log("deletingId", habitId)
@@ -86,6 +86,7 @@ export default function Habits (){
             const response= await axios.delete(`/api/habits/${habitId}`, {headers: {Authorization:localStorage.getItem("token")}})
             console.log(response.data)
             deleteHabit(habitId)
+            toast("Successfully deleted habit")
 
         }
         catch(err){
@@ -130,6 +131,7 @@ export default function Habits (){
                     <th>Difficulty</th>
                     <th>Group Name</th>
                     <th>Resource</th>
+                    <th>Actions</th>
                  </tr>
                 </thead>
                 <tbody>
@@ -143,9 +145,7 @@ export default function Habits (){
                                         <td>{habit.description}</td>
                                         <td>{habit.frequency}</td>
                                         <td>{habit.difficulty}</td>
-                                         <td>
-             {habit.group?.groupName || habit.GroupDetails?.[0]?.groupName || "No group"}
-                                        </td>
+                                         <td>{habit.group?.groupName ||  "No group"}</td>
                                          <td>
                 {habit.resourceUrl ? (
                     <a
@@ -159,8 +159,11 @@ export default function Habits (){
                     "No resource"
                 )}
             </td>
+            <td>
                                          <button onClick= { () =>assignedEditId(habit._id)} >Edit</button>
                                          <button onClick= { () => {handleDelete(habit._id)}}>Delete</button>
+                                         </td>
+                                    
                                     </tr>
                                     
                                 )

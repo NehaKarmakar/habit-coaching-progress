@@ -1,7 +1,7 @@
 import {useState, useEffect,useContext} from "react"
 import axios from "../../config/axios"
 import MemberSidebar from "../memberSidebar"
-import { Link } from "react-router-dom"
+import { Link,useNavigate } from "react-router-dom"
 import LoadingContext from "../../contexts/loadingContext"
 export default function MyGroups(){
     const [myGroups, setMyGroups] = useState( {
@@ -15,6 +15,7 @@ export default function MyGroups(){
     })
     const [serverError, setServerError] = useState("")
     const {setLoading} = useContext(LoadingContext)
+    const navigate= useNavigate()
     useEffect( () => {
         (
             async function fetchMyGroups(){
@@ -67,20 +68,32 @@ export default function MyGroups(){
                 <option value= "desc">Descending</option>
 
             </select>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Group Name</th>
+                        <th>Description</th>
+                        <th>Joined At</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        myGroups.data.map( (group) => {
+                            return(
+                                <tr>
+                                    <td>{group.groupDetails?.[0]?.groupName}</td>
+                                    <td>{group.groupDetails?.[0]?.description}</td>
+                                    <td>{new Date(group.joinedAt).toLocaleDateString()}</td>
+                                    <td><button onClick= { () => {navigate(`/coach/habits/${group.groupDetails?.[0]?._id}`)}}>View Habits</button></td>
+                                </tr>
+                            )
+                        })
+                    }
+                </tbody>
+            </table>
 
-           <ul> { 
-                myGroups.data.map( (group) => {
-                      return (
-                        <div>
-                            <li>Group Name: {group.groupDetails?.[0]?.groupName}</li>
-                            <li>Description: {group.groupDetails?.[0]?.description}</li>
-                            <li>Joined At: {new Date(group.joinedAt).toLocaleDateString()}</li>
-                            <Link to={`/coach/habits/${group.groupDetails?.[0]?._id}`} >View Habits</Link>
-                        </div>
-                      )
-                })
-            }
-            </ul>
+           
             <button disabled= {myGroups.page===1} onClick={ () => {setMyGroups( {...myGroups, page: myGroups.page-1})}}>Previou</button>
             <span>{myGroups.page} of {myGroups.totalPages}</span>
             <button disabled= {myGroups.page===myGroups.totalPages} onClick={ () => {setMyGroups( {...myGroups, page: myGroups.page+1})}} >Next</button>

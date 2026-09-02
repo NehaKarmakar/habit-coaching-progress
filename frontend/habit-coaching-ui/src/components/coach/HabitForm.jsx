@@ -2,6 +2,8 @@ import {useState, useEffect, useContext} from "react"
 import axios from "../../config/axios"
 import HabitContext from "../../contexts/HabitContex"
 import LoadingContext from "../../contexts/loadingContext"
+
+import { toast } from "react-toastify"
 export default function HabitForm () {
     const [form, setForm] = useState( {
         title:"",
@@ -11,6 +13,7 @@ export default function HabitForm () {
         groupName: "",
        
     })
+   
   const {setLoading} = useContext(LoadingContext)
     const [serverError, setServerError] = useState("")
     const [resource, setResource] = useState(null)
@@ -43,7 +46,7 @@ export default function HabitForm () {
             return false
         }
         else if(!["Daily", "Weekly", "Monthly"].includes(form.frequency)){
-            setServerError("Frequency must be Daily, Weekly or  Monthly ")
+            setServerError("Frequency must be Daily, Weekly  ")
             return false
         }
         if(!form.difficulty.trim()) {
@@ -78,12 +81,13 @@ export default function HabitForm () {
               const fileResponse= await axios.post(`/api/habits/resource/${habit._id}`,data, {headers: {Authorization: localStorage.getItem("token")}})
               console.log(fileResponse.data)
               addHabit(fileResponse.data.data)
-              alert(response.data.message)
             }
             else{
-          addHabit(response.data.data)
-          alert(response.data.message)
+          addHabit(habit)
+          
             }
+            toast("Successfully added habit")
+           
            setForm({
             title: "",
             description: "",
@@ -93,6 +97,7 @@ export default function HabitForm () {
         });
 
         setServerError("");
+        
          
         }
         catch(err){
@@ -115,13 +120,15 @@ export default function HabitForm () {
                 const fileResponse= await axios.post(`/api/habits/resource/${editId}`,data, {headers: {Authorization: localStorage.getItem("token")}})
                 console.log(fileResponse.data)
                 editHabit(fileResponse.data.data)
-                alert(response.data.message)
+              
             }
             else{
-               editHabit(response.data.data)
-               alert(response.data.message)
+               editHabit(habit)
+               
             }
-            
+          setTimeout(() => {
+            window.location.reload()
+        }, 3000)
             setForm( {
                  title: "",
             description: "",
@@ -132,6 +139,10 @@ export default function HabitForm () {
             setServerError("")
             setResource(null)
             assignedEditId(null)
+           
+         toast("Successfully updated habit")
+            
+            
 
         }
         catch(err) {
@@ -149,19 +160,20 @@ export default function HabitForm () {
             return ele._id === editId
         })
         if(habits){
+            console.log("EDIT DATA:", habits)
             setForm(
                 {
-                    title: habits.title,
-                    description:habits.description,
-                    frequency:habits.frequency,
-                    difficulty:habits.difficulty,
-                    groupName:habits.groupName
+                    title: habits.title||"",
+                    description:habits.description||"",
+                    frequency:habits.frequency||"",
+                    difficulty:habits.difficulty||"",
+                    groupName:habits.group?.[0]?.groupName||"",
 
                 }
             )
         }
        }
-    },[editId, data])
+    },[editId])
     return(
         <div>
             {
@@ -209,7 +221,7 @@ export default function HabitForm () {
                     <input type= "file" onChange={(e) => {setResource(e.target.files[0])}} />
                 </label>
                 
-                <input type= "submit" value= "Add habit to the group"/>
+                <input type= "submit" />
             </form>
         </div>
     )

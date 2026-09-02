@@ -2,6 +2,7 @@ import {useState,useContext} from "react"
 import {useNavigate} from "react-router-dom"
 import LoadingContext from "../contexts/loadingContext"
 import axios from "axios"
+import { toast } from "react-toastify"
 export default function Register() {
     const [form, setForm] = useState( {
         name:"",
@@ -90,7 +91,7 @@ export default function Register() {
                      password: form.password
              })
             console.log(response.data.data)
-            alert(response.data.message)
+            toast("Registered Successsfully")
             setForm( {
                 name: "",
                 email: "",

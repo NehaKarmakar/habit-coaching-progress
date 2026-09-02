@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../config/axios";
+import { toast } from "react-toastify";
 const initialState= {
    
     serverError: "",
@@ -19,7 +20,9 @@ export const addGroup= createAsyncThunk("group/addGroup" ,
             const response= await axios.post("/api/groups", args.formData,
                  {headers: {Authorization: localStorage.getItem("token")}})
             console.log(response.data)
+            toast("Group successfully added")
             return response.data.data
+            
            
 
             
@@ -37,6 +40,7 @@ export const removeGroup = createAsyncThunk( "group/removeGroup" ,
         try{
             const response= await axios.delete(`/api/groups/${args.id}` , {headers: {Authorization: localStorage.getItem("token")}})
             if(response.data.success){
+               toast("Successfully deleted group")
                 return args.id
             }
             
@@ -54,6 +58,7 @@ export const editGroup = createAsyncThunk( "groups/editGroup" ,
         try{
             const  response= await axios.put(`/api/groups/${args.id}`, args.formData, {headers: {Authorization: localStorage.getItem("token")}})
             if(response.data.success){
+                toast("Successfully updated group")
                 return response.data.data
             }
 

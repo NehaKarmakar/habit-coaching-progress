@@ -1,5 +1,8 @@
 
 import Register from "./components/Register.jsx";
+import { ToastContainer } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
+
 import Login from "./components/Login.jsx";
 import MemberDashboard from "./components/MemberDashboard.jsx";
 import CoachDashboard from "./components/CoachDashboard.jsx";
@@ -32,7 +35,7 @@ function App() {
   const {dispatch, user, isLoggedIn, handleLogout} = useContext(AuthContext)
     return (
         <div>
-          
+             <ToastContainer />
             <h1>
                 Habit Coaching System
             </h1>

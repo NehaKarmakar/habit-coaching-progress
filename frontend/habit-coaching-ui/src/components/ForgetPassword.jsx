@@ -1,6 +1,7 @@
 import {useState,useContext} from "react"
 import axios from "../config/axios"
 import LoadingContext from "../contexts/loadingContext"
+import { toast } from "react-toastify"
 export default function ForgetPassword () {
     const [form, setForm] = useState( {
         email: "",
@@ -32,7 +33,7 @@ export default function ForgetPassword () {
         try{
             const response= await axios.post("/api/auth/forgetPassword", {email: form.email})
             console.log(response.data)
-            alert(response.data.message)
+            toast("Password reset link has been sent to your email.")
             setForm( {
                 email:"",
                 serverError: ""

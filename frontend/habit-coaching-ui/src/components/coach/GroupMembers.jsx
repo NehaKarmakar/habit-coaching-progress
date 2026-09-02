@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom"
 import axios from "../../config/axios"
 import LoadingContext from "../../contexts/loadingContext"
 import CoachSidebar from "../CoachSidebar"
+import {toast} from "react-toastify"
 export default function GroupMembers (){
     const [groupMembers, setGroupMembers] = useState( {
         data: [],
@@ -51,6 +52,7 @@ export default function GroupMembers (){
                
                
                   deleteMember(id)
+                  toast("Successfully deleted Member")
                
 
              }
@@ -66,24 +68,41 @@ export default function GroupMembers (){
               <CoachSidebar/>
             <h2>Group Members</h2>
             {groupMembers.serverError && <p> {groupMembers.serverError}</p>}
-
-
-            {
+             
+             <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Joined Date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                     {
                 groupMembers.data.map( (ele) =>{
                     return (
-                        <div>
-                            <h3>Name:{ele.member.name}</h3>
+                        
+                            <tr>
+                                <td>{ele.member.name}</td>
+                                <td>{ele.member.email}</td>
+                                <td>{ele.member.phone}</td>
+                                <td>{new Date(ele.joinedAt).toLocaleDateString()}</td>
+                                <td><button onClick={() => {handleDeleteMember(ele.member._id)}}>Delete Member</button></td>
+                            </tr>
+
                             
-                            <p>Email:{ele.member.email}</p>
-                            <p>Phone:{ele.member.phone}</p>
-                            <p>Role: {ele.member.role}</p>
-                            <p>Joined Date : {new Date(ele.joinedAt).toLocaleDateString()}</p>
-                            <button onClick={() => {handleDeleteMember(ele.member._id)}}>Delete Member</button>
-                        </div>
+                        
                     )
                 } )
             }
             
+                    
+                </tbody>
+             </table>
+
             
           
         </div>

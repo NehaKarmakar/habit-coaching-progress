@@ -4,6 +4,7 @@ import { useContext } from "react"
 import AuthContext from "../contexts/AuthContext"
 import { Link, useNavigate } from "react-router-dom"
 import LoadingContext from "../contexts/loadingContext"
+
 export default function Login() {
     const [form, setForm] = useState( {
         email: "",
@@ -53,6 +54,7 @@ export default function Login() {
         console.log("token", response.data.token)
         console.log("user", response.data.user)
         handleLogin(token,user)
+       
         setForm( {
             email:"",
             password:"",
