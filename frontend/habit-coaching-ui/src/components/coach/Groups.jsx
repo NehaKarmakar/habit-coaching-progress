@@ -67,8 +67,9 @@ export default function Groups() {
 
     
     return(
-        <div>
+        <div className="flex min-h-screen gap-8">
             <CoachSidebar/>
+            <div className="flex-1 p-6">
             <h2>Groups</h2>
           {
             serverError && <p> {serverError}</p>
@@ -94,23 +95,23 @@ export default function Groups() {
             
 
          
-            <table>
-                <thead>
+            <table className=" w-full border-collapse border">
+                <thead className="bg-blue-500 text-white">
                     <tr>
-                        <th>Group Name</th>
-                        <th>Description</th>
-                        <th>Actions</th>
+                        <th className="border border-black px-6 py-3 hover:bg-blue-900 scale-110 shadow-md">Group Name</th>
+                        <th className="border border-black px-6 py-3 hover:bg-blue-900 scale-110 shadow-md">Description</th>
+                        <th className="border border-black px-6 py-3 hover:bg-blue-900 scale-110 shadow-md">Actions</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody className="text-black">
                     
                         {
                             searchData.map( (group) => {
                                 return (
                                    <tr>
-                                    <td>{group.groupName}</td>
-                                    <td>{group.description}</td>
-                                    <td>
+                                    <td className="border border-black px-6 py-3 hover:bg-amber-200 scale-110">{group.groupName}</td>
+                                    <td className="border border-black px-6 py-3 hover:bg-amber-200 scale-110">{group.description}</td>
+                                    <td className="border border-black px-6 py-3 hover:scale-110">
                                         <button onClick= { () => {handleViewHabits(group._id)}}>View Habits</button>
                                         <button onClick= { () => {handleViewMembers(group._id)}}>View Members</button>
                                         <button onClick= { () => {handleEdit(group._id)}}>Edit</button>
@@ -147,7 +148,9 @@ export default function Groups() {
                 Next
             </button>
 
-           <GroupForm />
+          
+        </div>
+         <GroupForm className= "!w-80 p-6"/>
         </div>
     )
 }

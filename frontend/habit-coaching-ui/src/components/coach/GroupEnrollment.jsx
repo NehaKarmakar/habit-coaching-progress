@@ -57,17 +57,22 @@ export default function GroupEnrollment() {
 
     }
     return (
-        <div>
-           <CoachSidebar/>
-            <h3> Add Member</h3>
-            {form.serverError && <p>{form.serverError}</p>}
+        <div className="card">
+             <CoachSidebar/>
+        <div className="flex flex-col items-center gap-8 ">
+          
+            <h2 className="text-2xl font-semibold"> Add Member</h2>
+            {form.serverError && <p  className="text-xl font-semibold text-red-700">{form.serverError}</p>}
+            <div className="flex justify-center scale-110 ">
             <form onSubmit= {handleSubmit}>
                 
-                <label>Member Name: 
+                <label className="text-xl">Member Name: 
                     <input type= "text" name= "memberName" value= {form.memberName} onChange= {handleChange} placeholder=" Enter the Member Name"/>
                 </label>
-                <input type= "submit" value= "Add to the Group"/>
+                <input type= "submit" value= "Add to the Group" className="!w-full !bg-blue-600 !px-3 !py-2 !text-white !border-0 !rounded-lg !cursor-pointer hover:!bg-blue-700"/>
             </form>
+        </div>
+        </div>
         </div>
     )
 }

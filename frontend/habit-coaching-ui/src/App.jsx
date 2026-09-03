@@ -34,29 +34,29 @@ import UpdateProfile from "./components/updateProfile.jsx";
 function App() {
   const {dispatch, user, isLoggedIn, handleLogout} = useContext(AuthContext)
     return (
-        <div>
+        <div className= "min-h-screen bg-blue-50">
              <ToastContainer />
-            <h1>
+            <h1 className="text-2xl text-white font-semibold bg-indigo-900 p-6 text-center border-4 rounded-none hover:shadow-md">
                 Habit Coaching System
             </h1>
            
             {
     isLoggedIn ? (user.role === "coach" ? (
-             <div>
-                <ul>
-                    <li><Link to="/coach/dashboard">Dashboard</Link></li>
-                    <li><Link to="/profile">  Profile </Link> </li>
+             <div className="hover:shadow-md px-6 py-3">
+                <ul className="flex justify-end gap-2 text-xl">
+                    <li className="hover:scale-95 underline"><Link to="/coach/dashboard" >Dashboard</Link></li>|
+                    <li className="hover:scale-95 underline"><Link to="/profile" >  Profile </Link> </li>|
                     <button onClick={handleLogout}>Logout</button>
                 </ul>
               </div>
 
         ) : (
 
-            <div>
-                <ul>
-                    <li><Link to="/member/dashboard">Dashboard</Link></li>
-                    <li><Link to="/profile">  Profile </Link> </li>
-                    <button onClick={handleLogout}>Logout</button>
+            <div className="hover:shadow-md  px-6 py-3">
+                <ul className="flex justify-end gap-2 text-xl">
+                    <li className="hover:scale-95 underline "><Link to="/member/dashboard" >Dashboard</Link></li>|
+                    <li className="hover:scale-95 underline "><Link to="/profile" >  Profile </Link> </li>|
+                    <button onClick={handleLogout} >Logout</button>
                 </ul>
             </div>
 
@@ -64,12 +64,14 @@ function App() {
 
     ) : (
 
-        <div>
-            <ul>
-              <li><Link to= "/login">Login</Link></li>
-              <li><Link to= "/register">Register</Link></li>
+        <div className="hover:shadow-md px-6 py-3 ">
+            
+            <ul className="flex justify-end gap-4 text-xl">
+              <li className="hover:scale-95 underline "><Link to= "/login" >Login</Link></li> |
+              <li className="hover:scale-95 underline "><Link to= "/register" >Register</Link></li>
              
             </ul>
+            
         </div>
     )
 } 

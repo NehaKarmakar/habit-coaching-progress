@@ -175,9 +175,10 @@ export default function HabitForm () {
        }
     },[editId])
     return(
-        <div>
+        <div className="card">
+        <div className="flex flex-col items-center gap-8 ">
             {
-                editId ? <h2>Edit Habit</h2> : <h2>Add Habit</h2>
+                editId ? <h2 className="text-2xl font-semibold">Edit Habit</h2> : <h2 className="text-2xl font-semibold">Add Habit</h2>
             }
             {
                 editId && <button onClick= { () => 
@@ -193,36 +194,39 @@ export default function HabitForm () {
 
                 }}>Cancel Edit</button>
             }
-            {serverError && <p> {serverError}</p>}
+            {serverError && <p className="text-xl font-semibold text-red-700"> {serverError}</p>}
+            <div className="flex justify-center scale-110 ">
             <form onSubmit= {handleSubmit}>
-                <label>
+                <label className="text-xl">
                     Title: 
-                    <input type= "text" name= "title" value= {form.title} onChange={handleChange} placeholder="Enter the habit title" required>
+                    <input type= "text" name= "title" value= {form.title} onChange={handleChange} placeholder="Enter the habit title" >
                     </input>
                 </label>
-                <label>
+                <label className="text-xl">
                     Description:
                     <input type="text" name= "description" value= {form.description} onChange= {handleChange} placeholder= "Enter the description of the form">
                 </input>
-                </label>
-                <label>
+                </label >
+                <label className="text-xl">
                     Frequency:
-                    <input type= "text" name= "frequency" value={form.frequency} onChange= {handleChange} placeholder=" Daily , Weekly" required></input>
+                    <input type= "text" name= "frequency" value={form.frequency} onChange= {handleChange} placeholder=" Daily , Weekly" ></input>
                 </label>
-                <label>
+                <label className="text-xl">
                     Difficulty:
-                    <input type= "text" name= "difficulty" value= {form.difficulty} onChange= {handleChange} placeholder="Easy, Medium, Hard" required></input>
+                    <input type= "text" name= "difficulty" value= {form.difficulty} onChange= {handleChange} placeholder="Easy, Medium, Hard" ></input>
                 </label>
-                <label>
+                <label className="text-xl">
                     Group Name:
-                    <input type= "text" name= "groupName" value= {form.groupName} onChange= {handleChange} placeholder="Enter the group name" required></input>
+                    <input type= "text" name= "groupName" value= {form.groupName} onChange= {handleChange} placeholder="Enter the group name"></input>
                 </label>
-                <label>Resource:
-                    <input type= "file" onChange={(e) => {setResource(e.target.files[0])}} />
+                <label className="text-xl">Resource:
+                    <input type= "file" onChange={(e) => {setResource(e.target.files[0])}}  className="file-input" />
                 </label>
                 
-                <input type= "submit" />
+                <input type= "submit"  className="!w-full !bg-blue-600 !px-3 !py-2 !text-white !border-0 !rounded-lg !cursor-pointer hover:!bg-blue-700" />
             </form>
+        </div>
+        </div>
         </div>
     )
 }

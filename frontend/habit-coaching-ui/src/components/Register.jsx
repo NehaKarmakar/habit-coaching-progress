@@ -133,31 +133,35 @@ export default function Register() {
     }
 
     return(
-        <div>
-            <h2>Register</h2>
+         <div className="card">
+        <div className="flex flex-col items-center gap-8 ">
+            <h2 className="text-2xl font-semibold">Register</h2>
             {
-                form.serverError && <p>{form.serverError}</p>
+                form.serverError && <p className="text-xl font-semibold text-red-700">{form.serverError}</p>
             }
-            <form onSubmit= {handleSubmit}>
+            <div className="flex justify-center scale-110 ">
+            <form onSubmit= {handleSubmit} >
               
-               <label>Username: 
+               <label className="text-xl">Username: 
                 <input type= "text" name="name" value= {form.name} onChange= {handleChange} onBlur= {handleCheck}/> 
-                {form.checkError.field=== "name" && <span>Username already taken</span>}
-                <br/><br/>
+                {form.checkError.field=== "name" && <span className="text-xl font-semibold text-red-700">Username already taken</span>}
+                
                 </label>
-              <label>Email:
+              <label className="text-xl">Email:
                 <input type= "email" name= "email" value= {form.email} onChange= {handleChange} onBlur= {handleCheck}/>
-                {form.checkError.field=== "email" && <span>Email is already taken</span>}
-                <br/><br/>
+                {form.checkError.field=== "email" && <span className="text-xl font-semibold text-red-700">Email is already taken</span>}
+                
                 </label>
-                <label> Phone:
+                <label className="text-xl"> Phone:
                     <input type= "text" name= "phone" value= {form.phone} onChange= {handleChange}/>
                 </label>
-              <label>Password:
+              <label className="text-xl">Password:
                 <input type= "password" name= "password" value= {form.password} onChange= {handleChange}/><br/><br/>
                 </label>
-                <input type= "submit" value= "register"/>
+                <input type= "submit" value= "register" className="!w-full !bg-blue-600 !px-3 !py-2 !text-white !border-0 !rounded-lg !cursor-pointer hover:!bg-blue-700"/>
             </form>
+        </div>
+        </div>
         </div>
     )
 }

@@ -4,6 +4,7 @@ import { useContext } from "react"
 import AuthContext from "../contexts/AuthContext"
 import { Link, useNavigate } from "react-router-dom"
 import LoadingContext from "../contexts/loadingContext"
+import { toast } from "react-toastify"
 
 export default function Login() {
     const [form, setForm] = useState( {
@@ -15,7 +16,7 @@ export default function Login() {
     const {handleLogin} = useContext(AuthContext)
     const handleChange= (e) => {
         const {name, value} = e.target
-        setForm( {...form , [name] : value})
+        setForm( {...form , [name] : value, serverError:""})
     }
 
     const formValidations = () =>{
@@ -60,6 +61,7 @@ export default function Login() {
             password:"",
             serverError:""
         })
+        toast("Login Successfull")
 
        }
        catch(err){
@@ -72,21 +74,25 @@ export default function Login() {
 
     }
     return(
-        <div>
-            <h2>Login Component</h2>
+        <div className="card">
+        <div className="flex flex-col items-center gap-8 ">
+            <h2 className="text-2xl font-semibold">Login Form</h2>
             {
-                form.serverError && <p> {form.serverError}</p>
+                form.serverError && <p className="text-xl font-semibold text-red-700"> {form.serverError}</p>
             }
+            <div className="flex justify-center scale-110 ">
             <form onSubmit= {handleSubmit}>
-                <label>Email: 
-                    <input type= "email" name= "email"value={form.email} onChange= {handleChange} />
-                    </label> <br/><br/>
-                <label>Password: 
+                <label className="text-xl">Email: 
+                    <input type= "email" name= "email"value={form.email} onChange= {handleChange}/>
+                    </label>
+                <label className="text-xl">Password: 
                     <input type= "password" name= "password" value={form.password} onChange={handleChange} />
-                </label><br/><br/>
-                <Link to ="/user/forgetPassword">Forget Password</Link>
-                <input type= "submit" value="login"/>
+                </label>
+                <Link to ="/user/forgetPassword" >Forget Password?</Link>
+                <input type= "submit" value="login"  className="!w-full !bg-blue-600 !px-3 !py-2 !text-white !border-0 !rounded-lg !cursor-pointer hover:!bg-blue-700"/>
             </form>
+            </div>
+        </div>
         </div>
     )
 }

@@ -70,25 +70,29 @@ const handleSubmit= (e) => {
    
 }
 return(
-    <div>
+    <div className="card">
+    <div className="flex flex-col items-center gap-8">
         {
-            editId ? <h2>Edit Group</h2> : <h2>Add Group</h2>
+            editId ? <h2 className="text-2xl font-semibold">Edit Group</h2> : <h2 className="text-2xl font-semibold">Add Group</h2>
         }
         {
             editId && <button onClick= {() => {dispatch(assignedEditId(null))}}>Cancel edit</button>
         }
-        {serverError && <p>{serverError}</p>}
-        {checkError && <p> {checkError}</p>}
+        {serverError && <p className="text-xl font-semibold text-red-700" >{serverError}</p>}
+        {checkError && <p className="text-xl font-semibold text-red-700"> {checkError}</p>}
+        <div className="flex justify-center scale-110 ">
         <form onSubmit= {handleSubmit}>
-            <label>Title:
+            <label className="text-xl">Title:
             <input type= "text" name= "groupName" value= {form.groupName} onChange= {handleChange}/>
             </label>
-            <label>Description: 
+            <label className="text-xl">Description: 
                 <input type= "text" name= "description" value= {form.description} onChange= {handleChange}/>
             </label>
-            <input type= "submit" />
+            <input type= "submit" className="!w-full !bg-blue-600 !px-3 !py-2 !text-white !border-0 !rounded-lg !cursor-pointer hover:!bg-blue-700" />
         </form>
 
+    </div>
+    </div>
     </div>
 )
 }

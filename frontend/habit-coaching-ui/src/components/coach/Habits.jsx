@@ -98,13 +98,13 @@ export default function Habits (){
         }
     }
     return(
-        <div>
+        <div className="flex min-h-screen gap-4">
             <CoachSidebar/>
             <h2> Habits</h2>
             {
                 habits.serverError && <p> {habits.serverError}</p>
             }
-           
+         <div>  
         <h2>Habit Table</h2>
         <input type= "text" value= {habits.search} onChange= { (e) => {setHabits({...habits, search: e.target.value, page: 1})}} placeholder="Search by title"/>
         <select value= {habits.sort} onChange={ (e) => {setHabits( {...habits, sort: e.target.value, page: 1})}}>
@@ -183,6 +183,6 @@ export default function Habits (){
             <HabitForm/>
           </HabitContext.Provider>
         </div>
-        
+        </div>
     )
 }

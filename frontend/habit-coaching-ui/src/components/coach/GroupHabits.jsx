@@ -37,33 +37,34 @@ export default function GroupHabits() {
         return <p>Loading...</p>
     }
     return(
-        <div>
+        
+        <div className="flex min-h-screen gap-4">
             {user?.role==="coach" ?  <CoachSidebar/> : <MemberSidebar/> }
-          
-            <h2> Group Habits</h2>
-            {groupHabits.serverError && <p> {groupHabits.serverError}</p>}
-           
-            <table>
-                <thead>
+            <div className="flex-1 p-8">
+            <h2 className="text-2xl font-semibold text-center"> Group Habits</h2> <br/>
+            {groupHabits.serverError && <p className="text-xl font-semibold text-red-700"> {groupHabits.serverError}</p>} <br/>
+            <div className="card">
+            <table className=" w-full border-collapse border">
+                <thead className="bg-blue-500 text-white">
                     <tr>
-                        <th>Title</th>
-                        <th>Description</th>
-                        <th>Frequency</th>
-                        <th>Difficulty</th>
-                        <th>Resource</th>
+                        <th className="border border-black px-6 py-3 hover:bg-blue-900 scale-110 shadow-md">Title</th>
+                        <th className="border border-black px-6 py-3 hover:bg-blue-900 scale-110 shadow-md">Description</th>
+                        <th className="border border-black px-6 py-3 hover:bg-blue-900 scale-110 shadow-md ">Frequency</th>
+                        <th className="border border-black px-6 py-3 hover:bg-blue-900 scale-110 shadow-md">Difficulty</th>
+                        <th className="border border-black px-6 py-3 hover:bg-blue-900 scale-110 shadow-md">Resource</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody className="text-black">
                     {
                         groupHabits.data.map( (habit) => {
                       return(
-                      <tr key= {habit._id}>
-                        <td>{habit.title}</td>
-                        <td>{habit.description}</td>
-                        <td>{habit.frequency}</td>
-                        <td>{habit.difficulty}</td>
-                        <td>{habit.resource}</td>
-                        <td>
+                      <tr key= {habit._id} >
+                        <td className="border border-black px-6 py-3  hover:bg-amber-200 scale-110">{habit.title}</td>
+                        <td className="border border-black  px-6 py-3 hover:bg-amber-200 scale-110">{habit.description}</td>
+                        <td className="border border-black  px-6 py-3 hover:bg-amber-200 scale-110">{habit.frequency}</td>
+                        <td className="border border-black  px-6 py-3 hover:bg-amber-200 scale-110">{habit.difficulty}</td>
+                        
+                        <td className="border border-black px-6 py-3 hover:bg-amber-200 scale-110">
                 {habit.resourceUrl ? (
                     <a
                         href={habit.resourceUrl}
@@ -87,6 +88,8 @@ export default function GroupHabits() {
                     
                 </tbody>
             </table>
+        </div>
+        </div>
         </div>
     )
 }

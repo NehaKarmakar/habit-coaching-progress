@@ -64,33 +64,34 @@ export default function GroupMembers (){
     
     
     return(
-        <div>
+        <div  className="flex min-h-screen gap-4">
               <CoachSidebar/>
-            <h2>Group Members</h2>
-            {groupMembers.serverError && <p> {groupMembers.serverError}</p>}
-             
-             <table>
-                <thead>
+              <div className="flex-1 p-8">
+            <h2 className="text-2xl font-semibold text-center">Group Members</h2>
+            {groupMembers.serverError && <p className="text-xl font-semibold text-red-700"> {groupMembers.serverError}</p>}
+             <div className="card">
+             <table className=" w-full border-collapse border">
+                <thead className="bg-blue-500 text-white">
                     <tr>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                        <th>Joined Date</th>
-                        <th>Action</th>
+                        <th className="border border-black px-6 py-3 hover:bg-blue-900 scale-110 shadow-md">Name</th>
+                        <th className="border border-black px-6 py-3 hover:bg-blue-900 scale-110 shadow-md">Email</th>
+                        <th className="border border-black px-6 py-3 hover:bg-blue-900 scale-110 shadow-md">Phone</th>
+                        <th className="border border-black px-6 py-3 hover:bg-blue-900 scale-110 shadow-md">Joined Date</th>
+                        <th className="border border-black px-6 py-3 hover:bg-blue-900 scale-110 shadow-md">Action</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody className="text-black">
                     
                      {
                 groupMembers.data.map( (ele) =>{
                     return (
                         
                             <tr>
-                                <td>{ele.member.name}</td>
-                                <td>{ele.member.email}</td>
-                                <td>{ele.member.phone}</td>
-                                <td>{new Date(ele.joinedAt).toLocaleDateString()}</td>
-                                <td><button onClick={() => {handleDeleteMember(ele.member._id)}}>Delete Member</button></td>
+                                <td className="border border-black px-6 py-3  hover:scale-110">{ele.member.name}</td>
+                                <td className="border border-black px-6 py-3  hover:scale-110">{ele.member.email}</td>
+                                <td className="border border-black px-6 py-3  hover:scale-110">{ele.member.phone}</td>
+                                <td className="border border-black px-6 py-3  hover:scale-110">{new Date(ele.joinedAt).toLocaleDateString()}</td>
+                                <td className="border border-black px-6 py-3  hover:scale-110"><button onClick={() => {handleDeleteMember(ele.member._id)}}>Delete Member</button></td>
                             </tr>
 
                             
@@ -103,8 +104,8 @@ export default function GroupMembers (){
                 </tbody>
              </table>
 
-            
-          
+          </div>  
+         </div> 
         </div>
     )
 }
