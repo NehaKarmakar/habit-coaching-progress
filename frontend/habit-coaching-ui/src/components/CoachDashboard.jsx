@@ -38,32 +38,63 @@ export default function CoachDashboard () {
        return <p>Loding...</p>
     }
     return( 
-        <div>
+        <div className="flex min-h-screen gap-8">
             <CoachSidebar/>
+        <div className="flex-1 p-6">
+        <h2 className="font-semibold text-center">Welcome {user.name} !</h2> <br/>
+         {
+                coachDashboard.serverError && <p className="text-xl font-semibold text-red-700"> {coachDashboard.serverError}</p>
+            }<br/>
 
-        <h2>Welcome {user.name} !</h2>
-        <ul>
+             <div className="hover:scale-95 border-xl shadow-md bg-blue-950 text-white p-4 m-2">
+               <h3 className="text-center font-semibold "> Quote: {coachDashboard.data.motivationalQuote?.content}  -
+                 {coachDashboard.data.motivationalQuote?.author}</h3>
+                 </div>
+            <div className="grid grid-cols-3 gap-6 mt-6 max-w-4xl mx-auto">
+        
             
-            <li>Motivation Quote : </li>
-                <li>Quote: {coachDashboard.data.motivationalQuote?.content}</li>
-                <li>Author: {coachDashboard.data.motivationalQuote?.author}</li>
-            <li> Groups: {coachDashboard.data.totalGroups} </li>
-            <li> Members: {coachDashboard.data.totalMembers} </li>
-            <li> Habits: {coachDashboard.data.totalHabits}</li>
-            <li> DailyProgress: {coachDashboard.data.totalDailyProgress}</li>
-            <li> WeeklyProgress: {coachDashboard.data.totalWeeklyProgress}</li>
-            <li> MonthlyProgress: {coachDashboard.data.totalMonthlyProgress}</li>
-            <li>Daily Chart</li>
+
+            <div className="card bg-blue-100 border rounded-lg  p-6   hover:bg-fuchsia-200 scale-95 shadow-md">
+            <h3 className="font-semibold text-center"> Groups :  {coachDashboard.data.totalGroups} </h3>
+            </div>
+
+            <div className="card bg-blue-100 border rounded-lg  p-6   hover:bg-fuchsia-200 scale-95 shadow-md">
+            <h3 className="font-semibold text-center"> Members:  {coachDashboard.data.totalMembers} </h3>
+            </div>
+
+            <div className="card  bg-blue-100 border rounded-lg  p-6   hover:bg-fuchsia-200 scale-95 shadow-md">
+            <h3 className="font-semibold text-center"> Habits:  {coachDashboard.data.totalHabits}</h3>
+            </div>
+
+            <div className="card bg-blue-100 border rounded-lg  p-6   hover:bg-fuchsia-200 scale-95 shadow-md">
+            <h3 className="font-semibold text-center"> DailyProgress:  {coachDashboard.data.totalDailyProgress}</h3>
+            </div>
+
+            <div className="card bg-blue-100 border rounded-lg  p-6   hover:bg-fuchsia-200 scale-95 shadow-md">
+            <h3 className="font-semibold text-center"> WeeklyProgress:  {coachDashboard.data.totalWeeklyProgress}</h3>
+            </div>
+
+            <div className="card bg-blue-100 border rounded-lg  p-6   hover:bg-fuchsia-200 scale-95 shadow-md">
+            <h3 className="font-semibold text-center"> MonthlyProgress:  {coachDashboard.data.totalMonthlyProgress}</h3>
+            </div>
             
-            <LineChart width={400} height={300} data={coachDashboard.data?.dailyChart}>
+         </div>
+            <br/><br/>
+             <h3 className="font-semibold text-center">Daily Progress Chart</h3> <br/>
+            <div className="flex justify-center gap-4">
+             
+            <LineChart width={400} height={300} data={coachDashboard.data?.dailyChart} className=" bg-blue-100 border rounded-lg  p-6  hover:bg-fuchsia-200 scale-95 shadow-md">
+               
                 <XAxis dataKey="_id" />
                 <YAxis/>
                 <Tooltip />
                 <Line dataKey="completed" />
             </LineChart>
-        </ul>
-         
-        
+            
+
+            
+         </div>
+        </div>
         </div>
     )
 }

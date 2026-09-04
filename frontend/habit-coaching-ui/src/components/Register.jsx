@@ -143,20 +143,20 @@ export default function Register() {
             <form onSubmit= {handleSubmit} >
               
                <label className="text-xl">Username: 
-                <input type= "text" name="name" value= {form.name} onChange= {handleChange} onBlur= {handleCheck}/> 
+                <input type= "text" name="name" value= {form.name} onChange= {handleChange} onBlur= {handleCheck} placeholder="Username must be unique"/> 
                 {form.checkError.field=== "name" && <span className="text-xl font-semibold text-red-700">Username already taken</span>}
                 
                 </label>
               <label className="text-xl">Email:
-                <input type= "email" name= "email" value= {form.email} onChange= {handleChange} onBlur= {handleCheck}/>
+                <input type= "email" name= "email" value= {form.email} onChange= {handleChange} onBlur= {handleCheck} placeholder="Enter your email"/>
                 {form.checkError.field=== "email" && <span className="text-xl font-semibold text-red-700">Email is already taken</span>}
                 
                 </label>
-                <label className="text-xl"> Phone:
-                    <input type= "text" name= "phone" value= {form.phone} onChange= {handleChange}/>
+                <label className="text-xl"> Phone No. :
+                    <input type= "text" name= "phone" value= {form.phone} onChange= {handleChange} placeholder="Enter your phone number"/>
                 </label>
               <label className="text-xl">Password:
-                <input type= "password" name= "password" value= {form.password} onChange= {handleChange}/><br/><br/>
+                <input type= "password" name= "password" value= {form.password} onChange= {handleChange} placeholder="Enter your password"/><br/><br/>
                 </label>
                 <input type= "submit" value= "register" className="!w-full !bg-blue-600 !px-3 !py-2 !text-white !border-0 !rounded-lg !cursor-pointer hover:!bg-blue-700"/>
             </form>

@@ -48,44 +48,55 @@ export default function MyGroups(){
         )()
     },[myGroups.search, myGroups.page, myGroups.sort, myGroups.order])
     return(
-        <div>
+        <div className="flex min-h-screen gap-8">
          
             <MemberSidebar/>
+            <div className="flex-1 p-6">
+                <h2 className="text-2xl font-semibold text-center"> My Groups</h2>
             {
-                serverError && <p> {serverError}</p>
+                serverError && <p className="text-xl font-semibold text-red-700"> {serverError}</p>
                 
-            } <h2> My Groups</h2>
-            <input type="text" name= "search" value= {myGroups.search} onChange= { (e) => { setMyGroups( {...myGroups, search: e.target.value, page:1})}} placeholder="Search by group name"/>
+            } <br/>
+
+            <input type="text" name= "search" value= {myGroups.search} onChange= { (e) => { setMyGroups( {...myGroups, search: e.target.value, page:1})}} placeholder="Search by group name"/><br/>
+
+             <label className=" font-semibold m-3 p-4">Sort By: 
             <select value= {myGroups.sort} onChange= { (e) => { setMyGroups( {...myGroups, sort: e.target.value, page:1})}}>
                 <option value= "">Select</option>
                 <option value= "joinedAt">Joined At</option>
                 <option value= "groupName">Group Name</option>
 
             </select>
+            </label>
+
+            <label className="font-semibold m-3 p-4">Order:
             <select value= {myGroups.order} onChange= { (e) => {setMyGroups( {...myGroups, order:e.target.value, page:1})}}>
                 <option value= "">Select</option>
                 <option value= "asc">Ascending</option>
                 <option value= "desc">Descending</option>
 
             </select>
-            <table>
-                <thead>
+            </label>
+             
+             <br/> <br/>
+            <table className=" w-full border-collapse border">
+                <thead className="bg-blue-500 text-white">
                     <tr>
-                        <th>Group Name</th>
-                        <th>Description</th>
-                        <th>Joined At</th>
-                        <th>Actions</th>
+                        <th className="border border-black px-6 py-3 hover:bg-blue-900 scale-110 shadow-md">Group Name</th>
+                        <th className="border border-black px-6 py-3 hover:bg-blue-900 scale-110 shadow-md">Description</th>
+                        <th className="border border-black px-6 py-3 hover:bg-blue-900 scale-110 shadow-md">Joined At</th>
+                        <th className="border border-black px-6 py-3 hover:bg-blue-900 scale-110 shadow-md">Actions</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody className="text-black "> 
                     {
                         myGroups.data.map( (group) => {
                             return(
                                 <tr>
-                                    <td>{group.groupDetails?.[0]?.groupName}</td>
-                                    <td>{group.groupDetails?.[0]?.description}</td>
-                                    <td>{new Date(group.joinedAt).toLocaleDateString()}</td>
-                                    <td><button onClick= { () => {navigate(`/coach/habits/${group.groupDetails?.[0]?._id}`)}}>View Habits</button></td>
+                                    <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{group.groupDetails?.[0]?.groupName}</td>
+                                    <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{group.groupDetails?.[0]?.description}</td>
+                                    <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{new Date(group.joinedAt).toLocaleDateString()}</td>
+                                    <td className="border border-black px-6 py-3 text-center hover:scale-110"><button onClick= { () => {navigate(`/coach/habits/${group.groupDetails?.[0]?._id}`)}}>View Habits</button></td>
                                 </tr>
                             )
                         })
@@ -93,10 +104,12 @@ export default function MyGroups(){
                 </tbody>
             </table>
 
-           
+            <div className="flex justify-center items-center gap-10 mt-10">
             <button disabled= {myGroups.page===1} onClick={ () => {setMyGroups( {...myGroups, page: myGroups.page-1})}}>Previou</button>
             <span>{myGroups.page} of {myGroups.totalPages}</span>
             <button disabled= {myGroups.page===myGroups.totalPages} onClick={ () => {setMyGroups( {...myGroups, page: myGroups.page+1})}} >Next</button>
+        </div>
+        </div>
         </div>
     )
 }

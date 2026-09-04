@@ -73,9 +73,9 @@ export default function GroupMembers (){
              <table className=" w-full border-collapse border">
                 <thead className="bg-blue-500 text-white">
                     <tr>
-                        <th className="border border-black px-6 py-3 hover:bg-blue-900 scale-110 shadow-md">Name</th>
+                        <th className="border border-black px-6 py-3 hover:bg-blue-900 scale-110 shadow-md">Username</th>
                         <th className="border border-black px-6 py-3 hover:bg-blue-900 scale-110 shadow-md">Email</th>
-                        <th className="border border-black px-6 py-3 hover:bg-blue-900 scale-110 shadow-md">Phone</th>
+                        <th className="border border-black px-6 py-3 hover:bg-blue-900 scale-110 shadow-md">Phone No.</th>
                         <th className="border border-black px-6 py-3 hover:bg-blue-900 scale-110 shadow-md">Joined Date</th>
                         <th className="border border-black px-6 py-3 hover:bg-blue-900 scale-110 shadow-md">Action</th>
                     </tr>
@@ -87,11 +87,11 @@ export default function GroupMembers (){
                     return (
                         
                             <tr>
-                                <td className="border border-black px-6 py-3  hover:scale-110">{ele.member.name}</td>
-                                <td className="border border-black px-6 py-3  hover:scale-110">{ele.member.email}</td>
-                                <td className="border border-black px-6 py-3  hover:scale-110">{ele.member.phone}</td>
-                                <td className="border border-black px-6 py-3  hover:scale-110">{new Date(ele.joinedAt).toLocaleDateString()}</td>
-                                <td className="border border-black px-6 py-3  hover:scale-110"><button onClick={() => {handleDeleteMember(ele.member._id)}}>Delete Member</button></td>
+                                <td className="border border-black px-6 py-3  text-center hover:scale-110">{ele.member.name}</td>
+                                <td className="border border-black px-6 py-3  text-center hover:scale-110">{ele.member.email}</td>
+                                <td className="border border-black px-6 py-3  text-center  hover:scale-110">{ele.member.phone}</td>
+                                <td className="border border-black px-6 py-3  text-center hover:scale-110">{new Date(ele.joinedAt).toLocaleDateString()}</td>
+                                <td className="border border-black px-6 py-3  text-center hover:scale-110"><button onClick={() => {handleDeleteMember(ele.member._id)}}>Delete Member</button></td>
                             </tr>
 
                             

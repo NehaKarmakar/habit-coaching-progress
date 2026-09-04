@@ -100,6 +100,9 @@ const groupSlice = createSlice( {
     reducers: {
         assignedEditId: (state, action) => {
             state.editId = action.payload
+        },
+        removeServerError: (state,action) => {
+            state.serverError=""
         }
     
     
@@ -181,5 +184,5 @@ const groupSlice = createSlice( {
 
     }
 })
-export const {assignedEditId} = groupSlice.actions
+export const {assignedEditId, removeServerError} = groupSlice.actions
 export default groupSlice.reducer

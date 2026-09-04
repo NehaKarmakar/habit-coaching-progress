@@ -34,33 +34,36 @@ export default function MemberGroups (){
     },[])
 
      return(
-        <div>
+        <div className="flex min-h-screen gap-8">
               <CoachSidebar/>
-            <h2>Members Group</h2>
-            {memberGroups.serverError && <p> {memberGroups.serverError}</p>}
-            
-            <table>
-                <thead>
+              <div className="flex-1 p-4">
+            <h2 className="text-2xl font-semibold text-center">Members Group</h2>
+            {memberGroups.serverError && <p className="text-xl font-semibold text-red-700"> {memberGroups.serverError}</p>}
+            <div className="card">
+            <table className=" w-full  border-collapse border">
+                <thead className="bg-blue-500 text-white">
                     <tr>
-                    <th>Group Name</th>
-                    <th>Description</th>
-                    <th>Joined At</th>
+                    <th className="border border-black px-6 py-3 hover:bg-blue-900 scale-110 shadow-md">Group Name</th>
+                    <th className="border border-black px-6 py-3 hover:bg-blue-900 scale-110 shadow-md">Description</th>
+                    <th className="border border-black px-6 py-3 hover:bg-blue-900 scale-110 shadow-md">Joined At</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody className="text-black">
                     {
                         memberGroups.data.map( (ele) => {
                             return(
                                 <tr>
-                                    <td>{ele.group.groupName}</td>
-                                    <td>{ele.group.description}</td>
-                                    <td>{new Date(ele.joinedAt).toLocaleDateString()}</td>
+                                    <td className="border border-black px-6 py-3 text-center  hover:bg-amber-200 scale-110">{ele.group.groupName}</td>
+                                    <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{ele.group.description}</td>
+                                    <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{new Date(ele.joinedAt).toLocaleDateString()}</td>
                                 </tr>
                             )
                         })
                     }
                 </tbody>
             </table>  
+        </div>
+        </div>
         </div>
     )
 }

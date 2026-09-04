@@ -59,10 +59,10 @@ export default function GroupHabits() {
                         groupHabits.data.map( (habit) => {
                       return(
                       <tr key= {habit._id} >
-                        <td className="border border-black px-6 py-3  hover:bg-amber-200 scale-110">{habit.title}</td>
-                        <td className="border border-black  px-6 py-3 hover:bg-amber-200 scale-110">{habit.description}</td>
-                        <td className="border border-black  px-6 py-3 hover:bg-amber-200 scale-110">{habit.frequency}</td>
-                        <td className="border border-black  px-6 py-3 hover:bg-amber-200 scale-110">{habit.difficulty}</td>
+                        <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{habit.title}</td>
+                        <td className="border border-black  px-6 py-3 text-center hover:bg-amber-200 scale-110">{habit.description}</td>
+                        <td className="border border-black  px-6 py-3 text-center hover:bg-amber-200 scale-110">{habit.frequency}</td>
+                        <td className="border border-black  px-6 py-3 text-center hover:bg-amber-200 scale-110">{habit.difficulty}</td>
                         
                         <td className="border border-black px-6 py-3 hover:bg-amber-200 scale-110">
                 {habit.resourceUrl ? (

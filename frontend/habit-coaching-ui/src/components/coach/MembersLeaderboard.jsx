@@ -47,45 +47,57 @@ export default function MembersLeaderboard() {
 
     },[leaderboard.search, leaderboard.page, leaderboard.sort, leaderboard.order])
     return(
-        <div>
-            <h2>  Leaderboard</h2>
+        <div className="flex min-h-screen gap-8">
+            
             {
             user?.role==="coach" ?  <CoachSidebar/> : <MemberSidebar/>
             }
+             <div className="flex-1 p-6">
+            <h2 className="text-2xl font-semibold text-center">  Leaderboard</h2>
            
             {
-                serverError && <p> {serverError}</p>
+                serverError && <p className="text-xl font-semibold text-red-700"> {serverError}</p>
             }
-            <input type="text" value= {leaderboard.search} onChange= { (e) => { setLeaderboard( {...leaderboard, search: e.target.value, page:1})}} placeholder="Search by member name" />
+            <br/>
+
+            <input type="text" value= {leaderboard.search} onChange= { (e) => { setLeaderboard( {...leaderboard, search: e.target.value, page:1})}} placeholder="Search by member name" /><br/>
+
+            <label className=" font-semibold m-3 p-4">Sort By: 
             <select value= {leaderboard.sort} onChange= { (e) => {setLeaderboard( {...leaderboard, sort: e.target.value, page:1}) }}>
               <option value= "">Select</option>
               <option value= "name">Name</option>
               <option value= "completedHabit">Completed Habits</option>
             </select>
+            </label>
+
+             <label className="font-semibold m-3 p-4">Order:
             <select value= {leaderboard.order} onChange= { (e) => {setLeaderboard( {...leaderboard, order: e.target.value, page:1})}}>
                   <option value= "">Select</option>
                   <option value= "desc"> Descending</option>
                   <option value= "asc">Ascending</option>
             </select>
-            <table>
-                <thead>
+            </label>
+            
+            <br/><br/>
+            <table className=" w-full border-collapse border">
+                <thead className="bg-blue-500 text-white">
                     <tr>
-                        <th>Rank</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Completed Habits</th>
+                        <th className="border border-black px-6 py-3 hover:bg-blue-900 scale-110 shadow-md">Rank</th>
+                        <th className="border border-black px-6 py-3 hover:bg-blue-900 scale-110 shadow-md">Username</th>
+                        <th className="border border-black px-6 py-3 hover:bg-blue-900 scale-110 shadow-md">Email</th>
+                        <th className="border border-black px-6 py-3 hover:bg-blue-900 scale-110 shadow-md">Completed Habits</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody className="text-black ">
                     {
                         leaderboard.data.map( (ele) => {
                             return(
                                 
                                     <tr>
-                                        <td>{ele.rank}</td>
-                                        <td>{ele.name}</td>
-                                        <td>{ele.email}</td>
-                                        <td>{ele.completedHabit}</td>
+                                        <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{ele.rank}</td>
+                                        <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{ele.name}</td>
+                                        <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{ele.email}</td>
+                                        <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{ele.completedHabit}</td>
                                     </tr>
                                 
                             )
@@ -93,9 +105,13 @@ export default function MembersLeaderboard() {
                     }
                 </tbody>
             </table>
+
+             <div className="flex justify-center items-center gap-10 mt-10">
             <button disabled= {leaderboard.page===1} onClick= {() => {setLeaderboard( {...leaderboard, page: leaderboard.page-1})}}>Previous</button>
             <span> {leaderboard.page} of {leaderboard.totalPages}</span>
             <button disabled= {leaderboard.page===leaderboard.totalPages} onClick= {() => {setLeaderboard( {...leaderboard, page: leaderboard.page+1})}}>Next</button>
+        </div>
+        </div>
         </div>
     )
 }

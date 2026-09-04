@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react"
 import {Link, useNavigate} from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
-import {removeGroup,assignedEditId , searchSortPagination} from "../../slices/groupSlice"
+import {removeGroup,assignedEditId , searchSortPagination , removeServerError} from "../../slices/groupSlice"
 import GroupForm from "./GroupForm"
 import CoachSidebar from "../CoachSidebar"
 
@@ -41,6 +41,7 @@ export default function Groups() {
     const handleChange= (e) => {
         setSearch(e.target.value)
         setPage(1)
+        
     }
     const handleDelete= (groupId) => {
         const confirmation = window.confirm("Are you sure want to delete the group?")
@@ -70,30 +71,34 @@ export default function Groups() {
         <div className="flex min-h-screen gap-8">
             <CoachSidebar/>
             <div className="flex-1 p-6">
-            <h2>Groups</h2>
+            <h2 className="text-2xl font-semibold text-center">Groups</h2>
           {
-            serverError && <p> {serverError}</p>
-          }
+            serverError && <p className="text-xl font-semibold text-red-700"> {serverError}</p>
+          } <br/>
           <input type= "text" name= "search" value= {search} onChange={handleChange} placeholder="search by groupname"/>
+           <br/>
            {/*sort*/}
+           <label className=" font-semibold m-3 p-4">Sort By: 
            <select value= {sort} onChange={(e) =>
              {setSort(e.target.value);
              setPage(1)
              }}>
             
-            <option value= "">select</option>
+            <option value= "">Select</option>
             <option value= "createdAt">Created Date</option>
             <option value= "groupName">Group Name</option>
             
             </select>
+            </label > 
+            <label className="font-semibold m-3 p-4">Order:
             <select value= {order}
              onChange= {(e)=> {setOrder(e.target.value); setPage(1)}
              }>
             <option value="desc">Descending</option>
             <option value="asc">Ascending</option>
             </select>
-            
-
+            </label>
+           <br/> <br/>
          
             <table className=" w-full border-collapse border">
                 <thead className="bg-blue-500 text-white">
@@ -103,20 +108,22 @@ export default function Groups() {
                         <th className="border border-black px-6 py-3 hover:bg-blue-900 scale-110 shadow-md">Actions</th>
                     </tr>
                 </thead>
-                <tbody className="text-black">
+                <tbody className="text-black ">
                     
                         {
                             searchData.map( (group) => {
                                 return (
                                    <tr>
-                                    <td className="border border-black px-6 py-3 hover:bg-amber-200 scale-110">{group.groupName}</td>
-                                    <td className="border border-black px-6 py-3 hover:bg-amber-200 scale-110">{group.description}</td>
-                                    <td className="border border-black px-6 py-3 hover:scale-110">
-                                        <button onClick= { () => {handleViewHabits(group._id)}}>View Habits</button>
-                                        <button onClick= { () => {handleViewMembers(group._id)}}>View Members</button>
-                                        <button onClick= { () => {handleEdit(group._id)}}>Edit</button>
-                                        <button onClick= {() => {handleDelete(group._id)}}>Delete</button>
-                                        <button onClick= {() => {handleAddMember(group._id)}}>Add Member</button>
+                                    <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{group.groupName}</td>
+                                    <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{group.description}</td>
+                                    <td className="border border-black px-6 py-3  hover:scale-110">
+                                        
+                                        
+                                        <button onClick= { () => {handleEdit(group._id)}} className="m-2">Edit Group</button>
+                                        <button onClick= {() => {handleDelete(group._id)}}>Delete Group</button><br/>
+                                        <button onClick= { () => {handleViewHabits(group._id)}} className="m-2">View Habits</button>
+                                        <button onClick= {() => {handleAddMember(group._id)}} >Add Member</button>
+                                        <button onClick= { () => {handleViewMembers(group._id)}} className="m-2">View Members</button><br/>
 
                                     </td>
                                    </tr>
@@ -130,6 +137,7 @@ export default function Groups() {
             </table>
             
          {/*Pagination*/}
+         <div className="flex justify-center items-center gap-10 mt-10">
          <button
                 disabled={currentPage === 1}
                 onClick={() => setPage(page - 1)}
@@ -148,7 +156,7 @@ export default function Groups() {
                 Next
             </button>
 
-          
+          </div>
         </div>
          <GroupForm className= "!w-80 p-6"/>
         </div>

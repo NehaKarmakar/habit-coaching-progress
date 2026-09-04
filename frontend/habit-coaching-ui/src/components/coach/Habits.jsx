@@ -100,13 +100,15 @@ export default function Habits (){
     return(
         <div className="flex min-h-screen gap-4">
             <CoachSidebar/>
-            <h2> Habits</h2>
+            <div className="flex-1 p-6">
+            <h2 className="text-2xl font-semibold text-center"> Habits</h2> <br/>
             {
-                habits.serverError && <p> {habits.serverError}</p>
+                habits.serverError && <p className="text-xl font-semibold text-red-700"> {habits.serverError}</p>
             }
-         <div>  
-        <h2>Habit Table</h2>
-        <input type= "text" value= {habits.search} onChange= { (e) => {setHabits({...habits, search: e.target.value, page: 1})}} placeholder="Search by title"/>
+         
+       
+        <input type= "text" value= {habits.search} onChange= { (e) => {setHabits({...habits, search: e.target.value, page: 1})}} placeholder="Search by title"/><br/>
+         <label className=" font-semibold m-3 p-4">Sort By: 
         <select value= {habits.sort} onChange={ (e) => {setHabits( {...habits, sort: e.target.value, page: 1})}}>
             <option value= "">Select</option>
             <option value="createdAt">Created At</option>
@@ -115,38 +117,42 @@ export default function Habits (){
             <option value= "difficulty">Difficulty</option>
 
         </select>
+        </label>
+
+         <label className="font-semibold m-3 p-4">Order:
         <select value= {habits.order} onChange= { (e) => {setHabits( {...habits, order: e.target.value, page: 1 })}}>
             <option value= "">Select</option>
             <option value="asc">Ascending</option>
             <option value= "desc">Descending</option>
-
+          
         </select>
-        <table>
-                <thead>
+        </label> <br/><br/>
+        <table className="  border-collapse border">
+                <thead className="bg-blue-500 text-white" >
                  <tr>
                    
-                    <th>Title</th>
-                    <th>Description</th>
-                    <th>Frequency</th>
-                    <th>Difficulty</th>
-                    <th>Group Name</th>
-                    <th>Resource</th>
-                    <th>Actions</th>
+                    <th className="border border-black px-6 py-3 hover:bg-blue-900 scale-110 shadow-md">Title</th>
+                    <th className="border border-black px-6 py-3 hover:bg-blue-900 scale-110 shadow-md">Description</th>
+                    <th className="border border-black px-6 py-3 hover:bg-blue-900 scale-110 shadow-md">Frequency</th>
+                    <th className="border border-black px-6 py-3 hover:bg-blue-900 scale-110 shadow-md">Difficulty</th>
+                    <th className="border border-black px-6 py-3 hover:bg-blue-900 scale-110 shadow-md">Group Name</th>
+                    <th className="border border-black px-6 py-3 hover:bg-blue-900 scale-110 shadow-md">Resource</th>
+                    <th className="border border-black px-6 py-3 hover:bg-blue-900 scale-110 shadow-md">Actions</th>
                  </tr>
                 </thead>
-                <tbody>
+                <tbody className="text-black ">
                  
                         {
                            habits.data.map( (habit) => {
                                 return(
                                       <tr key= {habit._id}>
                                         
-                                        <td>{habit.title}</td>
-                                        <td>{habit.description}</td>
-                                        <td>{habit.frequency}</td>
-                                        <td>{habit.difficulty}</td>
-                                         <td>{habit.group?.groupName ||  "No group"}</td>
-                                         <td>
+                                        <td className="border border-black px-6 py-3  hover:bg-amber-200 scale-110">{habit.title}</td>
+                                        <td className="border border-black px-6 py-3  hover:bg-amber-200 scale-110">{habit.description}</td>
+                                        <td className="border border-black px-6 py-3  hover:bg-amber-200 scale-110">{habit.frequency}</td>
+                                        <td className="border border-black px-6 py-3  hover:bg-amber-200 scale-110">{habit.difficulty}</td>
+                                         <td className="border border-black px-6 py-3  hover:bg-amber-200 scale-110">{habit.group?.groupName ||  "No group"}</td>
+                                         <td className="border border-black px-6 py-3  hover:bg-amber-200 scale-110">
                 {habit.resourceUrl ? (
                     <a
                         href={habit.resourceUrl}
@@ -159,8 +165,8 @@ export default function Habits (){
                     "No resource"
                 )}
             </td>
-            <td>
-                                         <button onClick= { () =>assignedEditId(habit._id)} >Edit</button>
+            <td className="border border-black px-6 py-3 hover:scale-110">
+                                         <button onClick= { () =>assignedEditId(habit._id) } className="m-2" >Edit</button>
                                          <button onClick= { () => {handleDelete(habit._id)}}>Delete</button>
                                          </td>
                                     
@@ -174,15 +180,20 @@ export default function Habits (){
                    
                 </tbody>
             </table>
+
+            <div className="flex justify-center items-center gap-10 mt-10">
             <button disabled ={habits.page===1} onClick= { () => {setHabits({...habits, page: habits.page-1})}}>previous</button>
             <span> {habits.page} of {habits.totalPages}</span>
             <button disabled= {habits.page===habits.totalPages} onClick= { () => {setHabits({...habits, page: habits.page+1})}}>next</button>
             
-       
+            </div>
+            </div>
           <HabitContext.Provider value= { {data: habits.data , addHabit: addHabit, editId: habits.editId, assignedEditId:assignedEditId ,editHabit:editHabit}} >
-            <HabitForm/>
+            <HabitForm className= "!w-80 p-6"/>
           </HabitContext.Provider>
+    
+        
         </div>
-        </div>
+        
     )
 }

@@ -83,10 +83,10 @@ export default function Login() {
             <div className="flex justify-center scale-110 ">
             <form onSubmit= {handleSubmit}>
                 <label className="text-xl">Email: 
-                    <input type= "email" name= "email"value={form.email} onChange= {handleChange}/>
+                    <input type= "email" name= "email"value={form.email} onChange= {handleChange} placeholder="Enter your email"/>
                     </label>
                 <label className="text-xl">Password: 
-                    <input type= "password" name= "password" value={form.password} onChange={handleChange} />
+                    <input type= "password" name= "password" value={form.password} onChange={handleChange} placeholder="Enter your password"/>
                 </label>
                 <Link to ="/user/forgetPassword" >Forget Password?</Link>
                 <input type= "submit" value="login"  className="!w-full !bg-blue-600 !px-3 !py-2 !text-white !border-0 !rounded-lg !cursor-pointer hover:!bg-blue-700"/>

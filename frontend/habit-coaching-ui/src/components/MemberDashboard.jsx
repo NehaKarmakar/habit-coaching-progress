@@ -36,32 +36,67 @@ export default  function MemberDashboard() {
         return <p>Loading...</p>
     }
     return(
-        <div>
+        <div className="flex min-h-screen gap-8">
             <MemberSidebar/>
-            <h2>Welcome {user.name} !</h2>
-            <ul>
-                <li> Motivational Quote</li>
-                <ul>
-                    <li>Quote: {memberDashboard.data.motivationalQuote?.content}</li>
-                    <li>Author: {memberDashboard.data.motivationalQuote?.author}</li>
-                </ul>
-                <li> GroupsAssigned: {memberDashboard.data.assignedGroups?.length}</li>
-                <li> AssignedHabits: {memberDashboard.data.assignedHabits?.length}</li>
-                <li> DailyHabits: {memberDashboard.data.totalDailyProgress}</li>
-                <li> WeeklyProgress: {memberDashboard.data.totalWeeklyProgress}</li>
-                <li> MonthlyProgress: {memberDashboard.data.totalMonthlyProgress}</li>
-                <li> CurrentStreak: {memberDashboard.data.memberCurrentStreak}</li>
-                <li> LongestStreak: {memberDashboard.data.memberLongestStreak}</li>
-                <li> Daily Chart</li>
-                <LineChart width={400} height={300} data={memberDashboard.data?.dailyChart}>
+            <div className="flex-1 p-6">
+            <h2  className="font-semibold text-center">Welcome {user.name} !</h2> <br/>
+             
+              {
+                memberDashboard.serverError && <p className="text-xl font-semibold text-red-700"> {memberDashboard.serverError}</p>
+            }<br/>
+                <div className="hover:scale-95 border-xl shadow-md bg-blue-950 text-white p-4 m-2">
+                <h3 className="text-center font-semibold ">
+                    Quote: {memberDashboard.data.motivationalQuote?.content}
+                    - {memberDashboard.data.motivationalQuote?.author}
+                </h3>
+                </div>
+
+                <div className="grid grid-cols-4 gap-6 mt-6 max-w-4xl mx-auto">
+
+                <div className="card bg-blue-100 border rounded-lg  p-6   hover:bg-fuchsia-200 scale-95 shadow-md">
+                <h3 className="text-center font-semibold "> Groups Assigned: {memberDashboard.data.assignedGroups?.length}</h3>
+                </div>
+
+                <div className="card bg-blue-100 border rounded-lg  p-6   hover:bg-fuchsia-200 scale-95 shadow-md">
+                <h3 className="text-center font-semibold ">Habits Assigned: {memberDashboard.data.assignedHabits?.length}</h3>
+                </div>
+
+                <div className="card bg-blue-100 border rounded-lg  p-6   hover:bg-fuchsia-200 scale-95 shadow-md">
+                <h3 className="text-center font-semibold "> Daily Progress: {memberDashboard.data.totalDailyProgress}</h3>
+                </div>
+
+                <div className="card bg-blue-100 border rounded-lg  p-6   hover:bg-fuchsia-200 scale-95 shadow-md">
+                <h3 className="text-center font-semibold "> Weekly Progress: {memberDashboard.data.totalWeeklyProgress}</h3>
+                </div>
+
+                <div className="card bg-blue-100 border rounded-lg  p-6   hover:bg-fuchsia-200 scale-95 shadow-md">
+                <h3 className="text-center font-semibold "> Monthly Progress: {memberDashboard.data.totalMonthlyProgress}</h3>
+                </div>
+
+                <div className="card bg-blue-100 border rounded-lg  p-6   hover:bg-fuchsia-200 scale-95 shadow-md">
+                <h3 className="text-center font-semibold "> Current Streak: {memberDashboard.data.memberCurrentStreak}</h3>
+                </div>
+
+                <div className="card bg-blue-100 border rounded-lg  p-6   hover:bg-fuchsia-200 scale-95 shadow-md">
+                <h3 className="text-center font-semibold "> Longest Streak: {memberDashboard.data.memberLongestStreak}</h3>
+                </div>
+                </div>
+                <br/><br/>
+                <h3 className="font-semibold text-center">Daily Progress Chart</h3> <br/>
+            <div className="flex justify-center gap-4">
+             
+                <LineChart width={400} height={300} data={memberDashboard.data?.dailyChart} className=" bg-blue-100 border rounded-lg  p-6  hover:bg-fuchsia-200 scale-95 shadow-md">
                   <XAxis dataKey="_id" />
                   <YAxis/>
                   <Tooltip />
                   <Line dataKey="completed" />
                 </LineChart>
-            </ul>
-            <p>Advice: {memberDashboard.data.advice} </p>
-            
+            </div>
+
+            <div className="hover:scale-95 border-xl shadow-md bg-amber-700 text-white p-4 m-2">
+            <h3 className="font-semibold text-center">Ai Advice: {memberDashboard.data.advice} </h3>
+          </div>  
+          </div>
         </div>
     )
 }

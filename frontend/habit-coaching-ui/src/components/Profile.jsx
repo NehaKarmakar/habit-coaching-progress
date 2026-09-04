@@ -15,16 +15,25 @@ export default function Profile(){
         
     }
     return(
-        <div>
+          <div className="card">
+        <div className="flex min-h-screen gap-8">
+          
             {
                 user?.role==="coach"? <CoachSidebar/> : <MemberSidebar/>
             }
-            <h2>Profile</h2>
-            <p>Name: {user.name}</p>
-            <p>Email: {user.email}</p>
-            <p>Phone: {user.phone}</p>
-            <p>Role: {user.role}</p>
-            <button onClick= {() => {handleUpdate(user._id)}}>Edit Profile</button>
+             <div className="flex-1 p-6 ">
+            <h2 className="text-2xl font-semibold text-center">Profile</h2>
+            <br/>
+            <div className="max-w-md mx-auto bg-indigo-800 text-white border-2 rounded-lg p-6 hover:bg-blue-900 scale-95 text-white shadow-md">
+            <p className="text-xl font-semibold ">Username: {user.name}</p>
+            <p className="text-xl font-semibold ">Email: {user.email}</p>
+            <p className="text-xl font-semibold ">Phone No. : {user.phone}</p>
+            <p className="text-xl font-semibold ">Role: {user.role}</p>
+            <br/>
+            <button onClick= {() => {handleUpdate(user._id)} } className="text-center">Edit Profile</button>
+        </div>
+        </div>
+        </div>
         </div>
     )
 }
