@@ -68,10 +68,17 @@ export default function MemberProgress() {
              <select value= {progress.order} onChange= { (e) => {setProgress({...progress, order:e.target.value, page:1})}}>
                 <option value="">Select</option>
                 <option value="desc">Descending</option>
-                <option value= "asc">Acending</option>
+                <option value= "asc">Ascending</option>
              </select>
              </label>
              <br/><br/>
+
+             {progress.data.length === 0 && 
+                    <p className="text-xl font-semibold text-center text-red-700">
+                         No members found.
+                    </p>
+                
+               }<br/>
 
             <table className=" w-full border-collapse border">
                 <thead className="bg-blue-500 text-white">
@@ -90,12 +97,12 @@ export default function MemberProgress() {
                             {
                                 progress.data.map( (item) => {
                                     return (
-                                        <tr>
-                                        <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{item.memberDetails?.[0]?.name}</td>
-                                        <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{item.memberDetails?.[0]?.email}</td>
-                                        <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{item.memberDetails?.[0]?.phone}</td>
-                                        <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{item.habitDetails?.[0]?.title}</td>
-                                        <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{item.completed ? "Yes" : "No"}</td>
+                                        <tr key={item._id}>
+                                        <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{item.memberDetails?.[0]?.name  || "No longer member exists"}</td>
+                                        <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{item.memberDetails?.[0]?.email || "No longer member exists"}</td>
+                                        <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{item.memberDetails?.[0]?.phone || "No longer member exists"}</td>
+                                        <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{item.habitDetails?.[0]?.title || "No longer member exists"}</td>
+                                        <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{item.completed ? "Yes" : "No" || "No longer member exists"}</td>
                                         <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">
                     {item.completed && item.completedDate
                         ? new Date(item.completedDate).toLocaleDateString()
@@ -114,9 +121,9 @@ export default function MemberProgress() {
             </table>
 
             <div className="flex justify-center items-center gap-10 mt-10">
-            <button disabled= {progress.page===1} onClick= { () => setProgress( {...progress, page: progress.page-1})}>previous</button>
+            <button disabled= {progress.page===1} onClick= { () => setProgress( {...progress, page: progress.page-1})}>Previous</button>
             <span> {progress.page} of {progress.totalPages}</span>
-            <button disabled= {progress.page===progress.totalPages} onClick= { () => setProgress( {...progress, page: progress.page+1})}>next</button>
+            <button disabled= {progress.page===progress.totalPages} onClick= { () => setProgress( {...progress, page: progress.page+1})}>Next</button>
         </div>
         </div>
         </div>

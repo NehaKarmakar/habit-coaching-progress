@@ -26,7 +26,7 @@ import MyProgress from "./components/member/MyProgress.jsx";
 import { useContext } from "react";
 import AuthContext from "./contexts/AuthContext.jsx";
 import PrivateRoute from "./components/PrivateRoute.jsx";
-import {Link, Routes, Route} from "react-router-dom"
+import {Link, Routes, Route,Navigate} from "react-router-dom"
 import GroupHabits from "./components/coach/GroupHabits.jsx";
 import ProgressSummary from "./components/coach/progressSummary.jsx";
 import MemberGroups from "./components/coach/memberGroup.jsx";
@@ -79,6 +79,14 @@ function App() {
          
           <br/><br/>
             <Routes>
+                <Route
+    path="/"
+    element={
+      isLoggedIn
+        ? <Navigate to={user.role === "coach" ? "/coach/dashboard" : "/member/dashboard"} />
+        : <Navigate to="/login" />
+    }
+  />
               <Route path= "/register" element= {<Register/>} />
               <Route path= "/login" element= {<Login/>} />
               <Route path="/user/forgetPassword" element= {<ForgetPassword/>}/>

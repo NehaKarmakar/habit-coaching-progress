@@ -58,11 +58,11 @@ export default function ProgressSummary() {
                     }
                    
                    <div className="grid grid-cols-2 gap-8 mt-6 max-w-4xl mx-auto">
-        
+                 
         
                     <div className="card border rounded-lg  p-6   hover:bg-fuchsia-200 scale-95 shadow-md">
                     <h3 className="font-semibold text-center">Daily Habits </h3>
-                    <p className=" font-semibold">Total: {progress.dailyProgress.length}</p><br/>
+                    <p className=" font-semibold">Total: {progress.dailyProgress?.length}</p><br/>
                     <table className="border-collapse border">
                         <thead className="bg-blue-500 text-white">
                             <tr>
@@ -75,8 +75,8 @@ export default function ProgressSummary() {
                                 progress.dailyProgress.map( (ele) => {
                                     return(
                                         <tr>
-                                            <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{ele.habit?.title}</td>
-                                            <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{new Date(ele.completedDate).toLocaleDateString()}</td>
+                                            <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{ele.habit?.title || "No longer habit exists"}</td>
+                                            <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{new Date(ele?.completedDate).toLocaleDateString()}</td>
                                         </tr>
                                     )
                                 })
@@ -101,8 +101,8 @@ export default function ProgressSummary() {
                                 progress.weeklyProgress.map( (ele) => {
                                     return(
                                         <tr>
-                                            <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{ele.habit?.title}</td>
-                                            <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{new Date(ele.completedDate).toLocaleDateString()}</td>
+                                            <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{ele.habit?.title || "No longer habit exists"}</td>
+                                            <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{new Date(ele?.completedDate).toLocaleDateString()}</td>
                                         </tr>
                                     )
                                 })
@@ -114,7 +114,7 @@ export default function ProgressSummary() {
         
                     <div className="card border rounded-lg p-6  hover:bg-fuchsia-200 scale-95 shadow-md">
                             <h3 className=" font-semibold text-center">Monthly Habits </h3>
-                            <p  className=" font-semibold">Total: {progress.monthlyProgress.length}</p><br/>
+                            <p  className=" font-semibold">Total: {progress?.monthlyProgress?.length}</p><br/>
                     <table className="border-collapse border">
                         <thead className="bg-blue-500 text-white">
                             <tr>
@@ -127,8 +127,8 @@ export default function ProgressSummary() {
                                 progress.monthlyProgress.map( (ele) => {
                                     return(
                                         <tr>
-                                            <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{ele.habit?.title}</td>
-                                            <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{new Date(ele.completedDate).toLocaleDateString()}</td>
+                                            <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{ele.habit?.title || "No longer habit exists"}</td>
+                                            <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{new Date(ele?.completedDate).toLocaleDateString()}</td>
                                         </tr>
                                     )
                                 })
@@ -149,8 +149,8 @@ export default function ProgressSummary() {
                         </thead>
                         <tbody>
                             <tr>
-                                <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{progress.currentStreak}</td>
-                                <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{progress.longestStreak}</td>
+                                <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{progress?.currentStreak}</td>
+                                <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{progress?.longestStreak}</td>
                             </tr>
                         </tbody>
                     </table>

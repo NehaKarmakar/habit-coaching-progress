@@ -1,10 +1,13 @@
 import AuthContext from "../contexts/AuthContext"
-import { useContext } from "react"
+import { useContext , useState} from "react"
 import {useNavigate} from "react-router-dom"
 import CoachSidebar from "./CoachSidebar"
 import MemberSidebar from "./memberSidebar"
+import { toast } from "react-toastify"
+import axios from "../config/axios"
 export default function Profile(){
-    const {user} = useContext(AuthContext)
+    const {user,dispatch} = useContext(AuthContext)
+    const [serverError, setServerError] = useState("")
     const navigate= useNavigate()
     if(!user) {
         return <p>Loading...</p>
@@ -13,6 +16,28 @@ export default function Profile(){
         console.log("update")
         navigate(`/profile/update/${id}`)
         
+    }
+
+    const handleDelete= async (id) => {
+        const confirmation= window.confirm("Are you sure you want to delete your account?")
+        if(!confirmation){
+            return 
+        }
+        try{
+            const response= await axios.delete("/api/auth/deleteAccount", {headers: {Authorization: localStorage.getItem("token")}})
+            console.log(response.data)
+             dispatch( {type:"DELETE_ACCOUNT"})
+             localStorage.removeItem("token")
+             toast("Successfully account deleted")
+       
+        navigate("/login")
+
+        }
+        catch(err) {
+            console.log(err.response?.data?.message)
+            setServerError(err.response?.data?.message)
+
+        }
     }
     return(
           <div className="card">
@@ -24,13 +49,16 @@ export default function Profile(){
              <div className="flex-1 p-6 ">
             <h2 className="text-2xl font-semibold text-center">Profile</h2>
             <br/>
+            {serverError && <p className="text-xl font-semibold text-red-700">{serverError}</p>}
+            <br/>
             <div className="max-w-md mx-auto bg-indigo-800 text-white border-2 rounded-lg p-6 hover:bg-blue-900 scale-95 text-white shadow-md">
             <p className="text-xl font-semibold ">Username: {user.name}</p>
             <p className="text-xl font-semibold ">Email: {user.email}</p>
             <p className="text-xl font-semibold ">Phone No. : {user.phone}</p>
             <p className="text-xl font-semibold ">Role: {user.role}</p>
             <br/>
-            <button onClick= {() => {handleUpdate(user._id)} } className="text-center">Edit Profile</button>
+            <button onClick= {() => {handleUpdate(user._id)} } className="text-center m-4">Edit Profile</button>
+            <button onClick= { () => {handleDelete(user._id)}} className="text-center">Delete Account</button>
         </div>
         </div>
         </div>

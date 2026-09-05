@@ -79,6 +79,13 @@ export default function MyGroups(){
             </label>
              
              <br/> <br/>
+
+             {myGroups.data.length === 0 && 
+                    <p className="text-xl font-semibold text-center text-red-700">
+                         No groups found.
+                    </p>
+                
+               }<br/>
             <table className=" w-full border-collapse border">
                 <thead className="bg-blue-500 text-white">
                     <tr>
@@ -92,9 +99,9 @@ export default function MyGroups(){
                     {
                         myGroups.data.map( (group) => {
                             return(
-                                <tr>
-                                    <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{group.groupDetails?.[0]?.groupName}</td>
-                                    <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{group.groupDetails?.[0]?.description}</td>
+                                <tr key= {group._id}>
+                                    <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{group.groupDetails?.[0]?.groupName || "No longer group exists"}</td>
+                                    <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{group.groupDetails?.[0]?.description || "No longer group exists"}</td>
                                     <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{new Date(group.joinedAt).toLocaleDateString()}</td>
                                     <td className="border border-black px-6 py-3 text-center hover:scale-110"><button onClick= { () => {navigate(`/coach/habits/${group.groupDetails?.[0]?._id}`)}}>View Habits</button></td>
                                 </tr>

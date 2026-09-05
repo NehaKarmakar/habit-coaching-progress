@@ -33,6 +33,9 @@ export default function GroupMembers (){
 
         )()
     },[])
+    if(!groupMembers.data){
+        return <p>Loading</p>
+    }
 
     const deleteMember= (id) => {
         const filterArr = groupMembers.data.filter((ele) => {
@@ -70,6 +73,12 @@ export default function GroupMembers (){
             <h2 className="text-2xl font-semibold text-center">Group Members</h2>
             {groupMembers.serverError && <p className="text-xl font-semibold text-red-700"> {groupMembers.serverError}</p>}
              <div className="card">
+                {groupMembers.data.length === 0 && 
+                    <p className="text-xl font-semibold text-center text-red-700">
+                         No members found for this group.
+                    </p>
+                
+               }<br/>
              <table className=" w-full border-collapse border">
                 <thead className="bg-blue-500 text-white">
                     <tr>
@@ -86,10 +95,10 @@ export default function GroupMembers (){
                 groupMembers.data.map( (ele) =>{
                     return (
                         
-                            <tr>
-                                <td className="border border-black px-6 py-3  text-center hover:scale-110">{ele.member.name}</td>
-                                <td className="border border-black px-6 py-3  text-center hover:scale-110">{ele.member.email}</td>
-                                <td className="border border-black px-6 py-3  text-center  hover:scale-110">{ele.member.phone}</td>
+                            <tr key= {ele._id}>
+                                <td className="border border-black px-6 py-3  text-center hover:scale-110">{ele.member?.name || "No longer member exists"}</td>
+                                <td className="border border-black px-6 py-3  text-center hover:scale-110">{ele.member?.email || "No longer member exists"}</td>
+                                <td className="border border-black px-6 py-3  text-center  hover:scale-110">{ele.member?.phone || "No longer member exists"}</td>
                                 <td className="border border-black px-6 py-3  text-center hover:scale-110">{new Date(ele.joinedAt).toLocaleDateString()}</td>
                                 <td className="border border-black px-6 py-3  text-center hover:scale-110"><button onClick={() => {handleDeleteMember(ele.member._id)}}>Delete Member</button></td>
                             </tr>

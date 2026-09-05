@@ -98,9 +98,9 @@ export default function Habits (){
         }
     }
     return(
-        <div className="flex min-h-screen gap-4">
+        <div className="flex min-h-screen gap-0.5">
             <CoachSidebar/>
-            <div className="flex-1 p-6">
+            <div className="flex-1  p-6">
             <h2 className="text-2xl font-semibold text-center"> Habits</h2> <br/>
             {
                 habits.serverError && <p className="text-xl font-semibold text-red-700"> {habits.serverError}</p>
@@ -114,7 +114,7 @@ export default function Habits (){
             <option value="createdAt">Created At</option>
             <option value="title">Title</option>
             <option value= "frequency">Frequency</option>
-            <option value= "difficulty">Difficulty</option>
+           
 
         </select>
         </label>
@@ -127,6 +127,14 @@ export default function Habits (){
           
         </select>
         </label> <br/><br/>
+
+        {habits.data.length === 0 && 
+                    <p className="text-xl font-semibold text-center text-red-700">
+                         No habits found .
+                    </p>
+                
+               }<br/>
+     
         <table className="  border-collapse border">
                 <thead className="bg-blue-500 text-white" >
                  <tr>
@@ -147,12 +155,12 @@ export default function Habits (){
                                 return(
                                       <tr key= {habit._id}>
                                         
-                                        <td className="border border-black px-6 py-3  hover:bg-amber-200 scale-110">{habit.title}</td>
-                                        <td className="border border-black px-6 py-3  hover:bg-amber-200 scale-110">{habit.description}</td>
-                                        <td className="border border-black px-6 py-3  hover:bg-amber-200 scale-110">{habit.frequency}</td>
-                                        <td className="border border-black px-6 py-3  hover:bg-amber-200 scale-110">{habit.difficulty}</td>
-                                         <td className="border border-black px-6 py-3  hover:bg-amber-200 scale-110">{habit.group?.groupName ||  "No group"}</td>
-                                         <td className="border border-black px-6 py-3  hover:bg-amber-200 scale-110">
+                                        <td className="border border-black px-6 py-3  hover:bg-amber-200 scale-110">{habit?.title || "No longer habit exists"}</td>
+                                        <td className="border border-black px-6 py-3  hover:bg-amber-200 scale-110">{habit?.description || "No longer habit exists"}</td>
+                                        <td className="border border-black px-6 py-3  hover:bg-amber-200 scale-110">{habit?.frequency || "No longer habit exists"}</td>
+                                        <td className="border border-black px-6 py-3  hover:bg-amber-200 scale-110">{habit?.difficulty || "No longer habit exists"}</td>
+                                        <td className="border border-black px-6 py-3  hover:bg-amber-200 scale-110">{habit.group?.groupName ||  "No group"}</td>
+                                        <td className="border border-black px-6 py-3  w-40 max-w-40 break-words hover:bg-amber-200">
                 {habit.resourceUrl ? (
                     <a
                         href={habit.resourceUrl}
@@ -180,11 +188,12 @@ export default function Habits (){
                    
                 </tbody>
             </table>
+            
 
             <div className="flex justify-center items-center gap-10 mt-10">
-            <button disabled ={habits.page===1} onClick= { () => {setHabits({...habits, page: habits.page-1})}}>previous</button>
+            <button disabled ={habits.page===1} onClick= { () => {setHabits({...habits, page: habits.page-1})}}>Previous</button>
             <span> {habits.page} of {habits.totalPages}</span>
-            <button disabled= {habits.page===habits.totalPages} onClick= { () => {setHabits({...habits, page: habits.page+1})}}>next</button>
+            <button disabled= {habits.page===habits.totalPages} onClick= { () => {setHabits({...habits, page: habits.page+1})}}>Next</button>
             
             </div>
             </div>
@@ -192,7 +201,7 @@ export default function Habits (){
             <HabitForm className= "!w-80 p-6"/>
           </HabitContext.Provider>
     
-        
+    
         </div>
         
     )

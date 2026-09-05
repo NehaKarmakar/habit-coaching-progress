@@ -12,6 +12,10 @@ const reducer= (state, action) => {
         ...state,
         user: action.payload
        }
+
+       case "DELETE_ACCOUNT": {
+        return {...state, isLoggedIn:false, user:null}
+       }
         default: {
             throw new Error("Invalid action type")
         }

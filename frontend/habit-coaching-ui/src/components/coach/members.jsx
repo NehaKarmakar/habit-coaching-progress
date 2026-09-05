@@ -90,6 +90,13 @@ export default function Members () {
             </select>
         </label>
         <br/> <br/>
+
+        {members.data.length === 0 && 
+                    <p className="text-xl font-semibold text-center text-red-700">
+                         No members found.
+                    </p>
+                
+               }<br/>
             <table className=" w-full border-collapse border">
                 <thead className="bg-blue-500 text-white">
                     <tr>
@@ -104,10 +111,10 @@ export default function Members () {
                     {
                         members.data.map( (member) =>{
                             return (
-                                <tr>
-                                    <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{member.name}</td>
-                                    <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{member.email}</td>
-                                    <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{member.phone}</td>
+                                <tr key= {member._id}>
+                                    <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{member?.name || "No longer member exists"}</td>
+                                    <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{member?.email || "No longer member exists"}</td>
+                                    <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{member?.phone || "No longer member exists"}</td>
                                     <td className="border border-black px-6 py-3  text-center hover:scale-110">
                                     <button onClick= {() => {handleProgressSummary(member._id)} } className="m-2">Progress Summary</button>
                                     <button onClick= {() => {handleViewGroups(member._id)}}>View Groups</button>

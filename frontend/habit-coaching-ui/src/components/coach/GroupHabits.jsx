@@ -16,6 +16,7 @@ export default function GroupHabits() {
     useEffect( () => {
       (
           async function fetchGroupHabits(){
+            
             setLoading(true)
             try{
               const response= await axios.get(`/api/groups/habits/${id}`, {headers: {Authorization: localStorage.getItem("token")}})
@@ -44,6 +45,12 @@ export default function GroupHabits() {
             <h2 className="text-2xl font-semibold text-center"> Group Habits</h2> <br/>
             {groupHabits.serverError && <p className="text-xl font-semibold text-red-700"> {groupHabits.serverError}</p>} <br/>
             <div className="card">
+                {groupHabits.data.length === 0 && 
+                    <p className="text-xl font-semibold text-center text-red-700">
+                         No habits found for this group.
+                    </p>
+                
+               }<br/>
             <table className=" w-full border-collapse border">
                 <thead className="bg-blue-500 text-white">
                     <tr>
@@ -59,10 +66,10 @@ export default function GroupHabits() {
                         groupHabits.data.map( (habit) => {
                       return(
                       <tr key= {habit._id} >
-                        <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{habit.title}</td>
-                        <td className="border border-black  px-6 py-3 text-center hover:bg-amber-200 scale-110">{habit.description}</td>
-                        <td className="border border-black  px-6 py-3 text-center hover:bg-amber-200 scale-110">{habit.frequency}</td>
-                        <td className="border border-black  px-6 py-3 text-center hover:bg-amber-200 scale-110">{habit.difficulty}</td>
+                        <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{habit?.title || "No longer habit exists"}</td>
+                        <td className="border border-black  px-6 py-3 text-center hover:bg-amber-200 scale-110">{habit?.description ||"No longer habit exists"}</td>
+                        <td className="border border-black  px-6 py-3 text-center hover:bg-amber-200 scale-110">{habit?.frequency ||"No longer habit exists"}</td>
+                        <td className="border border-black  px-6 py-3 text-center hover:bg-amber-200 scale-110">{habit?.difficulty || "No longer habit exists"}</td>
                         
                         <td className="border border-black px-6 py-3 hover:bg-amber-200 scale-110">
                 {habit.resourceUrl ? (
@@ -75,7 +82,7 @@ export default function GroupHabits() {
                     </a>
                 ) : (
                     "No resource"
-                )}
+                ) }
             </td>
                       </tr>
                         

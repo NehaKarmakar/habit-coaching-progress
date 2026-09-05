@@ -2,6 +2,7 @@ import {useState, useEffect,useContext} from "react"
 import axios from "../../config/axios"
 import MemberSidebar from "../memberSidebar"
 import LoadingContext from "../../contexts/loadingContext"
+import AuthContext from "../../contexts/AuthContext"
 export default function MyHabits() {
     const [myHabits, setMyHabits] = useState( {
         data: [],
@@ -13,12 +14,16 @@ export default function MyHabits() {
     })
    
     const [serverError, setServerError] = useState("")
+    const {user} = useContext(AuthContext)
+    const {setLoading} = useContext(LoadingContext)
     const today= new Date().toLocaleDateString()
-    const savedProgress= JSON.parse(localStorage.getItem("progress")) || {}
+    const progressKey= user ?`progress_${user._id}`: null
+    const savedProgress= JSON.parse(localStorage.getItem(progressKey)) || {}
     const [progress, setProgress] = useState( 
         savedProgress.date===today? savedProgress.data : {}
     )
-    const {setLoading} = useContext(LoadingContext)
+    
+    
     useEffect( () => {
 
         (
@@ -54,6 +59,17 @@ export default function MyHabits() {
 
     },[myHabits.search, myHabits.page, myHabits.sort, myHabits.order])
 
+    useEffect(() => {
+    if (user) {
+        const progressKey = `progress_${user._id}`
+        const savedProgress = JSON.parse(localStorage.getItem(progressKey)) || {}
+
+        if (savedProgress.date === today) {
+            setProgress(savedProgress.data)
+        }
+    }
+}, [user])
+
     const handleCheck= (habitId) =>{
         
        
@@ -73,7 +89,7 @@ export default function MyHabits() {
             [habitId]: updatedProgress.completed
         }
         setProgress(newProgress)
-        localStorage.setItem("progress", 
+        localStorage.setItem(progressKey, 
             JSON.stringify({date: new Date().toLocaleDateString(),data:newProgress}))
        
                  setMyHabits(prev => ({
@@ -96,6 +112,10 @@ export default function MyHabits() {
                 setLoading(false)
             }
     }
+
+    if (!user) {
+    return <p>Loading...</p>
+}
     return(
         <div className="flex min-h-screen gap-8">
             
@@ -114,7 +134,7 @@ export default function MyHabits() {
                   <option value= "">Select</option>
                   <option value= "createdAt">Created At</option>
                   <option value= "frequency">Frequency</option>
-                  <option value= "difficulty">Difficulty</option>
+                  
             </select>
             </label>
 
@@ -127,7 +147,13 @@ export default function MyHabits() {
             </select>
             </label>
             <br/><br/>
-
+            
+            {myHabits.data.length === 0 && 
+                    <p className="text-xl font-semibold text-center text-red-700">
+                         No habits found for this group.
+                    </p>
+                
+               }<br/>
             <table className=" w-full border-collapse border">
                 <thead  className="bg-blue-500 text-white">
                     <tr>
@@ -142,11 +168,11 @@ export default function MyHabits() {
                     {
                         myHabits.data.map( (habit) => {
                             return(
-                                <tr>
-                                    <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{habit.title}</td>
-                                    <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{habit.description}</td>
-                                    <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{habit.frequency}</td>
-                                    <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{habit.difficulty}</td>
+                                <tr key= {habit._id}>
+                                    <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{habit.title || "No longer habit exists"}</td>
+                                    <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{habit.description || "No longer habit exists"}</td>
+                                    <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{habit.frequency || "No longer habit exists"}</td>
+                                    <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{habit.difficulty || "No longer habit exists"}</td>
                                     <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110"><input type= "checkbox" checked={progress[habit._id] || false} onChange={(e)=>{handleCheck(habit._id)}}/></td>
                                 </tr>
                             )

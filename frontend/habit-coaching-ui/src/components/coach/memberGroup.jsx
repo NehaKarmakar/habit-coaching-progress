@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom"
 import axios from "../../config/axios"
 import LoadingContext from "../../contexts/loadingContext"
 import CoachSidebar from "../CoachSidebar"
+
 export default function MemberGroups (){
     const [memberGroups, setMemberGroups] = useState( {
         data: [],
@@ -40,6 +41,12 @@ export default function MemberGroups (){
             <h2 className="text-2xl font-semibold text-center">Members Group</h2>
             {memberGroups.serverError && <p className="text-xl font-semibold text-red-700"> {memberGroups.serverError}</p>}
             <div className="card">
+                {memberGroups.data.length === 0 && 
+                    <p className="text-xl font-semibold text-center text-red-700">
+                         No group found for this member.
+                    </p>
+                
+               }<br/>
             <table className=" w-full  border-collapse border">
                 <thead className="bg-blue-500 text-white">
                     <tr>
@@ -52,12 +59,12 @@ export default function MemberGroups (){
                     {
                         memberGroups.data.map( (ele) => {
                             return(
-                                <tr>
-                                    <td className="border border-black px-6 py-3 text-center  hover:bg-amber-200 scale-110">{ele.group.groupName}</td>
-                                    <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{ele.group.description}</td>
+                                <tr key= {ele._id}>
+                                    <td className="border border-black px-6 py-3 text-center  hover:bg-amber-200 scale-110">{ele.group?.groupName || "Group no longer exists"}</td>
+                                    <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{ele.group?.description ||"Group no longer exists"}</td>
                                     <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{new Date(ele.joinedAt).toLocaleDateString()}</td>
                                 </tr>
-                            )
+                            ) 
                         })
                     }
                 </tbody>

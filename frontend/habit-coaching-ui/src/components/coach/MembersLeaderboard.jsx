@@ -79,6 +79,12 @@ export default function MembersLeaderboard() {
             </label>
             
             <br/><br/>
+            {leaderboard.data.length === 0 && 
+                    <p className="text-xl font-semibold text-center text-red-700">
+                         No members found.
+                    </p>
+                
+               }<br/>
             <table className=" w-full border-collapse border">
                 <thead className="bg-blue-500 text-white">
                     <tr>
@@ -93,11 +99,11 @@ export default function MembersLeaderboard() {
                         leaderboard.data.map( (ele) => {
                             return(
                                 
-                                    <tr>
-                                        <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{ele.rank}</td>
-                                        <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{ele.name}</td>
-                                        <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{ele.email}</td>
-                                        <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{ele.completedHabit}</td>
+                                    <tr key= {ele._id}>
+                                        <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{ele?.rank || "No longer member exists"}</td>
+                                        <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{ele?.name || "No longer member exists"}</td>
+                                        <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{ele?.email || "No longer member exists"}</td>
+                                        <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{ele?.completedHabit}</td>
                                     </tr>
                                 
                             )

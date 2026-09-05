@@ -99,6 +99,13 @@ export default function Groups() {
             </select>
             </label>
            <br/> <br/>
+
+           {searchData.length === 0 && 
+                    <p className="text-xl font-semibold text-center text-red-700">
+                         No group found.
+                    </p>
+                
+               }<br/>
          
             <table className=" w-full border-collapse border">
                 <thead className="bg-blue-500 text-white">
@@ -113,9 +120,9 @@ export default function Groups() {
                         {
                             searchData.map( (group) => {
                                 return (
-                                   <tr>
-                                    <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{group.groupName}</td>
-                                    <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{group.description}</td>
+                                   <tr key= {group._id}>
+                                    <td className="border border-black px-6 py-3 text-center hover:bg-amber-200 scale-110">{group?.groupName || "Group no longer exists"}</td>
+                                    <td className="border border-black px-6 py-3  hover:bg-amber-200 scale-110">{group?.description || "Group no longer exists"}</td>
                                     <td className="border border-black px-6 py-3  hover:scale-110">
                                         
                                         
