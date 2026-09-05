@@ -63,10 +63,12 @@ export const groupMembers = async (req, res) => {
 export const memberGroups = async (req, res) => {
     const memberId= req.params.id
     try{
+        
         const groupEnrollment = await GroupEnrollment.find( {member: memberId}).populate("group" , "groupName description")
         if(!groupEnrollment){
             return res.status(404).json( {success: false , message: "Groups not found"})
         }
+        
         return res.status(200).json( {success: true , message: "Groups successfully found" , data: groupEnrollment})
     }
     catch(err){
@@ -179,7 +181,7 @@ export const groupEnrollmentAggregate = async (req, res) => {
    //Search used → counts only matching enrollments ,No matching results → returns 0
 
     const totalGroupEnrollments =  countResult[0]?.total || 0;
-    const totalPages= Math.ceil(totalGroupEnrollments/limit)
+    const totalPages= Math.max(1,Math.ceil(totalGroupEnrollments/limit))
     return res.status(200).json( {success: true , message: "Group enrollment searching sorting and pagination",data: groupEnrollment,totalGroupEnrollments: totalGroupEnrollments, currentPage: page, totalPages: totalPages,})
   }
 
@@ -291,7 +293,7 @@ export const memberGroupsAggregate = async (req, res) => {
         const countResult = await GroupEnrollment.aggregate(countPipeline)
 
         const totalGroupEnrollments = countResult[0]?.total || 0
-        const totalPages = Math.ceil(totalGroupEnrollments / limit)
+        const totalPages = Math.max(1,Math.ceil(totalGroupEnrollments / limit))
 
         return res.status(200).json({
             success: true,

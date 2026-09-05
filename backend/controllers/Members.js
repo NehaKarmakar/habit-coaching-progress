@@ -46,7 +46,7 @@ export const members= async (req, res) => {
     }) : await User.countDocuments( {
         role: "member"
     })
-    const totalPages= Math.ceil(totalUsers/limit)
+    const totalPages= Math.max(1,Math.ceil(totalUsers/limit))
     return res.status(200).json( {success: true, message: "Members Aggreagte", data: users, totalPages: totalPages, currentPage: page})
 
   }

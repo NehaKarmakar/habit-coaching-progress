@@ -207,10 +207,7 @@ export const getGroupHabitById = async (req, res) => {
         }
       })
 
-      pipeline.push( 
-        {$skip : (page-1) *limit},
-        {$limit: limit}
-      )
+     
 
       pipeline.push( {
             $lookup: {
@@ -222,7 +219,10 @@ export const getGroupHabitById = async (req, res) => {
         })
 
         pipeline.push( {
-            $unwind:"$groupDetails"
+            $unwind:{
+            path:"$groupDetails",
+            preserveNullAndEmptyArrays: true
+            }
         })
         pipeline.push( {
             $set: {
@@ -233,7 +233,10 @@ export const getGroupHabitById = async (req, res) => {
             $unset: "groupDetails"
         })
 
-       
+        pipeline.push( 
+        {$skip : (page-1) *limit},
+        {$limit: limit}
+      )
     
      const habit = await Habit.aggregate(pipeline)
     const totalGroupHabits= search ? await Habit.countDocuments( {
@@ -243,7 +246,7 @@ export const getGroupHabitById = async (req, res) => {
         }
     }): await Habit.countDocuments()
     // const totalGroupHabits = await Habit.countDocuments()
-     const totalPages= Math.ceil(totalGroupHabits/limit)
+     const totalPages=Math.max(1,Math.ceil(totalGroupHabits/limit))
      return res.status(200).json( {success: true, message: "Habit search,sort,pagination" , data: habit,totalGroupHabits: totalGroupHabits, currentPage: page, totalPages: totalPages})
 
     }
@@ -329,7 +332,7 @@ if (search) {
 }
 const totalHabits = await Habit.countDocuments(filter)
 
-        const totalPages = Math.ceil(totalHabits / limit)
+        const totalPages =Math.max(1, Math.ceil(totalHabits / limit))
 
         return res.status(200).json({
             success: true,

@@ -134,6 +134,22 @@ usersCltr.editProfile= async (req, res) => {
     }
 }
 
+usersCltr.deleteAccount = async (req,res) => {
+    const id= req.userId
+    try{
+        const user= await User.findOneAndDelete( {_id:id})
+        if(!user){
+            return res.status(404).json( {success: false, message: "User not found"})
+        }
+        return res.status(200).json( {success: true, message: "Account Successfully deleted", data:user})
+
+    }
+    catch(err){
+        console.log(err.message)
+        return res.status(500).json( {success: false, message: err.message})
+    }
+}
+
 usersCltr.listOfUsers = async (req, res) => {
     try{
     const user= await User.find()

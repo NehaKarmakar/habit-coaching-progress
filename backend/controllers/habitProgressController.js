@@ -264,7 +264,7 @@ export const habitProgressAggregate = async (req, res) => {
 
         const countResult = await HabitProgress.aggregate(countPipeline)
         const totalHabitProgress = countResult[0]?.total || 0
-        const totalPages = Math.ceil(totalHabitProgress/limit)
+        const totalPages = Math.max(1,Math.ceil(totalHabitProgress/limit))
 
         return res.status(200).json( {success: true, message: "Habit Progress search sorting pagination", 
             data:habitProgress , totalHabitProgress: totalHabitProgress, currentPage: page, totalPages: totalPages})

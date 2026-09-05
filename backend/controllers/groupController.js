@@ -147,7 +147,7 @@ export  const searchingSortingPagination = async (req, res) => {
     })
     : await Group.countDocuments();
   
-    const totalPages= Math.ceil( totalGroups/limit)
+    const totalPages=Math.max(1,Math.ceil( totalGroups/limit))
 
     return res.status(200).json( {success: true , message: "Searching , sorting and pagination" ,data: group,
          totalGroups: totalGroups, currentPage: page,totalPages: totalPages})

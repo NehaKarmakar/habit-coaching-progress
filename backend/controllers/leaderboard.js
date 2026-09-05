@@ -112,7 +112,7 @@ export const leaderboardAggregate = async (req, res) => {
             }
             }): await User.countDocuments( {role: "member"})
           //const totalLeaderboard = await User.countDocuments({role:"member"})
-          const totalPages = Math.ceil( totalLeaderboard/limit)
+          const totalPages =Math.max(1, Math.ceil( totalLeaderboard/limit))
           return res.status(200).json( {
             success: true, 
             message: "Leaderboard searching , sorting, pagination",

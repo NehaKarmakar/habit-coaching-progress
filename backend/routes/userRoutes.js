@@ -11,6 +11,7 @@ const router= express.Router()
 router.post("/register",checkSchema(userRegisterSchema), usersCltr.register)
 router.post("/login", checkSchema(userLoginSchema), usersCltr.login)
 router.put("/update",authenticateUser,authorizeUser(["coach","member"]),usersCltr.editProfile)
+router.delete("/deleteAccount",authenticateUser,authorizeUser(["coach","member"]),usersCltr.deleteAccount)
 router.post("/forgetPassword",usersCltr.forgetPassword)
 router.post("/resetPassword/:token",usersCltr.resetPassword)
 
