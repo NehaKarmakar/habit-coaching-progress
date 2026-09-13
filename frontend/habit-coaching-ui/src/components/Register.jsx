@@ -1,7 +1,7 @@
 import {useState,useContext} from "react"
 import {useNavigate} from "react-router-dom"
 import LoadingContext from "../contexts/loadingContext"
-import axios from "axios"
+import axios from "../config/axios"
 import { toast } from "react-toastify"
 export default function Register() {
     const [form, setForm] = useState( {
@@ -83,7 +83,7 @@ export default function Register() {
         }
         setLoading(true)
         try{
-            const response= await axios.post("http://localhost:5555/api/auth/register",
+            const response= await axios.post("/api/auth/register",
                  {
                      name: form.name,
                      email: form.email,
@@ -118,7 +118,7 @@ export default function Register() {
         setLoading(true)
         try{
 
-            const response= await axios.get(`http://localhost:5555/api/auth/check-field?field=${name}&value=${value}`)
+            const response= await axios.get(`/api/auth/check-field?field=${name}&value=${value}`)
            console.log(response.data)
            setForm({...form, checkError:{} })
 

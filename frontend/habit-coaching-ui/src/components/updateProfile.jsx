@@ -107,7 +107,7 @@ export default function UpdateProfile() {
         setLoading(true)
         try{
 
-            const response= await axios.get(`http://localhost:5555/api/auth/check-field?field=${name}&value=${value}`)
+            const response= await axios.get(`/api/auth/check-field?field=${name}&value=${value}`)
            console.log(response.data)
            
          

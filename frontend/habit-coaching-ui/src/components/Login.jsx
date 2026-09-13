@@ -1,5 +1,5 @@
 import {useState} from "react"
-import axios from "axios"
+import axios from "../config/axios"
 import { useContext } from "react"
 import AuthContext from "../contexts/AuthContext"
 import { Link, useNavigate } from "react-router-dom"
@@ -39,13 +39,13 @@ export default function Login() {
     }
     const handleSubmit= async (e) => {
         e.preventDefault()
-       // http://localhost:5555/api/auth
+      
        if(!formValidations()) {
         return
        }
        setLoading(true)
        try{
-        const response= await axios.post("http://localhost:5555/api/auth/login",
+        const response= await axios.post("/api/auth/login",
             {
                 email: form.email,
                 password: form.password
