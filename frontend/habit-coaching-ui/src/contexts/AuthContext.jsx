@@ -1,7 +1,7 @@
 import { createContext, useReducer, useEffect } from "react";
 import reducer from "../reducers/Auth-reducer.jsx";
 import { useNavigate } from "react-router-dom";
-import axios from "axios"
+import axios from "../config/axios";
 const AuthContext= createContext()
 export default AuthContext
 
@@ -20,7 +20,7 @@ export function AuthProvider (props){
                 const token= localStorage.getItem("token")
                 try{
                  if(token) {
-                    const response= await axios.get("http://localhost:5555/api/auth/profile" ,{headers: {Authorization:token }})
+                    const response= await axios.get("/api/auth/profile" ,{headers: {Authorization:token }})
                     dispatch({type: "LOGIN", payload: response.data})
                  }
                 }
