@@ -115,6 +115,9 @@ export default function Register() {
     }
     const handleCheck= async (e) => {
         const {name, value} = e.target
+        if (!value.trim()) {
+        return
+    }
         setLoading(true)
         try{
 
