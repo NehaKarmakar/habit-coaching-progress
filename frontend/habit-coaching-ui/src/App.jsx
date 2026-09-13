@@ -7,7 +7,7 @@ import Login from "./components/Login.jsx";
 import MemberDashboard from "./components/MemberDashboard.jsx";
 import CoachDashboard from "./components/CoachDashboard.jsx";
 import Profile from "./components/Profile.jsx";
-import ForgetPassword from "./components/forgetPassword.jsx";
+import ForgetPassword from "./components/ForgetPassword.jsx";
 import ResetPassword from "./components/ResetPassword.jsx";
 
 import GroupEnrollment from "./components/coach/GroupEnrollment.jsx";
