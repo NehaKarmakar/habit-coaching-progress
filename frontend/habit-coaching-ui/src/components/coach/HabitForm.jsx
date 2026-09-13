@@ -98,9 +98,6 @@ export default function HabitForm () {
 
         setServerError("");
         setResource(null)
-        assignedEditId(null)
-           
-         toast("Successfully added habit to the group")
         
          
         }
