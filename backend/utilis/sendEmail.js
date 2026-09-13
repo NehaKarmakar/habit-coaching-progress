@@ -31,30 +31,32 @@ const sendEmail= async (to, subject, text) => {
 
 export default sendEmail
 */
-import { Resend } from "resend";
+import nodemailer from "nodemailer";
 import dotenv from "dotenv";
 
 dotenv.config();
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+        type: "OAuth2",
+        user: process.env.USER_EMAIL,
+        clientId: process.env.CLIENT_ID,
+        clientSecret: process.env.CLIENT_SECRET,
+        refreshToken: process.env.REFRESH_TOKEN
+    }
+});
 
 const sendEmail = async (to, subject, text) => {
-    const { data, error } = await resend.emails.send({
-        from: "Habit Coaching <onboarding@resend.dev>",
-        to: [to],
+    const info = await transporter.sendMail({
+        from: process.env.USER_EMAIL,
+        to: to,
         subject: subject,
         text: text
     });
 
-    if (error) {
-        console.log("Email failed:", error);
-        throw new Error(error.message);
-    }
-
-    console.log("Email sent:", data.id);
-    console.log("To:", to);
-
-    return data;
+    console.log("Email sent:", info.messageId);
+    return info;
 };
 
 export default sendEmail;
