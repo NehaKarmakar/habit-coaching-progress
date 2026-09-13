@@ -20,7 +20,7 @@ configureDB
 app.use(cors())
 app.use(express.json())
 app.get("/" , (req, res) => {
-    res.json("welcome to the group-habit tracker")
+    res.json(" welcome to the habit coaching and progress tracking system ")
 })
 
 app.use("/api/auth",userRoutes)
