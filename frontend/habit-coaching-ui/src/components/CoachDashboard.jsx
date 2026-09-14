@@ -1,4 +1,5 @@
 import { LineChart, Line, XAxis, YAxis, Tooltip } from "recharts"
+import { ChartContainer, ChartTooltipContent } from "../components/ui/chart"
 import {useState, useEffect,useContext} from "react"
 import AuthContext from "../contexts/AuthContext"
 import axios from "../config/axios"
@@ -12,6 +13,23 @@ export default function CoachDashboard () {
         serverError:""
     })
     const {setLoading} = useContext(LoadingContext)
+    const chartConfig = {
+    completed: {
+        label: "Completed",
+    },
+}
+
+const dailyChart = coachDashboard.data?.dailyChart?.length
+    ? coachDashboard.data.dailyChart
+    : [
+        { _id: "Mon", completed: 0 },
+        { _id: "Tue", completed: 0 },
+        { _id: "Wed", completed: 0 },
+        { _id: "Thu", completed: 0 },
+        { _id: "Fri", completed: 0 },
+        { _id: "Sat", completed: 0 },
+        { _id: "Sun", completed: 0 },
+    ]
     useEffect( () => {
         (
             async function fetchDashboard(){
@@ -77,23 +95,27 @@ export default function CoachDashboard () {
             <div className="card bg-blue-100 border rounded-lg  p-6   hover:bg-fuchsia-200 scale-95 shadow-md">
             <h3 className="font-semibold text-center"> MonthlyProgress:  {coachDashboard.data.totalMonthlyProgress}</h3>
             </div>
+            </div> <br/>
+             <h3 className="font-semibold text-center">Daily Competed Chart</h3>
+         <div className="flex justify-center gap-4">
             
-         </div>
-            <br/><br/>
-             <h3 className="font-semibold text-center">Daily Progress Chart</h3> <br/>
-            <div className="flex justify-center gap-4">
-             
-            <LineChart width={400} height={300} data={coachDashboard.data?.dailyChart} className=" bg-blue-100 border rounded-lg  p-6  hover:bg-fuchsia-200 scale-95 shadow-md">
-               
-                <XAxis dataKey="_id" />
-                <YAxis/>
-                <Tooltip />
-                <Line dataKey="completed" />
-            </LineChart>
-            
+        <ChartContainer
+        config={chartConfig}
+        className="w-[400px] h-[300px] bg-blue-100 border rounded-lg p-6 hover:bg-fuchsia-200 scale-95 shadow-md">
+        <LineChart data={dailyChart}>
+            <XAxis dataKey="_id" />
+            <YAxis />
+            <Tooltip content={<ChartTooltipContent />} />
+            <Line
+                type="monotone"
+                dataKey="completed"
+                stroke="currentColor"
+                strokeWidth={2}
+            />
+        </LineChart>
+    </ChartContainer>
 
-            
-         </div>
+      </div>
         </div>
         </div>
     )

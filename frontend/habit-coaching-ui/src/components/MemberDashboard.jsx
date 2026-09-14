@@ -1,4 +1,5 @@
 import { LineChart, Line, XAxis,YAxis,Tooltip } from "recharts"
+import { ChartContainer, ChartTooltipContent } from "../components/ui/chart"
 import {useState, useEffect,useContext} from "react"
 import axios from "../config/axios"
 import AuthContext from "../contexts/AuthContext"
@@ -11,6 +12,23 @@ export default  function MemberDashboard() {
         serverError: ""
     })
     const {setLoading} = useContext(LoadingContext)
+    const chartConfig = {
+    completed: {
+        label: "Completed",
+    },
+}
+
+const dailyChart = memberDashboard.data?.dailyChart?.length
+    ? memberDashboard.data.dailyChart
+    : [
+        { _id: "Mon", completed: 0 },
+        { _id: "Tue", completed: 0 },
+        { _id: "Wed", completed: 0 },
+        { _id: "Thu", completed: 0 },
+        { _id: "Fri", completed: 0 },
+        { _id: "Sat", completed: 0 },
+        { _id: "Sun", completed: 0 },
+    ]
     useEffect( () => {
         (
             async function fetchDashboard() {
@@ -84,14 +102,24 @@ export default  function MemberDashboard() {
                 <br/><br/>
                 <h3 className="font-semibold text-center">Daily Progress Chart</h3> <br/>
             <div className="flex justify-center gap-4">
-             
-                <LineChart width={400} height={300} data={memberDashboard.data?.dailyChart} className=" bg-blue-100 border rounded-lg  p-6  hover:bg-fuchsia-200 scale-95 shadow-md">
+
+                 <ChartContainer
+                  config={chartConfig}
+                  className="w-[400px] h-[300px] bg-blue-100 border rounded-lg p-6 hover:bg-fuchsia-200 scale-95 shadow-md" >
+                  <LineChart data={dailyChart}>
                   <XAxis dataKey="_id" />
-                  <YAxis/>
-                  <Tooltip />
-                  <Line dataKey="completed" />
-                </LineChart>
-            </div>
+                  <YAxis />
+                  <Tooltip content={<ChartTooltipContent />} />
+                  <Line
+                    type="monotone"
+                    dataKey="completed"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                />
+              </LineChart>
+            </ChartContainer>
+
+           </div>
 
             <div className="hover:scale-95 border-xl shadow-md bg-amber-700 text-white p-4 m-2">
             <h3 className="font-semibold text-center">Ai Advice: {memberDashboard.data.advice} </h3>
