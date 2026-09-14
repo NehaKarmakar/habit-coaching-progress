@@ -4,7 +4,7 @@ import GroupEnrollment from "../models/groupEnrollmentModel.js"
 import Habit from "../models/habitModel.js"
 import sendEmail from "../utilis/sendEmail.js"
 export const startCronJobs = () => {
-    cron.schedule("* * * * *" , async () => {
+    cron.schedule("0 9 * * *" , async () => {
         try{
             const members = await User.find( {role: "member"})
            
