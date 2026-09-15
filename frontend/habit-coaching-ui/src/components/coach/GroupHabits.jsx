@@ -41,7 +41,7 @@ export default function GroupHabits() {
         
         <div className="flex min-h-screen gap-4">
             {user?.role==="coach" ?  <CoachSidebar/> : <MemberSidebar/> }
-            <div className="flex-1 p-8 max-sm:p-3">
+            <div className="flex-1 max-sm:min-w-0 p-8 max-sm:p-3">
             <h2 className="text-2xl font-semibold text-center"> Group Habits</h2> <br/>
             {groupHabits.serverError && <p className="text-xl max-sm:text-base font-semibold text-red-700"> {groupHabits.serverError}</p>} <br/>
             <div className="card">

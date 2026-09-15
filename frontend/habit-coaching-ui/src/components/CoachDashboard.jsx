@@ -58,13 +58,13 @@ const dailyChart = coachDashboard.data?.dailyChart?.length
     return( 
         <div className="flex min-h-screen gap-8">
             <CoachSidebar/>
-        <div className="flex-1 p-6">
+        <div className="flex-1 max-sm:min-w-0 p-6 max-sm:p-3">
         <h2 className="font-semibold text-center">Welcome {user.name} !</h2> <br/>
          {
                 coachDashboard.serverError && <p className="text-xl max-sm:text-base font-semibold text-red-700"> {coachDashboard.serverError}</p>
             }<br/>
 
-             <div className="hover:scale-95 border-xl shadow-md bg-blue-950 text-white p-4 m-2">
+             <div className="hover:scale-95 border-xl  shadow-md bg-blue-950 text-white p-4 m-2 max-sm:p-3">
                <h3 className="text-center font-semibold "> Quote: {coachDashboard.data.motivationalQuote?.content}  -
                  {coachDashboard.data.motivationalQuote?.author}</h3>
                  </div>

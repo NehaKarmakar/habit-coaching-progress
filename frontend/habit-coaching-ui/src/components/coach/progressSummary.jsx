@@ -50,7 +50,7 @@ export default function ProgressSummary() {
                   {
                     user?.role==="coach" ? <CoachSidebar/> : <MemberSidebar/>
                   }
-                    <div className="flex-1 p-6 max-sm:p-3">
+                    <div className="flex-1 max-sm:min-w-0 p-6 max-sm:p-3">
                   <h2 className="text-2xl font-semibold text-center"> My Progress</h2>
                    
                     {

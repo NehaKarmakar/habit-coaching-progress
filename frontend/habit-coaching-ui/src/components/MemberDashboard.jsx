@@ -56,7 +56,7 @@ const dailyChart = memberDashboard.data?.dailyChart?.length
     return(
         <div className="flex min-h-screen gap-8">
             <MemberSidebar/>
-            <div className="flex-1 p-6">
+            <div className="flex-1 max-sm:min-w-0 p-6 max-sm:p-3">
             <h2  className="font-semibold text-center">Welcome {user.name} !</h2> <br/>
              
               {

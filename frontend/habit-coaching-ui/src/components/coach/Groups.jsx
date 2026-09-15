@@ -70,12 +70,12 @@ export default function Groups() {
     return(
         <div className="flex min-h-screen gap-8">
             <CoachSidebar/>
-            <div className="flex-1 p-6 max-sm:p-3 ">
+            <div className="flex-1  max-sm:min-w-0 p-6 max-sm:p-3 ">
             <h2 className="text-2xl font-semibold text-center">Groups</h2>
           {
             serverError && <p className="text-xl max-sm:text-base font-semibold text-red-700"> {serverError}</p>
           } <br/>
-          <input type= "text" name= "search" value= {search} onChange={handleChange} placeholder="search by groupname"/>
+          <input className="max-sm:w-full" type= "text" name= "search" value= {search} onChange={handleChange} placeholder="search by groupname"/>
            <br/>
            {/*sort*/}
            <label className=" font-semibold m-3 p-4 max-sm:block">Sort By: 

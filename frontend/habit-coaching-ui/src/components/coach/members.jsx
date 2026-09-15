@@ -63,13 +63,13 @@ export default function Members () {
         <div className="flex min-h-screen gap-8">
            
             <CoachSidebar/>
-            <div className="flex-1 p-6 max-sm:p-3">
+            <div className="flex-1 max-sm:min-w-0 p-6 max-sm:p-3">
               <h2 className="text-2xl font-semibold text-center">Members List</h2>
             {
                 serverError && <p className="text-xl max-sm:text-base font-semibold text-red-700"> {serverError}</p> 
             } <br/>
 
-            <input type= "text" value= {members.search} onChange= { (e) => {setMembers( {...members, search: e.target.value, page:1})}} placeholder="Search by member username"/>
+            <input className="max-sm:w-full" type= "text" value= {members.search} onChange= { (e) => {setMembers( {...members, search: e.target.value, page:1})}} placeholder="Search by member username"/>
             <br/>
 
             <label className=" font-semibold m-3 p-4 max-sm:block">Sort By: 

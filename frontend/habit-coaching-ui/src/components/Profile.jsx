@@ -46,7 +46,7 @@ export default function Profile(){
             {
                 user?.role==="coach"? <CoachSidebar/> : <MemberSidebar/>
             }
-             <div className="flex-1 p-6 max-sm:p-3">
+             <div className="flex-1 max-sm:min-w-0 p-6 max-sm:p-3">
             <h2 className="text-2xl font-semibold text-center">Profile</h2>
             <br/>
             {serverError && <p className="text-xl max-sm:text-base font-semibold text-red-700">{serverError}</p>}

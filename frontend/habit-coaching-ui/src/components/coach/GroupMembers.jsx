@@ -69,7 +69,7 @@ export default function GroupMembers (){
     return(
         <div  className="flex min-h-screen gap-4">
               <CoachSidebar/>
-              <div className="flex-1 p-8  max-sm:p-3">
+              <div className="flex-1 max-sm:min-w-0 p-8  max-sm:p-3">
             <h2 className="text-2xl font-semibold text-center">Group Members</h2>
             {groupMembers.serverError && <p className="text-xl max-sm:text-base font-semibold text-red-700"> {groupMembers.serverError}</p>}
              <div className="card">

@@ -52,7 +52,7 @@ export default function MembersLeaderboard() {
             {
             user?.role==="coach" ?  <CoachSidebar/> : <MemberSidebar/>
             }
-             <div className="flex-1 p-6 max-sm:p-3">
+             <div className="flex-1 max-sm:min-w-0 p-6 max-sm:p-3">
             <h2 className="text-2xl font-semibold text-center">  Leaderboard</h2>
            
             {
@@ -60,7 +60,7 @@ export default function MembersLeaderboard() {
             }
             <br/>
 
-            <input type="text" value= {leaderboard.search} onChange= { (e) => { setLeaderboard( {...leaderboard, search: e.target.value, page:1})}} placeholder="Search by member username" /><br/>
+            <input className="max-sm:w-full" type="text" value= {leaderboard.search} onChange= { (e) => { setLeaderboard( {...leaderboard, search: e.target.value, page:1})}} placeholder="Search by member username" /><br/>
 
             <label className=" font-semibold m-3 p-4  max-sm:block">Sort By: 
             <select value= {leaderboard.sort} onChange= { (e) => {setLeaderboard( {...leaderboard, sort: e.target.value, page:1}) }}>
