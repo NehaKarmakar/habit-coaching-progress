@@ -55,6 +55,22 @@ button {
   margin-top: 5px;
 
 }
+@media (max-width: 640px) {
+  input,
+  textarea,
+  select {
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  form {
+    max-width: 100%;
+  }
+
+  table {
+    max-width: 100%;
+  }
+}
 
 
 
