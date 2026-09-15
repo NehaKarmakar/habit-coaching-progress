@@ -47,19 +47,20 @@ export default function MyProgress() {
           {
             user?.role==="coach" ? <CoachSidebar/> : <MemberSidebar/>
           }
-            <div className="flex-1 p-6">
+            <div className="flex-1 p-6 max-sm:p-3">
           <h2 className="text-2xl font-semibold text-center"> My Progress</h2>
            
             {
-                progress.serverError && <p className="text-xl font-semibold text-red-700"> {progress.serverError}</p>
+                progress.serverError && <p className="text-xl  max-sm:text-base font-semibold text-red-700"> {progress.serverError}</p>
             }
            
-           <div className="grid grid-cols-2 gap-8 mt-6 max-w-4xl mx-auto">
+           <div className="grid grid-cols-2 max-sm:grid-cols-1 gap-8 mt-6 max-w-4xl mx-auto">
 
 
-            <div className="card border rounded-lg  p-6   hover:bg-fuchsia-200 scale-95 shadow-md">
+            <div className="card border rounded-lg  p-6 max-sm:p-3  hover:bg-fuchsia-200 scale-95 shadow-md">
             <h3 className="font-semibold text-center">Daily Habits </h3>
             <p className=" font-semibold">Total: {progress.dailyProgress.length}</p><br/>
+            <div className="overflow-x-auto">
             <table className="border-collapse border">
                 <thead className="bg-blue-500 text-white">
                     <tr>
@@ -81,11 +82,13 @@ export default function MyProgress() {
                 </tbody>
             </table>
             </div>
+            </div>
            
            
-            <div className="card border rounded-lg p-6  hover:bg-fuchsia-200 scale-95 shadow-md">
+            <div className="card border rounded-lg p-6 max-sm:p-3  hover:bg-fuchsia-200 scale-95 shadow-md">
              <h3 className=" font-semibold text-center">Weekly Habits </h3>
              <p  className=" font-semibold">Total: {progress.weeklyProgress?.length}</p><br/>
+             <div className="overflow-x-auto">
             <table className="border-collapse border">
                 <thead className="bg-blue-500 text-white">
                     <tr>
@@ -107,11 +110,13 @@ export default function MyProgress() {
                 </tbody>
             </table>
             </div>
+            </div>
             
 
-            <div className="card border rounded-lg p-6  hover:bg-fuchsia-200 scale-95 shadow-md">
+            <div className="card border rounded-lg p-6 max-sm:p-3 hover:bg-fuchsia-200 scale-95 shadow-md">
                     <h3 className=" font-semibold text-center">Monthly Habits </h3>
                     <p  className=" font-semibold">Total: {progress.monthlyProgress?.length}</p><br/>
+                    <div className="overflow-x-auto">
             <table className="border-collapse border">
                 <thead className="bg-blue-500 text-white">
                     <tr>
@@ -133,10 +138,12 @@ export default function MyProgress() {
                 </tbody>
             </table>
             </div>
+            </div>
             
 
-            <div className="card border rounded-lg p-6   hover:bg-fuchsia-200 scale-95 shadow-md">
+            <div className="card border rounded-lg p-6 max-sm:p-3  hover:bg-fuchsia-200 scale-95 shadow-md">
                <h3 className=" font-semibold text-center">Streaks</h3>
+               <div className="overflow-x-auto">
             <table  className="border-collapse border">
                 <thead className="bg-blue-500 text-white">
                     <tr>
@@ -151,6 +158,7 @@ export default function MyProgress() {
                     </tr>
                 </tbody>
             </table>
+            </div>
             </div>
             
         </div>

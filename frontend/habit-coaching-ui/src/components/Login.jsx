@@ -78,15 +78,15 @@ export default function Login() {
         <div className="flex flex-col items-center gap-8 ">
             <h2 className="text-2xl font-semibold">Login Form</h2>
             {
-                form.serverError && <p className="text-xl font-semibold text-red-700"> {form.serverError}</p>
+                form.serverError && <p className="text-xl max-sm:text-base font-semibold text-red-700"> {form.serverError}</p>
             }
-            <div className="flex justify-center scale-110 ">
+            <div className="flex justify-center scale-110  max-sm:scale-100 max-sm:w-full max-sm:px-4 ">
             <form onSubmit= {handleSubmit}>
-                <label className="text-xl">Email: 
-                    <input type= "email" name= "email"value={form.email} onChange= {handleChange} placeholder="Enter your email"/>
+                <label className="text-xl max-sm:text-lg">Email: 
+                    <input  type= "email" name= "email"value={form.email} onChange= {handleChange} placeholder="Enter your email"/>
                     </label>
-                <label className="text-xl">Password: 
-                    <input type= "password" name= "password" value={form.password} onChange={handleChange} placeholder="Enter your password"/>
+                <label className="text-xl max-sm:text-lg">Password: 
+                    <input  type= "password" name= "password" value={form.password} onChange={handleChange} placeholder="Enter your password"/>
                 </label>
                 <Link to ="/user/forgetPassword" >Forget Password?</Link>
                 <input type= "submit" value="login"  className="!w-full !bg-blue-600 !px-3 !py-2 !text-white !border-0 !rounded-lg !cursor-pointer hover:!bg-blue-700"/>

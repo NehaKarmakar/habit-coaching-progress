@@ -63,27 +63,27 @@ export default function Members () {
         <div className="flex min-h-screen gap-8">
            
             <CoachSidebar/>
-            <div className="flex-1 p-6">
+            <div className="flex-1 p-6 max-sm:p-3">
               <h2 className="text-2xl font-semibold text-center">Members List</h2>
             {
-                serverError && <p className="text-xl font-semibold text-red-700"> {serverError}</p> 
+                serverError && <p className="text-xl max-sm:text-base font-semibold text-red-700"> {serverError}</p> 
             } <br/>
 
             <input type= "text" value= {members.search} onChange= { (e) => {setMembers( {...members, search: e.target.value, page:1})}} placeholder="Search by name"/>
             <br/>
 
-            <label className=" font-semibold m-3 p-4">Sort By: 
+            <label className=" font-semibold m-3 p-4 max-sm:block">Sort By: 
             <select value= {members.sort} onChange= { (e) => {setMembers( { ...members, sort: e.target.value, page:1})}}>
-               <option value="">Select</option>
+            
                <option value="createdAt">Created At</option>
                <option value="name">Name</option>
 
             </select>
             </label>
 
-             <label className="font-semibold m-3 p-4">Order:
+             <label className="font-semibold m-3 p-4 max-sm:block">Order:
             <select value= {members.order} onChange= { (e) => {setMembers( {...members, order: e.target.value,page:1})}}>
-                <option value= "">Select</option>
+               
                 <option value= "asc">Ascending</option>
                 <option value= "desc">Descending</option>
 
@@ -92,11 +92,12 @@ export default function Members () {
         <br/> <br/>
 
         {members.data.length === 0 && 
-                    <p className="text-xl font-semibold text-center text-red-700">
+                    <p className="text-xl max-sm:text-base font-semibold text-center text-red-700">
                          No members found.
                     </p>
                 
                }<br/>
+               <div className="overflow-x-auto">
             <table className=" w-full border-collapse border">
                 <thead className="bg-blue-500 text-white">
                     <tr>
@@ -126,7 +127,7 @@ export default function Members () {
                     }
                 </tbody>
             </table>
-
+            </div>
              <div className="flex justify-center items-center gap-10 mt-10">
             <button disabled= {members.page===1} onClick= { () => {setMembers( {...members, page: members.page-1})}}>Previous</button>
             <span>{members.page} of {members.totalPages}</span>

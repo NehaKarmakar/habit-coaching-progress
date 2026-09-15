@@ -37,16 +37,17 @@ export default function MemberGroups (){
      return(
         <div className="flex min-h-screen gap-8">
               <CoachSidebar/>
-              <div className="flex-1 p-4">
+              <div className="flex-1 p-4 max-sm:p-3">
             <h2 className="text-2xl font-semibold text-center">Members Group</h2>
-            {memberGroups.serverError && <p className="text-xl font-semibold text-red-700"> {memberGroups.serverError}</p>}
+            {memberGroups.serverError && <p className="text-xl max-sm:text-base font-semibold text-red-700"> {memberGroups.serverError}</p>}
             <div className="card">
                 {memberGroups.data.length === 0 && 
-                    <p className="text-xl font-semibold text-center text-red-700">
+                    <p className="text-xl max-sm:text-base font-semibold text-center text-red-700">
                          No group found for this member.
                     </p>
                 
                }<br/>
+               <div className="overflow-x-auto">
             <table className=" w-full  border-collapse border">
                 <thead className="bg-blue-500 text-white">
                     <tr>
@@ -68,7 +69,8 @@ export default function MemberGroups (){
                         })
                     }
                 </tbody>
-            </table>  
+            </table> 
+            </div> 
         </div>
         </div>
         </div>

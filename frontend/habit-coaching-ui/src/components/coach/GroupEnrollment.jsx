@@ -65,15 +65,15 @@ export default function GroupEnrollment() {
             
             <div className="card">
                  
-            <div className="flex-1  p-6">
+            <div className="flex-1  p-6  max-sm:p-3">
          
            
             <h2 className="text-2xl font-semibold text-center"> Add Member</h2> <br/>
-            {form.serverError && <p  className="text-xl font-semibold text-red-700">{form.serverError}</p>}
-            <div className="flex justify-center scale-110 ">
+            {form.serverError && <p  className="text-xl max-sm:text-base font-semibold text-red-700">{form.serverError}</p>}
+            <div className="flex justify-center scale-110 max-sm:scale-100 max-sm:w-full max-sm:px-4">
             <form onSubmit= {handleSubmit}>
                 
-                <label className="text-xl">Member Username: 
+                <label className="text-xl max-sm:text-lg">Member Username: 
                     <input type= "text" name= "memberName" value= {form.memberName} onChange= {handleChange} placeholder=" Enter the member username"/>
                 </label>
                 <input type= "submit" value= "Add to the Group" className="!w-full !bg-blue-600 !px-3 !py-2 !text-white !border-0 !rounded-lg !cursor-pointer hover:!bg-blue-700"/>

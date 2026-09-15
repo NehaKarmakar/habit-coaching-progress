@@ -51,22 +51,22 @@ export default function MemberProgress() {
     return (
         <div className="flex min-h-screen gap-8">
             <CoachSidebar/>
-            <div className="flex-1 p-6">
+            <div className="flex-1 p-6 max-sm:p-3">
             <h2 className="text-2xl font-semibold text-center"> Member Progress</h2>
-            {serverError && <p className="text-xl font-semibold text-red-700">{serverError}</p>}<br/>
+            {serverError && <p className="text-xl max-sm:text-base font-semibold text-red-700">{serverError}</p>}<br/>
 
              <input type= "text" value= {progress.search} onChange= { (e) => {setProgress({...progress, search: e.target.value, page:1})}} placeholder="Search by member name or habit title"/><br/>
 
-             <label className=" font-semibold m-3 p-4">Sort By: 
+             <label className=" font-semibold m-3 p-4 max-sm:block">Sort By: 
              <select value= {progress.sort} onChange= { (e) => {setProgress( {...progress, sort: e.target.value, page:1})}}>
-                <option value= "">Select</option>
+                
                 <option value= "completedDate">Completed Date</option>
              </select>
              </label>
             
-            <label className="font-semibold m-3 p-4">Order:
+            <label className="font-semibold m-3 p-4 max-sm:block">Order:
              <select value= {progress.order} onChange= { (e) => {setProgress({...progress, order:e.target.value, page:1})}}>
-                <option value="">Select</option>
+                
                 <option value="desc">Descending</option>
                 <option value= "asc">Ascending</option>
              </select>
@@ -74,12 +74,12 @@ export default function MemberProgress() {
              <br/><br/>
 
              {progress.data.length === 0 && 
-                    <p className="text-xl font-semibold text-center text-red-700">
+                    <p className="text-xl max-sm:text-base font-semibold text-center text-red-700">
                          No members found.
                     </p>
                 
                }<br/>
-
+            <div className="overflow-x-auto">
             <table className=" w-full border-collapse border">
                 <thead className="bg-blue-500 text-white">
                     <tr>
@@ -119,7 +119,7 @@ export default function MemberProgress() {
                         
                     </tbody>
             </table>
-
+            </div>
             <div className="flex justify-center items-center gap-10 mt-10">
             <button disabled= {progress.page===1} onClick= { () => setProgress( {...progress, page: progress.page-1})}>Previous</button>
             <span> {progress.page} of {progress.totalPages}</span>

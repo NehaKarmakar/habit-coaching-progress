@@ -120,27 +120,27 @@ export default function MyHabits() {
         <div className="flex min-h-screen gap-8">
             
             <MemberSidebar/>
-            <div className="flex-1 p-6">
+            <div className="flex-1 p-6 max-sm:p-3">
             <h2 className="text-2xl font-semibold text-center"> My habits</h2>
             {
-                serverError && <p className="text-xl font-semibold text-red-700">{serverError}</p>
+                serverError && <p className="text-xl max-sm:text-base font-semibold text-red-700">{serverError}</p>
                 
             }<br/>
             <input type= "text" value={myHabits.search} onChange= { (e) => {setMyHabits( {...myHabits, search: e.target.value,page:1})}} placeholder=" Search by title"/>
             <br/>
 
-             <label className=" font-semibold m-3 p-4">Sort By: 
+             <label className=" font-semibold m-3 p-4 max-sm:block">Sort By: 
             <select value= {myHabits.sort} onChange= { (e) => {setMyHabits( {...myHabits, sort:e.target.value, page:1})}}>
-                  <option value= "">Select</option>
+                
                   <option value= "createdAt">Created At</option>
                   <option value= "frequency">Frequency</option>
                   
             </select>
             </label>
 
-             <label className="font-semibold m-3 p-4">Order:
+             <label className="font-semibold m-3 p-4 max-sm:block">Order:
             <select value= {myHabits.order} onChange= { (e) => {setMyHabits( {...myHabits, order:e.target.value,page:1})}}>
-                <option value="">Select</option>
+               
                 <option value= "desc">Descending</option>
                 <option value= "asc">Ascending</option>
 
@@ -149,11 +149,12 @@ export default function MyHabits() {
             <br/><br/>
             
             {myHabits.data.length === 0 && 
-                    <p className="text-xl font-semibold text-center text-red-700">
+                    <p className="text-xl max-sm:text-base font-semibold text-center text-red-700">
                          No habits found for this group.
                     </p>
                 
                }<br/>
+               <div className="overflow-x-auto">
             <table className=" w-full border-collapse border">
                 <thead  className="bg-blue-500 text-white">
                     <tr>
@@ -180,6 +181,7 @@ export default function MyHabits() {
                     }
                 </tbody>
             </table>
+            </div>
             <div className="flex justify-center items-center gap-10 mt-10">
             <button disabled= {myHabits.page===1} onClick= {() => {setMyHabits( {...myHabits, page: myHabits.page-1})}}>Previous</button>
             <span> {myHabits.page} of {myHabits.totalPages}</span>

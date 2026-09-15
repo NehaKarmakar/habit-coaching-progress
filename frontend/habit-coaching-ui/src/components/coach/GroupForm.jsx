@@ -81,13 +81,13 @@ return(
             editId && <button onClick= {() => {dispatch(assignedEditId(null))}}>Cancel edit</button>
         }
         
-        {checkError && <p className="text-xl font-semibold text-red-700"> {checkError}</p>}
-        <div className="flex justify-center scale-110 ">
+        {checkError && <p className="text-xl max-sm:text-base  font-semibold text-red-700"> {checkError}</p>}
+        <div className="flex justify-center scale-110 max-sm:scale-100 max-sm:w-full max-sm:px-4 ">
         <form onSubmit= {handleSubmit}>
-            <label className="text-xl">Title:
+            <label className="text-xl max-sm:text-lg">Title:
             <input type= "text" name= "groupName" value= {form.groupName} onChange= {handleChange} placeholder="Enter the group name"/>
             </label>
-            <label className="text-xl">Description: 
+            <label className="text-xl max-sm:text-lg">Description: 
                 <input type= "text" name= "description" value= {form.description} onChange= {handleChange} placeholder="Enter the group description"/>
             </label>
             <input type= "submit" className="!w-full !bg-blue-600 !px-3 !py-2 !text-white !border-0 !rounded-lg !cursor-pointer hover:!bg-blue-700" />

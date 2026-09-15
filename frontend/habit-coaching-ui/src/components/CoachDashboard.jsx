@@ -61,7 +61,7 @@ const dailyChart = coachDashboard.data?.dailyChart?.length
         <div className="flex-1 p-6">
         <h2 className="font-semibold text-center">Welcome {user.name} !</h2> <br/>
          {
-                coachDashboard.serverError && <p className="text-xl font-semibold text-red-700"> {coachDashboard.serverError}</p>
+                coachDashboard.serverError && <p className="text-xl max-sm:text-base font-semibold text-red-700"> {coachDashboard.serverError}</p>
             }<br/>
 
              <div className="hover:scale-95 border-xl shadow-md bg-blue-950 text-white p-4 m-2">

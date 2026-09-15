@@ -100,17 +100,17 @@ export default function Habits (){
     return(
         <div className="flex min-h-screen gap-0.5">
             <CoachSidebar/>
-            <div className="flex-1  p-6">
+            <div className="flex-1  p-6 max-sm:p-3">
             <h2 className="text-2xl font-semibold text-center"> Habits</h2> <br/>
             {
-                habits.serverError && <p className="text-xl font-semibold text-red-700"> {habits.serverError}</p>
+                habits.serverError && <p className="text-xl max-sm:text-base font-semibold text-red-700"> {habits.serverError}</p>
             }
          
        
         <input type= "text" value= {habits.search} onChange= { (e) => {setHabits({...habits, search: e.target.value, page: 1})}} placeholder="Search by title"/><br/>
-         <label className=" font-semibold m-3 p-4">Sort By: 
+         <label className=" font-semibold m-3 p-4 max-sm:block">Sort By: 
         <select value= {habits.sort} onChange={ (e) => {setHabits( {...habits, sort: e.target.value, page: 1})}}>
-            <option value= "">Select</option>
+            
             <option value="createdAt">Created At</option>
             <option value="title">Title</option>
             <option value= "frequency">Frequency</option>
@@ -119,9 +119,9 @@ export default function Habits (){
         </select>
         </label>
 
-         <label className="font-semibold m-3 p-4">Order:
+         <label className="font-semibold m-3 p-4 max-sm:block">Order:
         <select value= {habits.order} onChange= { (e) => {setHabits( {...habits, order: e.target.value, page: 1 })}}>
-            <option value= "">Select</option>
+           
             <option value="asc">Ascending</option>
             <option value= "desc">Descending</option>
           
@@ -129,12 +129,12 @@ export default function Habits (){
         </label> <br/><br/>
 
         {habits.data.length === 0 && 
-                    <p className="text-xl font-semibold text-center text-red-700">
+                    <p className="text-xl max-sm:text-base font-semibold text-center text-red-700">
                          No habits found .
                     </p>
                 
                }<br/>
-     
+     <div className="overflow-x-auto">
         <table className="  border-collapse border">
                 <thead className="bg-blue-500 text-white" >
                  <tr>
@@ -188,7 +188,7 @@ export default function Habits (){
                    
                 </tbody>
             </table>
-            
+            </div>
 
             <div className="flex justify-center items-center gap-10 mt-10">
             <button disabled ={habits.page===1} onClick= { () => {setHabits({...habits, page: habits.page-1})}}>Previous</button>

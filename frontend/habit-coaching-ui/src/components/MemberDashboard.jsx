@@ -60,7 +60,7 @@ const dailyChart = memberDashboard.data?.dailyChart?.length
             <h2  className="font-semibold text-center">Welcome {user.name} !</h2> <br/>
              
               {
-                memberDashboard.serverError && <p className="text-xl font-semibold text-red-700"> {memberDashboard.serverError}</p>
+                memberDashboard.serverError && <p className="text-xl max-sm:text-base font-semibold text-red-700"> {memberDashboard.serverError}</p>
             }<br/>
                 <div className="hover:scale-95 border-xl shadow-md bg-blue-950 text-white p-4 m-2">
                 <h3 className="text-center font-semibold ">
@@ -69,7 +69,7 @@ const dailyChart = memberDashboard.data?.dailyChart?.length
                 </h3>
                 </div>
 
-                <div className="grid grid-cols-4 gap-6 mt-6 max-w-4xl mx-auto">
+                <div className="grid grid-cols-4 max-sm:grid-cols-1 gap-6 mt-6 max-w-4xl mx-auto">
 
                 <div className="card bg-blue-100 border rounded-lg  p-6   hover:bg-fuchsia-200 scale-95 shadow-md">
                 <h3 className="text-center font-semibold "> Groups Assigned: {memberDashboard.data.assignedGroups?.length}</h3>
@@ -105,7 +105,7 @@ const dailyChart = memberDashboard.data?.dailyChart?.length
 
                  <ChartContainer
                   config={chartConfig}
-                  className="w-[400px] h-[300px] bg-blue-100 border rounded-lg p-6 hover:bg-fuchsia-200 scale-95 shadow-md" >
+                  className="w-[400px] max-sm:w-full h-[300px] bg-blue-100 border rounded-lg p-6 hover:bg-fuchsia-200 scale-95 shadow-md" >
                   <LineChart data={dailyChart}>
                   <XAxis dataKey="_id" />
                   <YAxis />

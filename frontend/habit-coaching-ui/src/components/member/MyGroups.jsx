@@ -51,27 +51,27 @@ export default function MyGroups(){
         <div className="flex min-h-screen gap-8">
          
             <MemberSidebar/>
-            <div className="flex-1 p-6">
+            <div className="flex-1 p-6 max-sm:p-3">
                 <h2 className="text-2xl font-semibold text-center"> My Groups</h2>
             {
-                serverError && <p className="text-xl font-semibold text-red-700"> {serverError}</p>
+                serverError && <p className="text-xl max-sm:text-base font-semibold text-red-700"> {serverError}</p>
                 
             } <br/>
 
             <input type="text" name= "search" value= {myGroups.search} onChange= { (e) => { setMyGroups( {...myGroups, search: e.target.value, page:1})}} placeholder="Search by group name"/><br/>
 
-             <label className=" font-semibold m-3 p-4">Sort By: 
+             <label className=" font-semibold m-3 p-4 max-sm:block">Sort By: 
             <select value= {myGroups.sort} onChange= { (e) => { setMyGroups( {...myGroups, sort: e.target.value, page:1})}}>
-                <option value= "">Select</option>
+                
                 <option value= "joinedAt">Joined At</option>
                 <option value= "groupName">Group Name</option>
 
             </select>
             </label>
 
-            <label className="font-semibold m-3 p-4">Order:
+            <label className="font-semibold m-3 p-4 max-sm:block">Order:
             <select value= {myGroups.order} onChange= { (e) => {setMyGroups( {...myGroups, order:e.target.value, page:1})}}>
-                <option value= "">Select</option>
+               
                 <option value= "asc">Ascending</option>
                 <option value= "desc">Descending</option>
 
@@ -81,11 +81,12 @@ export default function MyGroups(){
              <br/> <br/>
 
              {myGroups.data.length === 0 && 
-                    <p className="text-xl font-semibold text-center text-red-700">
+                    <p className="text-xl max-sm:text-base font-semibold text-center text-red-700">
                          No groups found.
                     </p>
                 
                }<br/>
+               <div className="overflow-x-auto">
             <table className=" w-full border-collapse border">
                 <thead className="bg-blue-500 text-white">
                     <tr>
@@ -110,6 +111,7 @@ export default function MyGroups(){
                     }
                 </tbody>
             </table>
+            </div>
 
             <div className="flex justify-center items-center gap-10 mt-10">
             <button disabled= {myGroups.page===1} onClick={ () => {setMyGroups( {...myGroups, page: myGroups.page-1})}}>Previou</button>

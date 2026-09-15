@@ -41,16 +41,17 @@ export default function GroupHabits() {
         
         <div className="flex min-h-screen gap-4">
             {user?.role==="coach" ?  <CoachSidebar/> : <MemberSidebar/> }
-            <div className="flex-1 p-8">
+            <div className="flex-1 p-8 max-sm:p-3">
             <h2 className="text-2xl font-semibold text-center"> Group Habits</h2> <br/>
-            {groupHabits.serverError && <p className="text-xl font-semibold text-red-700"> {groupHabits.serverError}</p>} <br/>
+            {groupHabits.serverError && <p className="text-xl max-sm:text-base font-semibold text-red-700"> {groupHabits.serverError}</p>} <br/>
             <div className="card">
                 {groupHabits.data.length === 0 && 
-                    <p className="text-xl font-semibold text-center text-red-700">
+                    <p className="text-xl max-sm:text-base font-semibold text-center text-red-700">
                          No habits found for this group.
                     </p>
                 
                }<br/>
+               <div className="overflow-x-auto">
             <table className=" w-full border-collapse border">
                 <thead className="bg-blue-500 text-white">
                     <tr>
@@ -95,6 +96,7 @@ export default function GroupHabits() {
                     
                 </tbody>
             </table>
+        </div>
         </div>
         </div>
         </div>

@@ -4,8 +4,8 @@ export default function CoachSidebar(){
     return(
         
            <aside className="w-48 max-sm:w-32 min-h-screen bg-indigo-900 p-4 text-white ">
-            <h2 className="text-2xl font-semibold text-amber-400">Menu</h2> <br/>
-            <ul className="flex  flex-col  gap-2 text-xl">
+            <h2 className="text-2xl max-sm:text-xl font-semibold text-amber-400">Menu</h2> <br/>
+            <ul className="flex  flex-col  gap-2 text-xl max-sm:text-base">
                 <li className="hover:scale-95 underline "><Link to= "/coach/groups">Groups</Link></li>
                 <li className="hover:scale-95 underline "><Link to= "/coach/members">Members</Link></li>
                 <li className="hover:scale-95 underline "><Link to= "/coach/habits">Habits</Link></li>

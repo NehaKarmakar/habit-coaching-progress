@@ -69,16 +69,17 @@ export default function GroupMembers (){
     return(
         <div  className="flex min-h-screen gap-4">
               <CoachSidebar/>
-              <div className="flex-1 p-8">
+              <div className="flex-1 p-8  max-sm:p-3">
             <h2 className="text-2xl font-semibold text-center">Group Members</h2>
-            {groupMembers.serverError && <p className="text-xl font-semibold text-red-700"> {groupMembers.serverError}</p>}
+            {groupMembers.serverError && <p className="text-xl max-sm:text-base font-semibold text-red-700"> {groupMembers.serverError}</p>}
              <div className="card">
                 {groupMembers.data.length === 0 && 
-                    <p className="text-xl font-semibold text-center text-red-700">
+                    <p className="text-xl max-sm:text-base font-semibold text-center text-red-700">
                          No members found for this group.
                     </p>
                 
                }<br/>
+               <div className="overflow-x-auto">
              <table className=" w-full border-collapse border">
                 <thead className="bg-blue-500 text-white">
                     <tr>
@@ -112,7 +113,7 @@ export default function GroupMembers (){
                     
                 </tbody>
              </table>
-
+            </div>
           </div>  
          </div> 
         </div>

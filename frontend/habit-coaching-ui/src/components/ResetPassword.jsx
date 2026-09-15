@@ -70,12 +70,12 @@ export default function ResetPassword() {
         <div className="flex flex-col items-center gap-8 ">
             <h2 className="text-2xl font-semibold">Reset Password</h2>
             {
-                serverError && <p className="text-xl font-semibold text-red-700"> {serverError}</p>
+                serverError && <p className="text-xl max-sm:text-base font-semibold text-red-700"> {serverError}</p>
                 
             }
-            <div className="flex justify-center scale-110 ">
+            <div className="flex justify-center scale-110 max-sm:scale-100 max-sm:w-full max-sm:px-4 ">
             <form onSubmit={handleSubmit}>
-                <label className="text-xl"> Password 
+                <label className="text-xl max-sm:text-lg"> Password 
                     <input type= "password" name= "password" value= {password} onChange= {handleChange} placeholder="Enter your new password"/>
                 </label>
                 <input type= "submit" className="!w-full !bg-blue-600 !px-3 !py-2 !text-white !border-0 !rounded-lg !cursor-pointer hover:!bg-blue-700"/>

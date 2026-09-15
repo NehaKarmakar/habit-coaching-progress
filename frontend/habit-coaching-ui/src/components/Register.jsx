@@ -140,25 +140,25 @@ export default function Register() {
         <div className="flex flex-col items-center gap-8 ">
             <h2 className="text-2xl font-semibold">Register</h2>
             {
-                form.serverError && <p className="text-xl font-semibold text-red-700">{form.serverError}</p>
+                form.serverError && <p className="text-xl max-sm:text-base font-semibold text-red-700">{form.serverError}</p>
             }
-            <div className="flex justify-center scale-110 ">
+            <div className="flex justify-center scale-110 max-sm:scale-100 max-sm:w-full max-sm:px-4  ">
             <form onSubmit= {handleSubmit} >
               
-               <label className="text-xl">Username: 
+               <label className="text-xl max-sm:text-lg">Username: 
                 <input type= "text" name="name" value= {form.name} onChange= {handleChange} onBlur= {handleCheck} placeholder="Username must be unique"/> 
-                {form.checkError.field=== "name" && <span className="text-xl font-semibold text-red-700">Username already taken</span>}
+                {form.checkError.field=== "name" && <span className="text-xl max-sm:text-base font-semibold text-red-700">Username already taken</span>}
                 
                 </label>
-              <label className="text-xl">Email:
+              <label className="text-xl max-sm:text-lg">Email:
                 <input type= "email" name= "email" value= {form.email} onChange= {handleChange} onBlur= {handleCheck} placeholder="Enter your email"/>
-                {form.checkError.field=== "email" && <span className="text-xl font-semibold text-red-700">Email is already taken</span>}
+                {form.checkError.field=== "email" && <span className="text-xl max-sm:text-base font-semibold text-red-700">Email is already taken</span>}
                 
                 </label>
-                <label className="text-xl"> Phone No. :
+                <label className="text-xl max-sm:text-lg "> Phone No. :
                     <input type= "text" name= "phone" value= {form.phone} onChange= {handleChange} placeholder="Enter your phone number"/>
                 </label>
-              <label className="text-xl">Password:
+              <label className="text-xl max-sm:text-lg">Password:
                 <input type= "password" name= "password" value= {form.password} onChange= {handleChange} placeholder="Enter your password"/><br/><br/>
                 </label>
                 <input type= "submit" value= "register" className="!w-full !bg-blue-600 !px-3 !py-2 !text-white !border-0 !rounded-lg !cursor-pointer hover:!bg-blue-700"/>

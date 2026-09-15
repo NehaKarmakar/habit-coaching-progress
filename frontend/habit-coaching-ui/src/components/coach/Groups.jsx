@@ -70,27 +70,27 @@ export default function Groups() {
     return(
         <div className="flex min-h-screen gap-8">
             <CoachSidebar/>
-            <div className="flex-1 p-6">
+            <div className="flex-1 p-6 max-sm:p-3 ">
             <h2 className="text-2xl font-semibold text-center">Groups</h2>
           {
-            serverError && <p className="text-xl font-semibold text-red-700"> {serverError}</p>
+            serverError && <p className="text-xl max-sm:text-base font-semibold text-red-700"> {serverError}</p>
           } <br/>
           <input type= "text" name= "search" value= {search} onChange={handleChange} placeholder="search by groupname"/>
            <br/>
            {/*sort*/}
-           <label className=" font-semibold m-3 p-4">Sort By: 
+           <label className=" font-semibold m-3 p-4 max-sm:block">Sort By: 
            <select value= {sort} onChange={(e) =>
              {setSort(e.target.value);
              setPage(1)
              }}>
             
-            <option value= "">Select</option>
+           
             <option value= "createdAt">Created Date</option>
             <option value= "groupName">Group Name</option>
             
             </select>
             </label > 
-            <label className="font-semibold m-3 p-4">Order:
+            <label className="font-semibold m-3 p-4 max-sm:block">Order:
             <select value= {order}
              onChange= {(e)=> {setOrder(e.target.value); setPage(1)}
              }>
@@ -101,12 +101,12 @@ export default function Groups() {
            <br/> <br/>
 
            {searchData.length === 0 && 
-                    <p className="text-xl font-semibold text-center text-red-700">
+                    <p className="text-xl max-sm:text-base font-semibold text-center text-red-700">
                          No group found.
                     </p>
                 
                }<br/>
-         
+         <div className="overflow-x-auto">
             <table className=" w-full border-collapse border">
                 <thead className="bg-blue-500 text-white">
                     <tr>
@@ -142,7 +142,7 @@ export default function Groups() {
                    
                 </tbody>
             </table>
-            
+            </div>
          {/*Pagination*/}
          <div className="flex justify-center items-center gap-10 mt-10">
          <button

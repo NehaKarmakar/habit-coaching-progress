@@ -127,23 +127,23 @@ export default function UpdateProfile() {
         <div className="flex flex-col items-center gap-8 ">
             <h2 className="text-2xl font-semibold">Update Profile</h2>
             {
-                form.serverError && <p className="text-xl font-semibold text-red-700"> {form.serverError}</p>
+                form.serverError && <p className="text-xl max-sm:text-base font-semibold text-red-700"> {form.serverError}</p>
                 
             }
-            <div className="flex justify-center scale-110 ">
+            <div className="flex justify-center scale-110 max-sm:scale-100 max-sm:w-full max-sm:px-4 ">
             <form onSubmit= {handleSubmit}>
               
-               <label className="text-xl">Username: 
+               <label className="text-xl max-sm:text-lg">Username: 
                 <input type= "text" name="name" value= {form.name} onChange= {handleChange} onBlur= {handleCheck} placeholder="Username must be unique"/> 
                 {form.checkError.field=== "name" && <span className="text-xl font-semibold text-red-700">Username already taken</span>}
                 
                 </label>
-              <label className="text-xl">Email:
+              <label className="text-xl max-sm:text-lg">Email:
                 <input type= "email" name= "email" value= {form.email} onChange= {handleChange} onBlur= {handleCheck} placeholder="Enter your email"/>
                 {form.checkError.field=== "email" && <span className="text-xl font-semibold text-red-700">Email is already taken</span>}
                 
                 </label>
-                <label className="text-xl"> Phone No. :
+                <label className="text-xl max-sm:text-lg"> Phone No. :
                     <input type= "text" name= "phone" value= {form.phone} onChange= {handleChange} placeholder="Enter your phone number"/>
                 </label>
               
