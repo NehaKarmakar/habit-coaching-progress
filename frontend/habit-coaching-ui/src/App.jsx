@@ -43,7 +43,7 @@ function App() {
             {
     isLoggedIn ? (user.role === "coach" ? (
              <div className="hover:shadow-md px-6 py-3">
-                <ul className="flex justify-end gap-2 text-xl">
+                <ul className="flex flex-wrap justify-end gap-2 text-xl">
                     <li className="hover:scale-95 underline"><Link to="/coach/dashboard" >Dashboard</Link></li>|
                     <li className="hover:scale-95 underline"><Link to="/profile" >  Profile </Link> </li>|
                     <button onClick={handleLogout}>Logout</button>
@@ -53,7 +53,7 @@ function App() {
         ) : (
 
             <div className="hover:shadow-md  px-6 py-3">
-                <ul className="flex justify-end gap-2 text-xl">
+                <ul className="flex flex-wrap justify-end gap-2 text-xl">
                     <li className="hover:scale-95 underline "><Link to="/member/dashboard" >Dashboard</Link></li>|
                     <li className="hover:scale-95 underline "><Link to="/profile" >  Profile </Link> </li>|
                     <button onClick={handleLogout} >Logout</button>
@@ -66,7 +66,7 @@ function App() {
 
         <div className="hover:shadow-md px-6 py-3 ">
             
-            <ul className="flex justify-end gap-4 text-xl">
+            <ul className="flex flex-wrap justify-end gap-4 text-xl">
               <li className="hover:scale-95 underline "><Link to= "/login" >Login</Link></li> |
               <li className="hover:scale-95 underline "><Link to= "/register" >Register</Link></li>
              

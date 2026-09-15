@@ -68,7 +68,7 @@ const dailyChart = coachDashboard.data?.dailyChart?.length
                <h3 className="text-center font-semibold "> Quote: {coachDashboard.data.motivationalQuote?.content}  -
                  {coachDashboard.data.motivationalQuote?.author}</h3>
                  </div>
-            <div className="grid grid-cols-3 gap-6 mt-6 max-w-4xl mx-auto">
+            <div className="grid grid-cols-3 max-sm:grid-cols-1 gap-6 mt-6 max-w-4xl mx-auto">
         
             
 
@@ -101,7 +101,7 @@ const dailyChart = coachDashboard.data?.dailyChart?.length
             
         <ChartContainer
         config={chartConfig}
-        className="w-[400px] h-[300px] bg-blue-100 border rounded-lg p-6 hover:bg-fuchsia-200 scale-95 shadow-md">
+        className="w-[400px] max-sm:w-full h-[300px] bg-blue-100 border rounded-lg p-6 hover:bg-fuchsia-200 scale-95 shadow-md">
         <LineChart data={dailyChart}>
             <XAxis dataKey="_id" />
             <YAxis />
