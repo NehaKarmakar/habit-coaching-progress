@@ -60,7 +60,7 @@ export default function MembersLeaderboard() {
             }
             <br/>
 
-            <input type="text" value= {leaderboard.search} onChange= { (e) => { setLeaderboard( {...leaderboard, search: e.target.value, page:1})}} placeholder="Search by member name" /><br/>
+            <input type="text" value= {leaderboard.search} onChange= { (e) => { setLeaderboard( {...leaderboard, search: e.target.value, page:1})}} placeholder="Search by member username" /><br/>
 
             <label className=" font-semibold m-3 p-4  max-sm:block">Sort By: 
             <select value= {leaderboard.sort} onChange= { (e) => {setLeaderboard( {...leaderboard, sort: e.target.value, page:1}) }}>

@@ -69,7 +69,7 @@ export default function Members () {
                 serverError && <p className="text-xl max-sm:text-base font-semibold text-red-700"> {serverError}</p> 
             } <br/>
 
-            <input type= "text" value= {members.search} onChange= { (e) => {setMembers( {...members, search: e.target.value, page:1})}} placeholder="Search by name"/>
+            <input type= "text" value= {members.search} onChange= { (e) => {setMembers( {...members, search: e.target.value, page:1})}} placeholder="Search by member username"/>
             <br/>
 
             <label className=" font-semibold m-3 p-4 max-sm:block">Sort By: 

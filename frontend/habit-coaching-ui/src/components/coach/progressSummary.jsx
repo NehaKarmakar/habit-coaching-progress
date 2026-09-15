@@ -60,7 +60,7 @@ export default function ProgressSummary() {
                    <div className="grid grid-cols-2 max-sm:grid-cols-1 gap-8 mt-6 max-w-4xl mx-auto">
         
         
-                    <div className="card border rounded-lg  p-6 max-sm:p-3   hover:bg-fuchsia-200 scale-95 shadow-md">
+                    <div className="card bg-blue-100 border rounded-lg  p-6 max-sm:p-3   hover:bg-fuchsia-200 scale-95 shadow-md">
                     <h3 className="font-semibold text-center">Daily Habits </h3>
                     <p className=" font-semibold">Total: {progress.dailyProgress.length}</p><br/>
                     <div className="overflow-x-auto">
@@ -88,7 +88,7 @@ export default function ProgressSummary() {
                     </div>
                    
                    
-                    <div className="card border rounded-lg p-6 max-sm:p-3  hover:bg-fuchsia-200 scale-95 shadow-md">
+                    <div className="card bg-blue-100 border rounded-lg p-6 max-sm:p-3  hover:bg-fuchsia-200 scale-95 shadow-md">
                      <h3 className=" font-semibold text-center">Weekly Habits </h3>
                      <p  className=" font-semibold">Total: {progress.weeklyProgress?.length}</p><br/>
                      <div className="overflow-x-auto">
@@ -116,7 +116,7 @@ export default function ProgressSummary() {
                     </div>
                     
         
-                    <div className="card border rounded-lg p-6 max-sm:p-3  hover:bg-fuchsia-200 scale-95 shadow-md">
+                    <div className="card bg-blue-100 border rounded-lg p-6 max-sm:p-3  hover:bg-fuchsia-200 scale-95 shadow-md">
                             <h3 className=" font-semibold text-center">Monthly Habits </h3>
                             <p  className=" font-semibold">Total: {progress.monthlyProgress?.length}</p><br/>
                             <div className="overflow-x-auto">
@@ -144,7 +144,7 @@ export default function ProgressSummary() {
                     </div>
                     
         
-                    <div className="card border rounded-lg p-6 max-sm:p-3   hover:bg-fuchsia-200 scale-95 shadow-md">
+                    <div className="card bg-blue-100 border rounded-lg p-6 max-sm:p-3   hover:bg-fuchsia-200 scale-95 shadow-md">
                        <h3 className=" font-semibold text-center">Streaks</h3>
                        <div className="overflow-x-auto">
                     <table  className="border-collapse border">

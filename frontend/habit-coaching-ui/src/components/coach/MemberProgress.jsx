@@ -55,7 +55,7 @@ export default function MemberProgress() {
             <h2 className="text-2xl font-semibold text-center"> Member Progress</h2>
             {serverError && <p className="text-xl max-sm:text-base font-semibold text-red-700">{serverError}</p>}<br/>
 
-             <input type= "text" value= {progress.search} onChange= { (e) => {setProgress({...progress, search: e.target.value, page:1})}} placeholder="Search by member name or habit title"/><br/>
+             <input type= "text" value= {progress.search} onChange= { (e) => {setProgress({...progress, search: e.target.value, page:1})}} placeholder="Search by member username or habit title"/><br/>
 
              <label className=" font-semibold m-3 p-4 max-sm:block">Sort By: 
              <select value= {progress.sort} onChange= { (e) => {setProgress( {...progress, sort: e.target.value, page:1})}}>
