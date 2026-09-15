@@ -55,20 +55,28 @@ button {
   margin-top: 5px;
 
 }
-@media (max-width: 640px) {
+@media (max-width: 767px) {
+  .flex.min-h-screen {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .flex.min-h-screen > aside {
+    width: 100%;
+    min-height: auto;
+  }
+
+  .flex.min-h-screen > .flex-1 {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+
   input,
   textarea,
   select {
     max-width: 100%;
     box-sizing: border-box;
-  }
-
-  form {
-    max-width: 100%;
-  }
-
-  table {
-    max-width: 100%;
   }
 }
 
