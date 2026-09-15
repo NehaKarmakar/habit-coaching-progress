@@ -36,14 +36,14 @@ function App() {
     return (
         <div className= "min-h-screen bg-blue-50">
              <ToastContainer />
-            <h1 className="text-2xl text-white font-semibold bg-indigo-900 p-6 text-center border-4 rounded-none hover:shadow-md">
+            <h1 className="text-2xl max-sm:text-xl text-white font-semibold bg-indigo-900 p-6 max-sm:p-4 text-center border-4 rounded-none hover:shadow-md">
                 Habit Coaching System
             </h1>
            
             {
     isLoggedIn ? (user.role === "coach" ? (
              <div className="hover:shadow-md px-6 py-3">
-                <ul className="flex flex-wrap justify-end gap-2 text-xl">
+                <ul className="flex flex-wrap justify-end max-sm:justify-center gap-2 max-sm:gap-3 text-xl max-sm:text-base">
                     <li className="hover:scale-95 underline"><Link to="/coach/dashboard" >Dashboard</Link></li>|
                     <li className="hover:scale-95 underline"><Link to="/profile" >  Profile </Link> </li>|
                     <button onClick={handleLogout}>Logout</button>
@@ -53,7 +53,7 @@ function App() {
         ) : (
 
             <div className="hover:shadow-md  px-6 py-3">
-                <ul className="flex flex-wrap justify-end gap-2 text-xl">
+                <ul className="flex flex-wrap justify-end max-sm:justify-center gap-2 max-sm:gap-3 text-xl max-sm:text-base">
                     <li className="hover:scale-95 underline "><Link to="/member/dashboard" >Dashboard</Link></li>|
                     <li className="hover:scale-95 underline "><Link to="/profile" >  Profile </Link> </li>|
                     <button onClick={handleLogout} >Logout</button>
@@ -66,7 +66,7 @@ function App() {
 
         <div className="hover:shadow-md px-6 py-3 ">
             
-            <ul className="flex flex-wrap justify-end gap-4 text-xl">
+            <ul className="flex flex-wrap justify-end max-sm:justify-center gap-2 max-sm:gap-3 text-xl max-sm:text-base">
               <li className="hover:scale-95 underline "><Link to= "/login" >Login</Link></li> |
               <li className="hover:scale-95 underline "><Link to= "/register" >Register</Link></li>
              

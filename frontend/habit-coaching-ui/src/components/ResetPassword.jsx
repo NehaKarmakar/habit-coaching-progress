@@ -76,7 +76,7 @@ export default function ResetPassword() {
             <div className="flex justify-center scale-110 max-sm:scale-100 max-sm:w-full max-sm:px-4 ">
             <form onSubmit={handleSubmit}>
                 <label className="text-xl max-sm:text-lg"> Password 
-                    <input type= "password" name= "password" value= {password} onChange= {handleChange} placeholder="Enter your new password"/>
+                    <input className="max-sm:w-full" type= "password" name= "password" value= {password} onChange= {handleChange} placeholder="Enter your new password"/>
                 </label>
                 <input type= "submit" className="!w-full !bg-blue-600 !px-3 !py-2 !text-white !border-0 !rounded-lg !cursor-pointer hover:!bg-blue-700"/>
             </form>

@@ -85,10 +85,10 @@ return(
         <div className="flex justify-center scale-110 max-sm:scale-100 max-sm:w-full max-sm:px-4 ">
         <form onSubmit= {handleSubmit}>
             <label className="text-xl max-sm:text-lg">Title:
-            <input type= "text" name= "groupName" value= {form.groupName} onChange= {handleChange} placeholder="Enter the group name"/>
+            <input className="max-sm:w-full" type= "text" name= "groupName" value= {form.groupName} onChange= {handleChange} placeholder="Enter the group name"/>
             </label>
             <label className="text-xl max-sm:text-lg">Description: 
-                <input type= "text" name= "description" value= {form.description} onChange= {handleChange} placeholder="Enter the group description"/>
+                <input className="max-sm:w-full" type= "text" name= "description" value= {form.description} onChange= {handleChange} placeholder="Enter the group description"/>
             </label>
             <input type= "submit" className="!w-full !bg-blue-600 !px-3 !py-2 !text-white !border-0 !rounded-lg !cursor-pointer hover:!bg-blue-700" />
         </form>

@@ -200,28 +200,28 @@ export default function HabitForm () {
             <form onSubmit= {handleSubmit}>
                 <label className="text-xl max-sm:text-lg">
                     Title: 
-                    <input type= "text" name= "title" value= {form.title} onChange={handleChange} placeholder="Enter the habit title" >
+                    <input className="max-sm:w-full" type= "text" name= "title" value= {form.title} onChange={handleChange} placeholder="Enter the habit title" >
                     </input>
                 </label>
                 <label className="text-xl max-sm:text-lg">
                     Description:
-                    <input type="text" name= "description" value= {form.description} onChange= {handleChange} placeholder= "Enter the description of the form">
+                    <input className="max-sm:w-full" type="text" name= "description" value= {form.description} onChange= {handleChange} placeholder= "Enter the description of the form">
                 </input>
                 </label >
                 <label className="text-xl max-sm:text-lg">
                     Frequency:
-                    <input type= "text" name= "frequency" value={form.frequency} onChange= {handleChange} placeholder=" Daily , Weekly" ></input>
+                    <input className="max-sm:w-full" type= "text" name= "frequency" value={form.frequency} onChange= {handleChange} placeholder=" Daily , Weekly" ></input>
                 </label>
                 <label className="text-xl max-sm:text-lg">
                     Difficulty:
-                    <input type= "text" name= "difficulty" value= {form.difficulty} onChange= {handleChange} placeholder="Easy, Medium, Hard" ></input>
+                    <input className="max-sm:w-full" type= "text" name= "difficulty" value= {form.difficulty} onChange= {handleChange} placeholder="Easy, Medium, Hard" ></input>
                 </label>
                 <label className="text-xl max-sm:text-lg">
                     Group Name:
-                    <input type= "text" name= "groupName" value= {form.groupName} onChange= {handleChange} placeholder="Enter the group name"></input>
+                    <input className="max-sm:w-full" type= "text" name= "groupName" value= {form.groupName} onChange= {handleChange} placeholder="Enter the group name"></input>
                 </label>
                 <label className="text-xl max-sm:text-lg">Resource:
-                    <input type= "file" onChange={(e) => {setResource(e.target.files[0])}}  className="file-input" />
+                    <input  type= "file" onChange={(e) => {setResource(e.target.files[0])}}  className="file-input" />
                 </label>
                 
                 <input type= "submit"  className="!w-full !bg-blue-600 !px-3 !py-2 !text-white !border-0 !rounded-lg !cursor-pointer hover:!bg-blue-700" />
