@@ -26,13 +26,14 @@ import MyProgress from "./components/member/MyProgress.jsx";
 import { useContext } from "react";
 import AuthContext from "./contexts/AuthContext.jsx";
 import PrivateRoute from "./components/PrivateRoute.jsx";
-import {Link, Routes, Route,Navigate} from "react-router-dom"
+import {Link, Routes, Route,Navigate, useLocation} from "react-router-dom"
 import GroupHabits from "./components/coach/GroupHabits.jsx";
 import ProgressSummary from "./components/coach/progressSummary.jsx";
 import MemberGroups from "./components/coach/memberGroup.jsx";
 import UpdateProfile from "./components/updateProfile.jsx";
 function App() {
   const {dispatch, user, isLoggedIn, handleLogout} = useContext(AuthContext)
+  const location = useLocation()
     return (
         <div className= "min-h-screen bg-blue-50">
              <ToastContainer />
@@ -41,7 +42,7 @@ function App() {
             </h1>
            
             {
-    isLoggedIn ? (user.role === "coach" ? (
+    isLoggedIn && location.pathname !== "/login" ? (user.role === "coach" ? (
              <div className="hover:shadow-md px-6 py-3">
                 <ul className="flex flex-wrap justify-end max-sm:justify-center gap-2 max-sm:gap-3 text-xl max-sm:text-base">
                     <li className="hover:scale-95 underline"><Link to="/coach/dashboard" >Dashboard</Link></li>|
