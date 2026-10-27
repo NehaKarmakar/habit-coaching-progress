@@ -96,7 +96,7 @@ const dailyChart = coachDashboard.data?.dailyChart?.length
             <h3 className="font-semibold text-center"> MonthlyProgress:  {coachDashboard.data.totalMonthlyProgress}</h3>
             </div>
             </div> <br/>
-             <h3 className="font-semibold text-center">Daily Competed Chart</h3>
+             <h3 className="font-semibold text-center">Daily Completed Chart</h3>
          <div className="flex justify-center gap-4">
             
         <ChartContainer

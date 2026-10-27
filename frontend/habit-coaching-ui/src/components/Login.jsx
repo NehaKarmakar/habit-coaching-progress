@@ -76,7 +76,7 @@ export default function Login() {
     return(
         <div className="card">
         <div className="flex flex-col items-center gap-8 ">
-            <h2 className="text-2xl font-semibold">Login Form</h2>
+            <h2 className="text-2xl font-semibold">Login</h2>
             {
                 form.serverError && <p className="text-xl max-sm:text-base font-semibold text-red-700"> {form.serverError}</p>
             }
